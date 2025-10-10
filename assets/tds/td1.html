@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TD 1 : Langage de Définition de Données (LDD)</title>
+    
+    <!-- Bootstrap et Font Awesome pour le style -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Styles spécifiques -->
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; padding-top: 20px; padding-bottom: 80px; }
+        .td-container { max-width: 1000px; margin: auto; background-color: #ffffff; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); overflow: hidden; }
+        .td-header { background-color: #0d6efd; color: white; padding: 25px; text-align: center; }
+        .td-header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .td-header p { margin: 0; opacity: 0.9; }
+        .content-section { padding: 30px; }
+        .content-section h2 { color: #0d6efd; border-bottom: 2px solid #e9ecef; padding-bottom: 10px; margin-bottom: 20px; }
+        .question-container { border: 1px solid #e9ecef; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+        .question-header { background-color: #f8f9fa; padding: 15px 20px; border-bottom: 1px solid #e9ecef; }
+        .question-title { font-weight: bold; font-size: 1.1rem; margin: 0; }
+        .question-content { padding: 20px; }
+        .solution-block { background-color: #f0f8f0; border-top: 1px solid #e9ecef; padding: 20px; display: none; }
+        .btn-solution-toggle { background-color: #198754; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s; }
+        .btn-solution-toggle:hover { background-color: #157347; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; border-radius: 5px; padding: 15px; margin: 15px 0; font-family: 'Courier New', Courier, monospace; font-size: 0.9rem; white-space: pre-wrap; word-wrap: break-word; overflow-x: auto; }
+        .table-responsive { margin: 20px 0; }
+        .table th { background-color: #0d6efd; color: white; }
+        .td-navigation { position: fixed; bottom: 0; left: 0; right: 0; background-color: white; padding: 15px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000; }
+        .primary-key { text-decoration: underline; font-weight: bold; }
+        .foreign-key { font-style: italic; color: #6c757d; }
+    </style>
+</head>
+<body>
+    <a href="../tds.html" style="margin: 10px 20px; display: inline-block;"><i class="fas fa-arrow-left"></i> Retour à la liste des TDs</a>
+    
+    <div class="td-container">
+        <div class="td-header">
+            <h1><i class="fas fa-database"></i> TD 1 : Langage de Définition de Données (LDD)</h1>
+            <p>Exercices sur la création et la modification de structures de tables SQL</p>
+        </div>
+
+        <!-- Partie 1: Énoncé Complet -->
+        <section class="content-section">
+            <h2>Énoncé</h2>
+            <p>Une entreprise de gestion des réservations de vacances en Tunisie utilise une base de données pour enregistrer les informations relatives aux clients, hôtels, et réservations. La représentation textuelle de cette base est la suivante :</p>
+            <div class="code-block">Client(<u>Email</u>, NomClient, Téléphone, Pays)
+Hotel (<u>IDHotel</u>, NomHotel, Ville, Classification, Capacité)
+Réversation (<u>EmailClient#</u>, <u>IDHotel#</u>, Date, NombreNuitée, Montant)</div>
+            <p><em>Légende : <span class="primary-key">Clé primaire</span> | <span class="foreign-key">Clé étrangère</span></em></p>
+            
+            <p>La base de données doit aussi respecter les règles de gestions suivantes :</p>
+            <ul>
+                <li><strong>R1</strong> : L'email d'un client doit être une adresse email valide nom@serveur.domaine</li>
+                <li><strong>R2</strong> : chaque client doit avoir un numéro de téléphone non vide et unique</li>
+                <li><strong>R3</strong> : La capacité minimale d'un hôtel est 50</li>
+                <li><strong>R4</strong> : Le nombre des nuitées dans une réservation varie entre 1 et 30</li>
+                <li><strong>R5</strong> : Un client peut réserver dans le même hôtel dans des périodes différentes</li>
+            </ul>
+
+            <p>Lors de la création de cette base de données, l'administrateur a oublié plusieurs contraintes. Cependant, la base contient plusieurs anomalies qui affectent son intégrité et sa fiabilité. Des extraits de données de cette base sont décrits dans les tableaux suivants :</p>
+
+            <h4>Table Client</h4>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead><tr><th>Email</th><th>NomClient</th><th>Téléphone</th><th>Pays</th></tr></thead>
+                    <tbody>
+                        <tr><td>ali@gmail.com</td><td>Ali Ben Ali</td><td>+216 22 022 516</td><td>Tunisie</td></tr>
+                        <tr><td>nadia.t@gmail.com</td><td>Nadia Trabelsi</td><td>+33 2 12 34 56 78</td><td>France</td></tr>
+                        <tr><td>ali.benali@gmail.com</td><td>Ali Ben Ali</td><td>NULL</td><td>Maroc</td></tr>
+                        <tr><td>amine.com@topnet</td><td>Amine Jabli</td><td>+216 22 022 516</td><td>Tunisie</td></tr>
+                        <tr><td>fatma.lamine@gmail.com</td><td>Fatma Lamine</td><td>+213 21 457 689</td><td>Algérie</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Table Hotel</h4>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead><tr><th>IDHotel</th><th>NomHotel</th><th>Ville</th><th>Classification</th><th>Capacité</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>Hotel El Mouradi</td><td>Hammamet</td><td>5</td><td>200</td></tr>
+                        <tr><td>2</td><td>Hotel Le Sultan</td><td>Tunis</td><td>4</td><td>150</td></tr>
+                        <tr><td>2</td><td>Hotel SdraBaal</td><td>Sousse</td><td>4</td><td>100</td></tr>
+                        <tr><td>4</td><td>Hotel El Mouradi</td><td>Hammamet</td><td>5</td><td>200</td></tr>
+                        <tr><td>5</td><td>Hotel Sahara Beach</td><td>Monastir</td><td>3</td><td>45</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Table Réservation</h4>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead><tr><th>EmailClient</th><th>IDHotel</th><th>Date</th><th>NombreNuitée</th><th>Montant</th></tr></thead>
+                    <tbody>
+                        <tr><td>ali@gmail.com</td><td>1</td><td>2024-06-01</td><td>6</td><td>1200</td></tr>
+                        <tr><td>fatma.lamine@gmail.com</td><td>2</td><td>2024-07-05</td><td>1</td><td>800</td></tr>
+                        <tr><td>ali.benali@gmail.com</td><td>1</td><td>2024-08-15</td><td>10</td><td>1500</td></tr>
+                        <tr><td>ali.benali@gmail.com</td><td>4</td><td>2024-06-15</td><td>3</td><td>10</td></tr>
+                        <tr><td>ali@gmail.com</td><td>6</td><td>2024-09-01</td><td>100</td><td>1000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Partie 2: Liste des Questions -->
+        <section class="content-section">
+            <h2>Liste des Questions</h2>
+
+            <!-- Question 1 -->
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">Question 1</h3></div>
+                <div class="question-content">
+                    <p>La colonne idHotel de la table hotel présente une anomalie.</p>
+                    <p>a. Identifier le type d'anomalie.</p>
+                    <p>b. Proposez une requête SQL permettant d'éviter cette anomalie.</p>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q1')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q1">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>a. L'anomalie est la duplication de la valeur de la clé primaire (IDHotel = 2), ce qui viole le principe d'unicité.</p>
+                        <p>b. Pour corriger cela , on peut utiliser une requête ALTER TABLE pour ajouter une contrainte de clé primaire .</p>
+                        <div class="file-name">SQL</div>
+                        <div class="code-block">ALTER TABLE Hotel
+ADD CONSTRAINT pk_hotel PRIMARY KEY (IDHotel);</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">Question 2</h3></div>
+                <div class="question-content">
+                    <p>Le champs email ne respecte pas une règle de gestion.</p>
+                    <p>a. Identifiez la règle concernée.</p>
+                    <p>b. Proposez une requête SQL permettant de forcer la règle.</p>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q2')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q2">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>a. La règle R1 (L'email doit être une adresse valide) n'est pas respectée par l'enregistrement "amine.com@topnet".</p>
+                        <p>b. On ajoute une contrainte CHECK pour valider le format.</p>
+                        <div class="file-name">SQL</div>
+                        <div class="code-block">ALTER TABLE Client
+ADD CONSTRAINT chk_email_format CHECK (Email LIKE '_%@__%.__%');</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">Question 3</h3></div>
+                <div class="question-content">
+                    <p>La règle R2 n'est pas respectée dans cette implémentation.</p>
+                    <p>a. Identifier les enregistrements qui montrent que cette règle n'est pas respectée.</p>
+                    <p>b. Ecrivez une requête SQL permettant de forcer la règle de gestion R2.</p>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q3')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q3">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>a. Les enregistrements "ali@gmail.com" et "amine.com@topnet" ont le même téléphone (non-unicité). L'enregistrement "ali.benali@gmail.com" a un téléphone NULL (non-vide).</p>
+                        <p>b. On modifie la colonne pour ajouter les contraintes NOT NULL et UNIQUE.</p>
+                        <div class="file-name">SQL</div>
+                        <div class="code-block">ALTER TABLE Client
+MODIFY COLUMN Téléphone VARCHAR(20) NOT NULL UNIQUE;</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">Question 4</h3></div>
+                <div class="question-content">
+                    <p>Lors de l'insertion de la nouvelle réservation décrite ci-dessous, le système affiche un message d'erreur.</p>
+                    <p><em>EmailClient: ali@gmail.com, ID_Hotel: 6, Date_Debut: 2024-09-15, NombreNuitée: 5, Montant: 800</em></p>
+                    <p>a. Identifiez la règle de gestion non respectée.</p>
+                    <p>b. Proposez une nouvelle description de la table réservation afin de respecter la règle identifiée.</p>
+                    <p>c. Donnez une requête SQL permettant de supprimer la table réservation et la récréer selon la nouvelle description.</p>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q4')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q4">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>a. La règle non respectée est R5 : "Un client peut réserver dans le même hôtel dans des périodes différentes". La structure actuelle de la clé primaire ne le permet pas.</p>
+                        <p>b. La nouvelle description de la table avec une clé primaire composée pour respecter R5 est :</p>
+                        <div class="code-block">Réversation (<u>EmailClient#</u>, <u>IDHotel#</u>, <u>Date</u>, NombreNuitée, Montant)</div>
+                        <p>c. Les requêtes pour recréer la table sont :</p>
+                        <div class="file-name">SQL</div>
+                        <div class="code-block">DROP TABLE Réservation;
+
+CREATE TABLE Réservation (
+    EmailClient VARCHAR(100),
+    IDHotel INT,
+    Date DATE,
+    NombreNuitée INT,
+    Montant DECIMAL(10, 2),
+    PRIMARY KEY (EmailClient, IDHotel, Date),
+    FOREIGN KEY (EmailClient) REFERENCES Client(Email),
+    FOREIGN KEY (IDHotel) REFERENCES Hotel(IDHotel)
+);</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">Question 5</h3></div>
+                <div class="question-content">
+                    <p>Dans la table des réservations, une contrainte d’intégrité référentielle n’a pas été définie.</p>
+                    <p>a. Identifiez l’enregistrement qui viole cette contrainte d’intégrité référentielle.</p>
+                    <p>b. Écrivez une requête SQL permettant de corriger cette anomalie et d’empêcher l’insertion de tels enregistrements à l'avenir.</p>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q5')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q5">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>a. L'enregistrement avec <code>IDHotel = 6</code> (pour ali@gmail.com) viole la contrainte, car l'hôtel 6 n'existe pas dans la table Hotel.</p>
+                        <p>b. Pour empêcher de futures anomalies, on ajoute une contrainte de clé étrangère.</p>
+                        <div class="file-name">SQL</div>
+                        <div class="code-block">ALTER TABLE Réservation
+ADD CONSTRAINT fk_reservation_hotel
+FOREIGN KEY (IDHotel) REFERENCES Hotel(IDHotel);</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">Question 6</h3></div>
+                <div class="question-content">
+                    <p>L’hôtel dont l'identifiant est 5 ne respecte pas une contrainte de domaine.</p>
+                    <p>a. Identifiez la règle de gestion non respectée.</p>
+                    <p>b. Proposez une requête permettant de respecter cette règle de gestion.</p>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q6')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q6">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>a. La règle R3 ("La capacité minimale d'un hôtel est 50") n'est pas respectée par l'hôtel 5 qui a une capacité de 45.</p>
+                        <p>b. On ajoute une contrainte CHECK sur la colonne Capacité.</p>
+                        <div class="file-name">SQL</div>
+                        <div class="code-block">ALTER TABLE Hotel
+ADD CONSTRAINT chk_capacite_min CHECK (Capacite >= 50);</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">Question 7</h3></div>
+                <div class="question-content">
+                    <p>L’enregistrement suivant ne respecte pas une règle de gestion.</p>
+                    <p><em>EmailClient: ali@gmail.com, ID_Hotel: 6, Date_Debut: 2024-09-01, NombreNuitée: 100, Montant: 1000</em></p>
+                    <p>a. Identifiez la règle de gestion non respectée.</p>
+                    <p>b. Proposez une requête permettant de respecter cette règle de gestion.</p>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q7')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q7">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>a. La règle R4 ("Le nombre des nuitées... varie entre 1 et 30") n'est pas respectée (NombreNuitée = 100).</p>
+                        <p>b. On ajoute une contrainte CHECK sur la colonne NombreNuitée.</p>
+                        <div class="file-name">SQL</div>
+                        <div class="code-block">ALTER TABLE Réservation
+ADD CONSTRAINT chk_nuitees_range CHECK (NombreNuitée BETWEEN 1 AND 30);</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">Question 8</h3></div>
+                <div class="question-content">
+                    <p>La table client contient une redondance dans les valeurs de l’un de ces champs.</p>
+                    <p>a. Identifiez le champ qui contient la redondance.</p>
+                    <p>b. Proposez une nouvelle représentation de la table client et de toutes nouvelles tables indispensables pour corriger cette anomalie.</p>
+                    <p>c. Ecrivez la(les) requête(s) SQL permettant de respecter cette nouvelle représentation.</p>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q8')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q8">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>a. Le champ <code>Pays</code> contient des redondances.</p>
+                        <p>b. La nouvelle représentation textuelle après normalisation est :</p>
+                        <div class="code-block">Pays(<u>IDPays</u>, NomPays)
+Client(<u>Email</u>, NomClient, Téléphone, <u>IDPays#</u>)</div>
+                        <p>c. Les requêtes SQL pour mettre en place cette nouvelle structure sont :</p>
+                        <div class="file-name">SQL</div>
+                        <div class="code-block">-- 1. Créer la nouvelle table Pays
+CREATE TABLE Pays (
+    IDPays INT PRIMARY KEY AUTO_INCREMENT,
+    NomPays VARCHAR(50) NOT NULL UNIQUE
+);
+
+-- 2. Supprimer l'ancienne colonne dans Client
+ALTER TABLE Client DROP COLUMN Pays;
+
+-- 3. Ajouter la nouvelle colonne de clé étrangère dans Client
+ALTER TABLE Client ADD COLUMN IDPays INT;
+
+-- 4.  Ajouter la contrainte de clé étrangère
+ALTER TABLE Client
+ADD CONSTRAINT fk_client_pays
+FOREIGN KEY (IDPays) REFERENCES Pays(IDPays);</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function toggleSolution(questionId) {
+            const solutionBlock = document.getElementById(`solution-${questionId}`);
+            const button = document.querySelector(`#${questionId} .btn-solution-toggle`);
+            if (solutionBlock.style.display === 'block') {
+                solutionBlock.style.display = 'none';
+                button.textContent = 'Afficher la correction';
+            } else {
+                solutionBlock.style.display = 'block';
+                button.textContent = 'Masquer la correction';
+            }
+        }
+    </script>
+</body>
+</html>

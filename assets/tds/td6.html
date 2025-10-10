@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bac Blanc STI - Direction Régionale de l'Enseignement de Ben Arous</title>
+    
+    <!-- Bootstrap et Font Awesome pour le style -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Prism.js pour la coloration syntaxique -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    
+    <!-- Styles spécifiques -->
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f8f9fa; 
+            padding-top: 20px; 
+            padding-bottom: 80px; 
+        }
+        .td-container { 
+            max-width: 1000px; 
+            margin: auto; 
+            background-color: #ffffff; 
+            border-radius: 12px; 
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1); 
+            overflow: hidden; 
+        }
+        .td-header { 
+            background: linear-gradient(135deg, #0d6efd, #0a58ca); 
+            color: white; 
+            padding: 25px; 
+            text-align: center; 
+        }
+        .td-header h1 { 
+            font-size: 2rem; 
+            margin-bottom: 0.5rem; 
+        }
+        .td-header p { 
+            margin: 0; 
+            opacity: 0.9; 
+        }
+        .credit-section {
+            background-color: #e9ecef;
+            padding: 15px;
+            text-align: center;
+            font-style: italic;
+            color: #495057;
+        }
+        .content-section { 
+            padding: 30px; 
+        }
+        .content-section h2 { 
+            color: #0d6efd; 
+            border-bottom: 2px solid #e9ecef; 
+            padding-bottom: 10px; 
+            margin-bottom: 20px; 
+        }
+        .question-container { 
+            border: 1px solid #e9ecef; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            overflow: hidden; 
+        }
+        .question-header { 
+            background-color: #f8f9fa; 
+            padding: 15px 20px; 
+            border-bottom: 1px solid #e9ecef; 
+        }
+        .question-title { 
+            font-weight: bold; 
+            font-size: 1.1rem; 
+            margin: 0; 
+        }
+        .question-content { 
+            padding: 20px; 
+        }
+        .solution-block { 
+            background-color: #f0f8ff; 
+            border-top: 1px solid #e9ecef; 
+            padding: 20px; 
+            display: none; 
+        }
+        .btn-solution-toggle { 
+            background-color: #0d6efd; 
+            color: white; 
+            border: none; 
+            padding: 8px 16px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            transition: background-color 0.3s; 
+            margin-top: 15px;
+        }
+        .btn-solution-toggle:hover { 
+            background-color: #0b5ed7; 
+        }
+        /* Style pour les blocs de code Prism.js */
+        pre[class*="language-"] {
+            padding: 1.5em;
+            margin: 1.5em 0;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        .table-responsive { 
+            margin: 20px 0; 
+        }
+        .table th { 
+            background-color: #0d6efd; 
+            color: white; 
+        }
+        .primary-key { 
+            text-decoration: underline; 
+            font-weight: bold; 
+        }
+        .foreign-key { 
+            font-style: italic; 
+            color: #6c757d; 
+        }
+        .question-option {
+            margin: 10px 0;
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+        .file-name {
+            background-color: #e9ecef;
+            padding: 5px 10px;
+            border-radius: 5px 5px 0 0;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: -1.5em; /* Ajusté pour s'aligner avec pre */
+            position: relative;
+            z-index: 1;
+        }
+        .database-schema {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .table-schema {
+            border: 1px solid #0d6efd;
+            border-radius: 5px;
+            margin: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            min-width: 150px;
+        }
+        .table-schema h4 {
+            color: #0d6efd;
+            text-align: center;
+            margin-top: 0;
+            border-bottom: 1px solid #0d6efd;
+            padding-bottom: 5px;
+        }
+        .table-schema ul {
+            list-style-type: none;
+            padding-left: 10px;
+        }
+        .table-schema li {
+            margin: 5px 0;
+        }
+        .blank-placeholder {
+            border-bottom: 1px solid #ff6b6b;
+            padding: 0 5px;
+            margin: 0 2px;
+            display: inline-block;
+            min-width: 80px;
+            text-align: center;
+            color: #ff6b6b;
+            font-style: italic;
+        }
+        .checkbox-cell {
+            text-align: center;
+            width: 50px;
+        }
+        .points-badge {
+            background-color: #0d6efd;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        /* Styles pour l'Exercice 1 */
+        .vf-option {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .vf-option label {
+            margin-left: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .vf-option.correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        .vf-option.incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+        .vf-option.correct label {
+            color: #155724;
+            font-weight: 500;
+        }
+        .vf-option.incorrect label {
+            color: #721c24;
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <a href="#" style="margin: 10px 20px; display: inline-block;"><i class="fas fa-arrow-left"></i> Retour à la liste des devoirs</a>
+    
+    <div class="td-container">
+        <div class="td-header">
+            <h1><i class="fas fa-graduation-cap"></i> Bac Blanc STI - Sciences de l'Informatique</h1>
+            <p>Examen : STI (Théorique) - Section : Sciences de l'Informatique</p>
+            <p>Date : 13 mai 2025 - Durée : 3 heures</p>
+        </div>
+        
+        <div class="credit-section">
+            <p><i class="fas fa-users"></i> Crédité aux enseignants STI de la Direction Régionale de l'Enseignement de Ben Arous</p>
+        </div>
+
+        <!-- Partie 1: Exercice 1 -->
+        <section class="content-section">
+            <h2>Exercice N° 1 <span class="points-badge">7,5 points</span></h2>
+            <p>Pour chacune des questions suivantes, répondre par V si l'affirmation proposée est correcte, ou F dans le cas contraire.</p>
+            <p><strong>Important :</strong> Toute case vide ou comportant une réponse autre que V ou F est considérée erronée.</p>
+
+            <div class="question-container" id="q1">
+                <div class="question-header"><h3 class="question-title">1) Que permet la propriété opacity en CSS ?</h3></div>
+                <div class="question-content">
+                    <div class="vf-option">
+                        <input type="checkbox" id="q1_1" data-correct="true">
+                        <label for="q1_1">Ajuster la transparence.</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q1_2" data-correct="true">
+                        <label for="q1_2">Cacher visuellement un élément partiellement.</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q1_3" data-correct="false">
+                        <label for="q1_3">Permet le débordement d'un conteneur.</label>
+                    </div>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q1')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q1">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>La propriété opacity en CSS permet d'ajuster la transparence d'un élément et de le cacher visuellement partiellement. Elle ne contrôle pas le débordement d'un conteneur.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container" id="q2">
+                <div class="question-header"><h3 class="question-title">2) Laquelle(s) de ces instructions vérifient si un caractère x existe une seule fois dans la chaine ch :</h3></div>
+                <div class="question-content">
+                    <div class="vf-option">
+                        <input type="checkbox" id="q2_1" data-correct="false">
+                        <label for="q2_1">indexOf(x,ch) ==-1</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q2_2" data-correct="true">
+                        <label for="q2_2">ch.indexOf(x)==ch.lastIndexOf(x)</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q2_3" data-correct="false">
+                        <label for="q2_3">ch.indexOf(x)==-1</label>
+                    </div>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q2')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q2">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>La méthode <code>ch.indexOf(x)==ch.lastIndexOf(x)</code> vérifie si un caractère x existe une seule fois dans la chaîne ch. Si l'index de la première occurrence est égal à l'index de la dernière occurrence, cela signifie que le caractère n'apparaît qu'une seule fois.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container" id="q3">
+                <div class="question-header"><h3 class="question-title">3) Lesquel(s) de ces événements se déclenchent lorsqu'on modifie une zone de texte ?</h3></div>
+                <div class="question-content">
+                    <div class="vf-option">
+                        <input type="checkbox" id="q3_1" data-correct="true">
+                        <label for="q3_1">Oninput</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q3_2" data-correct="false">
+                        <label for="q3_2">Onmouseover</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q3_3" data-correct="true">
+                        <label for="q3_3">Onkeyup</label>
+                    </div>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q3')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q3">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>Les événements <code>Oninput</code> et <code>Onkeyup</code> se déclenchent lorsqu'on modifie une zone de texte. L'événement <code>Onmouseover</code> se déclenche lorsque le curseur de la souris passe sur un élément.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container" id="q4">
+                <div class="question-header"><h3 class="question-title">4) Quels sont les rôles respectifs des balises &lt;thead&gt; et &lt;tbody&gt; dans un tableau HTML ?</h3></div>
+                <div class="question-content">
+                    <div class="vf-option">
+                        <input type="checkbox" id="q4_1" data-correct="false">
+                        <label for="q4_1">&lt;thead&gt; est utilisé pour contenir le corps principal des données d'un tableau.</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q4_2" data-correct="true">
+                        <label for="q4_2">&lt;thead&gt; est utilisé pour regrouper les en-têtes de colonnes d'un tableau.</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q4_3" data-correct="true">
+                        <label for="q4_3">&lt;tbody&gt; est utilisé pour regrouper le corps des données d'un tableau.</label>
+                    </div>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q4')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q4">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>La balise <code>&lt;thead&gt;</code> est utilisée pour regrouper les en-têtes de colonnes d'un tableau, tandis que la balise <code>&lt;tbody&gt;</code> est utilisée pour regrouper le corps des données d'un tableau.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container" id="q5">
+                <div class="question-header"><h3 class="question-title">5) Quel est le rôle de l'attribut placeholder dans un champ de formulaire HTML ?</h3></div>
+                <div class="question-content">
+                    <div class="vf-option">
+                        <input type="checkbox" id="q5_1" data-correct="true">
+                        <label for="q5_1">Il affiche un texte indicatif à l'intérieur du champ.</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q5_2" data-correct="false">
+                        <label for="q5_2">Il envoie une valeur par défaut au serveur.</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q5_3" data-correct="true">
+                        <label for="q5_3">Il disparaît dès que l'utilisateur commence à taper.</label>
+                    </div>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q5')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q5">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>L'attribut <code>placeholder</code> affiche un texte indicatif à l'intérieur d'un champ de formulaire qui disparaît dès que l'utilisateur commence à taper. Il n'envoie pas de valeur par défaut au serveur.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container" id="q6">
+                <div class="question-header"><h3 class="question-title">6) Que permet de faire la propriété CSS suivante lorsqu'elle est appliquée à une liste ?<br>list-style-image: url("img.png");</h3></div>
+                <div class="question-content">
+                    <div class="vf-option">
+                        <input type="checkbox" id="q6_1" data-correct="false">
+                        <label for="q6_1">Ajouter une image de fond à chaque élément de la liste.</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q6_2" data-correct="false">
+                        <label for="q6_2">Afficher l'image à la place du texte de chaque élément.</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q6_3" data-correct="false">
+                        <label for="q6_3">Créer automatiquement une galerie d'images dans la liste.</label>
+                    </div>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q6')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q6">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>La propriété <code>list-style-image</code> permet d'utiliser une image comme marqueur pour les éléments d'une liste. Elle remplace les puces par défaut par l'image spécifiée.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container" id="q7">
+                <div class="question-header"><h3 class="question-title">7) Que retourne les instructions suivantes, en langage JavaScript ?<br>var ch = "Bac"; var code = ch.charCodeAt(0); alert(code) ;</h3></div>
+                <div class="question-content">
+                    <div class="vf-option">
+                        <input type="checkbox" id="q7_1" data-correct="false">
+                        <label for="q7_1">65</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q7_2" data-correct="true">
+                        <label for="q7_2">66</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q7_3" data-correct="false">
+                        <label for="q7_3">48</label>
+                    </div>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q7')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q7">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>La méthode <code>charCodeAt(0)</code> retourne le code Unicode du premier caractère de la chaîne "Bac". Le code Unicode de 'B' est 66.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container" id="q8">
+                <div class="question-header"><h3 class="question-title">8) Que retourne l'instruction parseInt("20px")+20, en langage JavaScript ?</h3></div>
+                <div class="question-content">
+                    <div class="vf-option">
+                        <input type="checkbox" id="q8_1" data-correct="false">
+                        <label for="q8_1">20</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q8_2" data-correct="true">
+                        <label for="q8_2">40</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q8_3" data-correct="false">
+                        <label for="q8_3">NaN</label>
+                    </div>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q8')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q8">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>La fonction <code>parseInt("20px")</code> extrait le nombre entier du début de la chaîne, ce qui donne 20. Ensuite, 20 + 20 = 40.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container" id="q9">
+                <div class="question-header"><h3 class="question-title">9) Que retourne l'instruction strcmp("bac", "bac") en langage PHP ?</h3></div>
+                <div class="question-content">
+                    <div class="vf-option">
+                        <input type="checkbox" id="q9_1" data-correct="true">
+                        <label for="q9_1">0</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q9_2" data-correct="false">
+                        <label for="q9_2">Une valeur positive</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q9_3" data-correct="false">
+                        <label for="q9_3">True</label>
+                    </div>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q9')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q9">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>La fonction <code>strcmp()</code> en PHP compare deux chaînes de caractères. Elle retourne 0 si les chaînes sont identiques, une valeur négative si la première chaîne est inférieure à la seconde, et une valeur positive si la première chaîne est supérieure à la seconde. Comme "bac" et "bac" sont identiques, la fonction retourne 0.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container" id="q10">
+                <div class="question-header"><h3 class="question-title">10) Quelle propriété CSS permet de désaturer une image et de la rendre en niveaux de gris ?</h3></div>
+                <div class="question-content">
+                    <div class="vf-option">
+                        <input type="checkbox" id="q10_1" data-correct="false">
+                        <label for="q10_1">filter: gray(100%);</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q10_2" data-correct="false">
+                        <label for="q10_2">filter :rgba(255,255,255,0.9);</label>
+                    </div>
+                    <div class="vf-option">
+                        <input type="checkbox" id="q10_3" data-correct="true">
+                        <label for="q10_3">filter: grayscale(100%);</label>
+                    </div>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q10')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q10">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>La propriété CSS <code>filter: grayscale(100%)</code> permet de désaturer une image et de la rendre entièrement en niveaux de gris.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partie 2: Exercice 2 -->
+        <section class="content-section">
+            <h2>Exercice N° 2 <span class="points-badge">14 points</span></h2>
+            <p>En observant l'aperçu de la page "Presentation.html", répondez aux questions ci-dessous.</p>
+            <img src="td6im1.PNG" alt="" style="width: 600px; margin: auto;">
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">Partie A : Questions sur le code HTML</h3></div>
+                <div class="question-content">
+                    <p>Pour créer les éléments de premier fieldset, on utilise le code HTML incomplet suivant :</p>
+                    <div class="file-name">HTML</div>
+                    <pre><code class="language-html">&lt;fieldset name="group1" class="fp"&gt;
+&lt;legend&gt;Présentation&lt;/legend&gt;
+&lt;label class="cl"&gt;Nom et Prénom :&lt;/label&gt;
+&lt;input name="np" type="text" id="np" placeholder="Votre nom et prénom"/&gt;&lt;br/&gt;
+&lt;label class="cl"&gt;Age :&lt;/label&gt;
+&lt;input name="age" id="r" type="<span class="blank-placeholder">___(1)___</span>" min="1" max="100" step="1" <span class="blank-placeholder">___(2)___</span>="affiche()" /&gt;
+&lt;output id="lr"&gt; 17 &lt;/output&gt; ans &lt;br/&gt;
+&lt;label id="Label3"&gt;Genre : &lt;/label&gt;
+&lt;input name="g" type="radio" id="mas" value="M"/&gt;Masculin
+&lt;input name="g" type="radio" id="fem" value="F"/&gt;Féminin
+&lt;/fieldset&gt;</code></pre>
+                    
+                    <h4>Questions :</h4>
+                    <p>1) Compléter l'attribut type de la balise pour obtenir l'élément 2 :</p>
+                    <input class="form-control"  type="text">
+                    
+                    <p>2) Compléter l'événement manquant pour afficher la valeur de l'élément 2 dans la zone d'affichage d'identifiant "lr" lorsqu'on modifie la valeur de l'élément 2 :</p>
+                     <input class="form-control"  type="text">
+                    
+                    <p>3) Complétez la fonction JavaScript "affiche()" afin d'afficher la valeur de l'élément 2 d'identifiant "r" dans la zone d'affichage ayant pour identifiant "lr" :</p>
+                    <div class="file-name">JavaScript</div>
+                    <pre><code class="language-javascript">function affiche()
+{
+    r=document.getElementById("r"). <span class="blank-placeholder">____(3)____</span>;
+    document.getElementById("lr"). <span class="blank-placeholder">____(3)____</span> = r;
+}</code></pre>
+ <input class="form-control"  type="text">
+                    
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q2a')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q2a">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>(1) <strong>range</strong></p>
+                        <p>(2) <strong>onchange</strong></p>
+                        <div class="file-name">JavaScript</div>
+                        <pre><code class="language-javascript">function affiche()
+{
+    r=document.getElementById("r"). value;
+    document.getElementById("lr"). value = r; /*on accepte innerHTML */
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">Partie B : Questions sur le script JavaScript</h3></div>
+                <div class="question-content">
+                    <p>Dans le deuxième fieldset, on dispose des éléments suivants :</p>
+                    <ul>
+                        <li>Un bouton Afficher qui appelle la fonction JavaScript "affiche2()",</li>
+                        <li>Deux boutons qui sont désactivés par défaut :
+                            <ul>
+                                <li>Play, d'identifiant "bpl",</li>
+                                <li>Pause, d'identifiant "bpa",</li>
+                            </ul>
+                        </li>
+                        <li>Un élément vidéo affichant l'hymne national du pays choisi dans une liste.</li>
+                    </ul>
+                    
+                    <p>Ci-après, on présente un script incomplet d'une fonction intitulée "affiche2()", permettant de démarrer la vidéo qui correspond à l'hymne national du pays sélectionné.</p>
+                    <div class="file-name">JavaScript</div>
+                    <pre><code class="language-javascript">function affiche2()
+{
+    hp= <span class="blank-placeholder">____(1)____</span> //Tâche1 : créer un tableau contenant les noms des trois fichiers vidéo "tn.mp4", "alg.mp4" et "mar.mp4"
+
+    i=document.getElementById("lp"). <span class="blank-placeholder">____(2)____</span> //Tâche2 : obtenir l'indice de l'élément choisi
+    if (i==0) {
+        alert("Veuillez choisir votre pays"); return false ;
+    }
+
+    document.getElementById("v"). <span class="blank-placeholder">____(3)____</span> = hp[i-1]; //Tâche3 : modifier la source de la vidéo
+
+    document.getElementById("v"). <span class="blank-placeholder">____(4)____</span> //Tâche4 : démarrer la vidéo
+
+    document.getElementById("v"). <span class="blank-placeholder">____(5)____</span> //Tâche5 : appliquer une bordure rouge de 2px
+
+    document.getElementById("bpl"). <span class="blank-placeholder">____(6)____</span> //Tâche6 : activer le bouton Play
+    document.getElementById("bpa"). <span class="blank-placeholder">____(7)____</span> //Tâche6 : activer le bouton Pause
+}</code></pre>
+                    
+                    <p>Pour chaque ligne, contenant des pointillés du script de la fonction "affiche2()", on donne trois propositions d'expressions dont une seule est correcte pour réaliser la "Tâche" indiquée.</p>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Tâche1</th>
+                                    <th>Tâche2</th>
+                                    <th>Tâche3</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input"> ("tn.mp4","alg.mp4","mar.mp4")</td>
+                                    <td><input type="checkbox" class="form-check-input"> selectedIndex</td>
+                                    <td><input type="checkbox" class="form-check-input"> href</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input"> ["tn.mp4","alg.mp4","mar.mp4"]</td>
+                                    <td><input type="checkbox" class="form-check-input"> selected</td>
+                                    <td><input type="checkbox" class="form-check-input"> source</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input"> {"tn.mp4","alg.mp4","mar.mp4"}</td>
+                                    <td><input type="checkbox" class="form-check-input"> checked</td>
+                                    <td><input type="checkbox" class="form-check-input"> src</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Tâche4</th>
+                                    <th>Tâche5</th>
+                                    <th>Tâche6</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input"> onplay()</td>
+                                    <td><input type="checkbox" class="form-check-input"> border=solid red 2px ;</td>
+                                    <td><input type="checkbox" class="form-check-input"> disabled=false</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input"> play()</td>
+                                    <td><input type="checkbox" class="form-check-input"> border="solid red 2px"</td>
+                                    <td><input type="checkbox" class="form-check-input"> readOnly=true</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input"> play</td>
+                                    <td><input type="checkbox" class="form-check-input"> style.border="solid red 2px"</td>
+                                    <td><input type="checkbox" class="form-check-input"> enabled=true</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q2b')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q2b">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>Les réponses correctes sont :</p>
+                        <ul>
+                            <li>Tâche1 : <code>["tn.mp4","alg.mp4","mar.mp4"]</code> (pour créer un tableau)</li>
+                            <li>Tâche2 : <code>selectedIndex</code> (pour obtenir l'indice de l'élément choisi)</li>
+                            <li>Tâche3 : <code>src</code> (pour modifier la source de la vidéo)</li>
+                            <li>Tâche4 : <code>play()</code> (pour démarrer la vidéo)</li>
+                            <li>Tâche5 : <code>style.border="solid red 2px"</code> (pour appliquer une bordure rouge)</li>
+                            <li>Tâche6 : <code>disabled=false</code> (pour activer les boutons)</li>
+                        </ul>
+                    </div>
+                    
+                    <p>2) Complétez la fonction "gerercaptcha()" afin de générer aléatoirement une chaîne de 10 caractères, composée uniquement de lettres majuscules (A à Z) et de chiffres (0 à 9). La chaîne générée doit être affichée automatiquement dans la zone de texte d'identifiant "cap".</p>
+                    <div class="file-name">JavaScript</div>
+                    <pre><code class="language-javascript">function gerercaptcha(){
+    let ch="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" ;
+    let cap="" ;
+    for (i=0; i<10; i++)
+    {
+        ind= <span class="blank-placeholder">____(1)____</span>
+        //Retourner aléatoirement un indice dans la chaine ch
+        cap=cap+ch[ind] ;
+    }
+    document.getElementById("cap").value= <span class="blank-placeholder">____(2)____</span> ;
+}</code></pre>
+                    <p>(1) <input class="form-control"  type="text"></p>
+                    <p>(2) <input class="form-control"  type="text"></p>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q2b2')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q2b2">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <div class="file-name">JavaScript</div>
+                        <pre><code class="language-javascript">function gerercaptcha(){
+    let ch="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" ;
+    let cap="" ;
+    for (i=0; i<10; i++)
+    {
+        ind= Math.trunc (Math.random() * ch.length ) // Math.round(Math.random() * ch.length - 1 )
+        cap=cap+ch[ind] ;
+    }
+    document.getElementById("cap").value= cap ;
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">Partie C : Questions sur le CSS</h3></div>
+                <div class="question-content">
+                    <p>Donner le script CSS qui permet :</p>
+                    <p>1) d'appliquer un effet d'ombre de couleur "Bleu", situé à 2px à droite et en bas, sur le titre du niveau 1 &lt;h1&gt; du formulaire.</p>
+                    <div class="file-name">CSS</div>
+                    <pre><code class="language-css">h1 { <span class="blank-placeholder">_________</span> }</code></pre>
+                    <p>(Réponse) <input class="form-control"  type="text"></p>
+                    
+                    <p>2) d'appliquer un effet qui modifie la largeur à 150% du titre du niveau 1 &lt;h1&gt; lors du survol de la souris.</p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Proposition</th>
+                                    <th>Choix</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>transition : width 2s ease 2s ;</td>
+                                    <td><input type="checkbox" class="form-check-input"></td>
+                                </tr>
+                                <tr>
+                                    <td>transition : 150% width 2s ease 2s ;</td>
+                                    <td><input type="checkbox" class="form-check-input"></td>
+                                </tr>
+                                <tr>
+                                    <td>transition-duration : ease 2s ;</td>
+                                    <td><input type="checkbox" class="form-check-input"></td>
+                                </tr>
+                                <tr>
+                                    <td>transition-delay : 2s ;</td>
+                                    <td><input type="checkbox" class="form-check-input"></td>
+                                </tr>
+                                <tr>
+                                    <td>transition-property : width;</td>
+                                    <td><input type="checkbox" class="form-check-input"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="file-name">CSS</div>
+                    <pre><code class="language-css">h1:hover {
+    width: 150%;
+}</code></pre>
+                    
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q2c')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q2c">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <div class="file-name">CSS</div>
+                        <pre><code class="language-css">h1 { text-shadow: 2px 2px 0 blue;}</code></pre>
+                        <p>Pour la question 2, les réponses correctes sont :</p>
+                        <ul>
+                            <li>transition-delay : 2s ;</li>
+                            <li>transition-property : width;</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">Partie D : Questions sur le PHP</h3></div>
+                <div class="question-content">
+                    <p>Soit la base de données "BDInternaute" qui contient une table Internaute (IdInt, NPInt, Age,Genre, IdPay#).</p>
+                    <p>Lorsqu'on clique sur le bouton d'envoi "S'inscrire", le fichier "Presentation.php" est appelé.</p>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Champ</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>IdInt</td>
+                                    <td>Entier (auto-incrémenté)</td>
+                                    <td>Identifiant de l'internaute</td>
+                                </tr>
+                                <tr>
+                                    <td>NPInt</td>
+                                    <td>Chaîne de 50 caractères</td>
+                                    <td>Nom et prénom de l'internaute</td>
+                                </tr>
+                                <tr>
+                                    <td>Age</td>
+                                    <td>Entier</td>
+                                    <td>Age de l'internaute</td>
+                                </tr>
+                                <tr>
+                                    <td>Genre</td>
+                                    <td>Caractere</td>
+                                    <td>Genre de l'internaute</td>
+                                </tr>
+                                <tr>
+                                    <td>IdPay</td>
+                                    <td>Entier</td>
+                                    <td>Identifiant d'un pays</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <p>1) Le script PHP ci-dessous contient 6 erreurs de code réparties sur différentes lignes. Votre tâche est d'indiquer le numéro de la ligne concernée, puis de proposer une correction du code adaptée dans le tableau ci-dessous :</p>
+                    
+                    <div class="file-name">PHP</div>
+                    <pre><code class="language-php">&lt;?php
+// Connexion à la base de données et vérification de la connexion
+ $conn = mysqli_connect("localhost", "root", "BDInternaute","") or die ("Problème de connexion ! ");
+// Récupération des valeurs envoyées par le formulaire HTML via la méthode POST
+ $np = $_POST['np'];
+ $ag = $_POST['r'];
+g = $_POST['g'];
+ $p = $_POST['p'];
+// Préparation de la requête SQL pour vérifier si des internautes existent déjà pour ce pays
+ $req = "SELECT * FROM Internaute WHERE IdPay=$p";
+// Exécution de la requête SQL
+ $res = mysqli_query($req, $conn);
+// Comptage du nombre de lignes retournées par la requête
+ $nb = mysqli_num_row($res);
+// Si au moins un internaute du pays existe déjà, on affiche un message et on arrête le script
+if($nb > 0) {
+    die("Des internautes du pays sélectionné existent déjà dans la base de données.");
+}
+echo("Aucun internaute du pays sélectionné n'existe dans la base de données.");
+?&gt;</code></pre>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Ligne N°</th>
+                                    <th>Correction proposée</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" class="form-control" placeholder="N° de ligne"></td>
+                                    <td><input type="text" class="form-control" placeholder="Correction"></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" class="form-control" placeholder="N° de ligne"></td>
+                                    <td><input type="text" class="form-control" placeholder="Correction"></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" class="form-control" placeholder="N° de ligne"></td>
+                                    <td><input type="text" class="form-control" placeholder="Correction"></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" class="form-control" placeholder="N° de ligne"></td>
+                                    <td><input type="text" class="form-control" placeholder="Correction"></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" class="form-control" placeholder="N° de ligne"></td>
+                                    <td><input type="text" class="form-control" placeholder="Correction"></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" class="form-control" placeholder="N° de ligne"></td>
+                                    <td><input type="text" class="form-control" placeholder="Correction"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q2d1')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q2d1">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Ligne N°</th>
+                                        <th>Correction proposée</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>mysqli_connect("localhost", "root","", "BDInternaute")</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>$ag=$_POST['age'] ;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>$g=$_POST['g'] ;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td>$req = "SELECT * FROM Internaute WHERE IdPay='$p' ";</td>
+                                    </tr>
+                                    <tr>
+                                        <td>12</td>
+                                        <td>$res = mysqli_query($conn ,$req);</td>
+                                    </tr>
+                                    <tr>
+                                        <td>14</td>
+                                        <td>$nb=mysqli_num_rows($res);</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <p>2) Compléter la suite du fichier "Presentation.php" afin d'ajouter un nouvel internaute puis afficher la valeur générée du champ IdInt suivi par le message "Ajouté avec succès";</p>
+                    <textarea name="" id="" class="form-control"></textarea>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q2d2')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q2d2">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <div class="file-name">PHP</div>
+                        <pre><code class="language-php">$req2 = "INSERT INTO Internaute (NomPrenom, Age, Genre, IdPay) VALUES ('$np', $ag, '$g', $p)";
+ $res2= mysqli_query($conn, $req2);
+if (mysqli_affected_rows($conn)) {
+    // Récupérer l'ID en utilisant une requête SELECT
+    $req3 = "SELECT IdInt FROM Internaute
+    WHERE NomPrenom = '$np'
+    AND Age = $ag
+    AND Genre = '$g'
+    AND IdPay = $p
+    ORDER BY IdInt DESC"; // ou on peut la remplacer par SELECT max(IdInt ) FROM Internaute
+    $res3 = mysqli_query($conn, $req3);
+    $row = mysqli_fetch_row($res3)) {
+        $idGenere = $row[0];
+        echo "ID généré : $idGenere <br> Ajouté avec succès" ;
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partie 3: Exercice 3 -->
+        <section class="content-section">
+            <h2>Exercice N° 3 <span class="points-badge">18,5 points</span></h2>
+            <p>Base de données : Gestion d'un service de transport Uber</p>
+            <p>Cette base de données a pour objectif de centraliser et gérer l'ensemble des informations essentielles au bon fonctionnement d'un service de transport à la demande, tel qu'Uber. Elle permet notamment de stocker les données personnelles des utilisateurs (passagers) et des chauffeurs, gérer les informations relatives aux véhicules utilisés par les chauffeurs, enregistrer les courses effectuées, suivre les paiements associés à chaque course, incluant les tarifs appliqués.</p>
+            
+            <p>Pour ce faire, l'administrateur du service utilise la base de données "Uber_db" dont la représentation textuelle est la suivante :</p>
+            
+            <div class="database-schema">
+                <div class="table-schema">
+                    <h4>Utilisateur</h4>
+                    <ul>
+                        <li><span class="primary-key">idUtilisateur</span></li>
+                        <li>nompenomU</li>
+                        <li>email</li>
+                        <li>téléphone</li>
+                    </ul>
+                </div>
+                
+                <div class="table-schema">
+                    <h4>Chauffeur</h4>
+                    <ul>
+                        <li><span class="primary-key">idChauffeur</span></li>
+                        <li>nomprenomCh</li>
+                        <li>numPermis</li>
+                    </ul>
+                </div>
+                
+                <div class="table-schema">
+                    <h4>Véhicule</h4>
+                    <ul>
+                        <li><span class="primary-key">matricule</span></li>
+                        <li>marque</li>
+                        <li>modèle</li>
+                        <li>couleur</li>
+                        <li><span class="foreign-key">idChauffeur#</span></li>
+                    </ul>
+                </div>
+                
+                <div class="table-schema">
+                    <h4>Course</h4>
+                    <ul>
+                        <li><span class="primary-key">idCourse</span></li>
+                        <li><span class="foreign-key">idChauffeur#</span></li>
+                        <li>point_depart</li>
+                        <li>point_arrivee</li>
+                        <li>date_heure_depart</li>
+                        <li>date_heure_arrivee</li>
+                    </ul>
+                </div>
+                
+                <div class="table-schema">
+                    <h4>Paiement</h4>
+                    <ul>
+                        <li><span class="primary-key">idCourse#</span></li>
+                        <li><span class="primary-key">idUtilisateur#</span></li>
+                        <li>date_heure_paiement</li>
+                        <li>montant</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">Partie A : Règles de gestion</h3></div>
+                <div class="question-content">
+                    <p>Soit les règles de gestion de la base de données suivantes :</p>
+                    <ul>
+                        <li>R1. Un utilisateur possède plusieurs emails</li>
+                        <li>R2. Une course peut être payé par plusieurs utilisateurs.</li>
+                        <li>R3. Chaque utilisateur peut effectuer une ou plusieurs courses.</li>
+                        <li>R4. Chaque utilisateur peut payer plusieurs courses à des dates différentes.</li>
+                        <li>R5. Date_heure_depart < date_heure_arrive</li>
+                        <li>R6. Chaque véhicule est identifié par un matricule</li>
+                    </ul>
+                    
+                    <p>1) À partir de la représentation actuelle de la base de données "Uber_db" et des règles de gestion fournies, complétez le tableau suivant :</p>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Règle</th>
+                                    <th>Respectée</th>
+                                    <th>Justification</th>
+                                    <th>Correction</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>R1</td>
+                                    <td><input type="text" class="form-control" placeholder="Oui/Non"></td>
+                                    <td><input type="text" class="form-control" placeholder="Justification"></td>
+                                    <td><input type="text" class="form-control" placeholder="Correction"></td>
+                                </tr>
+                                <tr>
+                                    <td>R2</td>
+                                    <td><input type="text" class="form-control" placeholder="Oui/Non"></td>
+                                    <td><input type="text" class="form-control" placeholder="Justification"></td>
+                                    <td><input type="text" class="form-control" placeholder="Correction"></td>
+                                </tr>
+                                <tr>
+                                    <td>R3</td>
+                                    <td><input type="text" class="form-control" placeholder="Oui/Non"></td>
+                                    <td><input type="text" class="form-control" placeholder="Justification"></td>
+                                    <td><input type="text" class="form-control" placeholder="Correction"></td>
+                                </tr>
+                                <tr>
+                                    <td>R4</td>
+                                    <td><input type="text" class="form-control" placeholder="Oui/Non"></td>
+                                    <td><input type="text" class="form-control" placeholder="Justification"></td>
+                                    <td><input type="text" class="form-control" placeholder="Correction"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q3a1')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q3a1">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Règle</th>
+                                        <th>Respectée</th>
+                                        <th>Justification</th>
+                                        <th>Correction</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>R1</td>
+                                        <td>Non</td>
+                                        <td>Un utilisateur n'a qu'un seul champ email, donc ne peut pas avoir plusieurs adresses.</td>
+                                        <td>- Créer une table Email(idEmail, email, idUtilisateur#)<br>- Supprimer champ email de la table Utilisateur</td>
+                                    </tr>
+                                    <tr>
+                                        <td>R2</td>
+                                        <td>Oui</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>R3</td>
+                                        <td>Oui</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>R4</td>
+                                        <td>Non</td>
+                                        <td>La clé primaire est composée uniquement de deux champs idCourse#, idUtilisateur#</td>
+                                        <td>- Ajouter champ date à la clé primaire idCourse#, idUtilisateur#, date_heure_paiement</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <p>2) Compléter le tableau ci-dessous, donner le type de contrainte qui garantit chaque règle ainsi que la requête SQL permettant d'ajouter cette contrainte à la base de données :</p>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Règle</th>
+                                    <th>Type de contrainte</th>
+                                    <th>Requête SQL (pour appliquer cette contrainte à la BD)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>R5</td>
+                                    <td><input type="text" class="form-control" placeholder="Type de contrainte"></td>
+                                    <td><input type="text" class="form-control" placeholder="Requête SQL"></td>
+                                </tr>
+                                <tr>
+                                    <td>R6</td>
+                                    <td><input type="text" class="form-control" placeholder="Type de contrainte"></td>
+                                    <td><input type="text" class="form-control" placeholder="Requête SQL"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q3a2')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q3a2">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Règle</th>
+                                        <th>Type de contrainte</th>
+                                        <th>Requête SQL (pour appliquer cette contrainte à la BD)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>R5</td>
+                                        <td>Intégrité de domaine</td>
+                                        <td>ALTER TABLE COURSE<br>ADD CONSTRAINT CK<br>CHECK (date_heure_depart < date_heure_arrive )</td>
+                                    </tr>
+                                    <tr>
+                                        <td>R6</td>
+                                        <td>Intégrité de table</td>
+                                        <td>ALTER TABLE VEHICULE<br>ADD PRIMARY KEY(mat);</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <p>3) Donner la nouvelle représentation graphique de la base de données "Uber_db", intégrant les modifications nécessaires pour respecter les règles de gestion R1 à R6 :</p>
+                    
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q3a3')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q3a3">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <div class="database-schema">
+                            <div class="table-schema">
+                                <h4>Email</h4>
+                                <ul>
+                                    <li><span class="primary-key">idEmail</span></li>
+                                    <li>email</li>
+                                    <li><span class="foreign-key">idUtilisateur#</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="table-schema">
+                                <h4>Utilisateur</h4>
+                                <ul>
+                                    <li><span class="primary-key">idUtilisateur</span></li>
+                                    <li>nompenomU</li>
+                                    <li>téléphone</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="table-schema">
+                                <h4>Paiement</h4>
+                                <ul>
+                                    <li><span class="primary-key">idCourse#</span></li>
+                                    <li><span class="primary-key">idUtilisateur#</span></li>
+                                    <li><span class="primary-key">date_heure_paiement</span></li>
+                                    <li>montant</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="table-schema">
+                                <h4>Course</h4>
+                                <ul>
+                                    <li><span class="primary-key">idCourse</span></li>
+                                    <li><span class="foreign-key">idChauffeur#</span></li>
+                                    <li>point_depart</li>
+                                    <li>point_arrivee</li>
+                                    <li>date_heure_depart</li>
+                                    <li>date_heure_arrivee</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="table-schema">
+                                <h4>Véhicule</h4>
+                                <ul>
+                                    <li><span class="primary-key">matricule</span></li>
+                                    <li>marque</li>
+                                    <li>modèle</li>
+                                    <li>couleur</li>
+                                    <li><span class="foreign-key">idChauffeur#</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="table-schema">
+                                <h4>Chauffeur</h4>
+                                <ul>
+                                    <li><span class="primary-key">idChauffeur</span></li>
+                                    <li>nomprenomCh</li>
+                                    <li>numPermis</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">Partie B : Requêtes SQL</h3></div>
+                <div class="question-content">
+                    <p>1) En déduire le rôle de chacune des requêtes suivantes :</p>
+                    
+                    <div class="file-name">SQL</div>
+                    <pre><code class="language-sql">UPDATE COURSE
+SET DATE_HEURE_DEPART=
+ADDDATE (DATE_HEURE_DEPART, INTERVAL 2 HOURS)
+WHERE POINT_DEPART= "MADINA";</code></pre>
+                    
+                    <p>Rôle : <input type="text" class="form-control" placeholder="Décrire le rôle de cette requête"></p>
+                    
+                    <div class="file-name">SQL</div>
+                    <pre><code class="language-sql">DELETE FROM COURSE
+WHERE ID_CHAUFEUR = (
+SELECT ID_CHAUFFEUR FROM CHAUFFEUR
+WHERE NOM_PRENOM= "BEN FATEH ALI"
+);</code></pre>
+                    
+                    <p>Rôle : <input type="text" class="form-control" placeholder="Décrire le rôle de cette requête"></p>
+                    
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q3b1')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q3b1">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>Première requête : Décale les courses de départ de MADINA de 2 heures.</p>
+                        <p>Deuxième requête : Efface les courses faites par le chauffeur "BEN FATEH Ali".</p>
+                    </div>
+                    
+                    <p>2) Écrire les requêtes SQL convenables :</p>
+                    
+                    <p>a) Obtenir le chiffre d'affaires total (somme des paiements).</p>
+                    <textarea name="" id="" class="form-control"></textarea>
+                    <p>b) Trouver toutes les courses faites par l'utilisateur dont le nom="Mejri Rim".</p>
+                    <textarea name="" id="" class="form-control"></textarea>
+                    <p>c) Afficher la dernière course vers "Rades".</p>
+                    <textarea name="" id="" class="form-control"></textarea>
+                    <p>d) Afficher le nombre de courses par mois en 2025</p>
+                    <textarea name="" id="" class="form-control"></textarea>
+                    <p>e) Afficher les noms des chauffeurs ainsi que leurs nombres de courses dont le nombre dépasse 3 courses.</p>
+                    <textarea name="" id="" class="form-control"></textarea>
+                    <p>f) Afficher les courses effectuées pendant cette semaine. (On affichera les champs : id_course, date_heure_depart, point_depart )</p>
+                    <textarea name="" id="" class="form-control"></textarea>
+                    <p>g) Afficher les noms des chauffeurs qui n'ont pas effectués des courses vers "MADINA".</p>
+                    <textarea name="" id="" class="form-control"></textarea>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q3b2')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q3b2">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>a) Obtenir le chiffre d'affaires total (somme des paiements) :</p>
+                        <div class="file-name">SQL</div>
+                        <pre><code class="language-sql">SELECT SUM(montant) AS chiffre_affaires_total
+FROM Paiement;</code></pre>
+                        
+                        <p>b) Trouver toutes les courses faites par l'utilisateur dont le nom="Mejri Rim" :</p>
+                        <div class="file-name">SQL</div>
+                        <pre><code class="language-sql">SELECT C.*
+FROM Courses C, Utilisateur U, Paimement P
+WHERE U.idutilisateur =P.idutilisateur and C.idCourse=P.idCourse
+AND U.nomprenom = 'Mejri Rim';</code></pre>
+                        
+                        <p>c) Afficher la dernière course vers "Rades" :</p>
+                        <div class="file-name">SQL</div>
+                        <pre><code class="language-sql">SELECT *
+FROM Course
+WHERE point_arrivee = 'Rades'
+AND date_heure_arrivee = (
+SELECT MAX(date_heure_arrivee)
+FROM Course
+WHERE point_arrivee = 'Rades'
+);</code></pre>
+                        
+                        <p>d) Afficher le nombre de courses par mois en 2025 :</p>
+                        <div class="file-name">SQL</div>
+                        <pre><code class="language-sql">select month(date_heure_depart) AS mois, COUNT(*)
+from Course
+where year(date_heure_depart) = 2025
+group by month(date_heure_depart);</code></pre>
+                        
+                        <p>e) Afficher les noms des chauffeurs ainsi que leurs nombres de courses dont le nombre dépasse 3 courses :</p>
+                        <div class="file-name">SQL</div>
+                        <pre><code class="language-sql">SELECT Ch.nomPrenomCh, COUNT(*) AS nb_courses
+FROM Course C, Chauffeur Ch
+WHERE C.idChauffeur = Ch.idChauffeur
+GROUP BY Ch.nomPrenomCh
+HAVING COUNT(*) > 3;</code></pre>
+                        
+                        <p>f) Afficher les courses effectuées pendant cette semaine :</p>
+                        <div class="file-name">SQL</div>
+                        <pre><code class="language-sql">SELECT C.idCourse, C.date_heure_depart, C.point_depart
+FROM Course C
+WHERE DATEDIFF(NOW(), C.date_heure_depart) <= 7;</code></pre>
+                        
+                        <p>g) Afficher les noms des chauffeurs qui n'ont pas effectués des courses vers "MADINA" :</p>
+                        <div class="file-name">SQL</div>
+                        <pre><code class="language-sql">SELECT ch.nomPrenomCh
+FROM Chauffeur ch, Course c
+WHERE ch.idChauffeur = c.idChauffeur
+AND ch.idChauffeur NOT IN (
+SELECT idChauffeur
+FROM Course
+WHERE point_arrivee = 'MADINA'
+);</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Prism.js pour la coloration syntaxique -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+    <script>
+        function toggleSolution(questionId) {
+            const solutionBlock = document.getElementById(`solution-${questionId}`);
+            const button = document.querySelector(`#${questionId} .btn-solution-toggle`);
+            const questionContainer = document.getElementById(questionId);
+            
+            // Logique spécifique pour l'Exercice 1 (cases à cocher)
+            if (Number(questionId.substring(1)) >= 1 && Number(questionId.substring(1)) <= 10) {
+                const checkboxes = questionContainer.querySelectorAll('input[type="checkbox"]');
+                if (solutionBlock.style.display === 'block') {
+                    // Cacher la correction
+                    solutionBlock.style.display = 'none';
+                    button.textContent = 'Afficher la correction';
+                    checkboxes.forEach(cb => {
+                        cb.checked = false;
+                        cb.closest('.vf-option').classList.remove('correct', 'incorrect');
+                    });
+                } else {
+                    // Afficher la correction
+                    solutionBlock.style.display = 'block';
+                    button.textContent = 'Masquer la correction';
+                    checkboxes.forEach(cb => {
+                        const isCorrect = cb.dataset.correct === 'true';
+                        cb.checked = isCorrect;
+                        cb.closest('.vf-option').classList.add(isCorrect ? 'correct' : 'incorrect');
+                    });
+                }
+            } else {
+                // Logique pour les autres exercices
+                if (solutionBlock.style.display === 'block') {
+                    solutionBlock.style.display = 'none';
+                    button.textContent = 'Afficher la correction';
+                } else {
+                    solutionBlock.style.display = 'block';
+                    button.textContent = 'Masquer la correction';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

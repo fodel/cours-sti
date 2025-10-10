@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devoir de contrôle pratique N°2 en STI - Vaccination contre la grippe saisonnière</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            padding-bottom: 50px;
+        }
+        .header {
+            background-color: #0056b3;
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .step-container {
+            display: none;
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .step-container.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .step-header {
+            background-color: #e9f7fe;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0056b3;
+        }
+        .step-title {
+            color: #0056b3;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+        .step-content {
+            line-height: 1.6;
+        }
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        .navigation {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .progress-container {
+            margin-bottom: 30px;
+        }
+        .progress {
+            height: 10px;
+            border-radius: 5px;
+        }
+        .important {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .important-title {
+            font-weight: bold;
+            color: #856404;
+        }
+        .objectif-card {
+            background-color: #e9f7fe;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .objectif-title {
+            font-weight: bold;
+            color: #0056b3;
+            margin-bottom: 10px;
+        }
+        .schema {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 0;
+            display: inline-flex;
+            align-items: center;
+        }
+        .download-btn:hover {
+            background-color: #218838;
+        }
+        .download-btn i {
+            margin-right: 10px;
+        }
+        .zone-content {
+            background-color: #f8f9fa;
+            border: 1px dashed #ced4da;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .zone-title {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        .primary-key {
+            text-decoration: underline;
+            font-weight: bold;
+            color: #0056b3;
+        }
+        .foreign-key {
+            color: #dc3545;
+            font-style: italic;
+        }
+        .schema-legend {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        .plain-form {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #f9f9f9;
+        }
+        .plain-form fieldset {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .plain-form legend {
+            font-weight: bold;
+            color: #333;
+            padding: 0 10px;
+        }
+        .plain-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .plain-form input[type="text"],
+        .plain-form input[type="email"],
+        .plain-form input[type="date"],
+        .plain-form select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .plain-form input:disabled {
+            background-color: #f5f5f5;
+            color: #666;
+        }
+        .plain-form button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .plain-form button[type="button"] {
+            background-color: #6c757d;
+            color: white;
+        }
+        .plain-form button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+        .form-row > div {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="header text-center">
+        <h1>TP 1 : Centre de vaccination</h1>
+        <p>un TP couvrant la création d'une base de données, le développement d'un site web de réservation de vaccins (HTML/CSS/JS/PHP) et la mise en place des fonctionnalités de suivi.</p>
+        <p>Enseignant : ABIDI - Durée estimée : 2 Heure</p>
+        <button class="download-btn ms-3" onclick="window.open('solution2.html', '_blank')">
+            <i class="fas fa-download"></i> Afficher la solution complète
+        </button>
+    </div>
+
+    <div class="container">
+        <div class="progress-container">
+            <div class="d-flex justify-content-between mb-2">
+                <span>Progression du devoir</span>
+                <span id="progress-text">Étape 1 sur 5</span>
+            </div>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+
+        <!-- Étape 0: Consignes et téléchargement -->
+        <div class="step-container active" id="step-0">
+            <div class="step-header">
+                <div class="step-title">Étape 0: Consignes et téléchargement de fichiers</div>
+            </div>
+            <div class="step-content">
+                <div class="important">
+                    <div class="important-title">Important :</div>
+                    <p>Toutes les ressources à utiliser se trouvent dans le répertoire « Ressources » situé sur la racine du disque C.</p>
+                </div>
+                
+                <h4>Consignes générales :</h4>
+                <ul>
+                    <li>Créer, dans le répertoire du serveur web local (www ou htdocs), un dossier de travail en le nommant "DCP2 nom et prénom" où seront enregistrés tous les documents à réaliser.</li>
+                    <li>
+                        <div class="d-flex align-items-center">
+                            <span>Télécharger le fichier "DCP2.rar" depuis  :</span>
+                            <button class="download-btn ms-3" onclick="window.open('DCP2.rar', '_blank')">
+                                <i class="fas fa-download"></i> Télécharger DCP2.rar
+                            </button>
+                        </div>
+                    </li>
+                    <li>Extraire le contenu du fichier dans le dossier de travail, en utilisant le mot de passe "a12345".</li>
+                    <li>S'assurer que le contenu extrait est formé des fichiers : "bd.sql", "mesStyles.css", "banner.png".</li>
+                    <li>Vérifier à la fin de l'épreuve que tous les fichiers créés sont stockés dans le dossier de travail.</li>
+                </ul>
+                
+                <h4>Contexte du projet :</h4>
+                <p>Afin de lutter contre la grippe saisonnière et d'améliorer la couverture vaccinale, le ministère de la Santé prévoit de lancer un site web dédié à la réservation des vaccins. Cette plateforme intuitive vise à faciliter l'accès à la vaccination pour tous les citoyens.</p>
+                
+                <div class="objectif-card">
+                    <div class="objectif-title">Objectifs du site web :</div>
+                    <ol>
+                        <li><strong>Réservation d'un vaccin :</strong> Après avoir renseigné quelques informations personnelles, l'utilisateur pourra choisir un centre de vaccination, sélectionner une date et réserver sa dose.</li>
+                        <li><strong>Suivi des réservations :</strong> L'utilisateur aura la possibilité de consulter l'état de ses réservations et d'accéder aux détails de ses rendez-vous.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Étape 1: Création de base de données -->
+        <div class="step-container" id="step-1">
+            <div class="step-header">
+                <div class="step-title">Étape 1: Création de base de données</div>
+            </div>
+            <div class="step-content">
+                <h4>Partie A : Base de données</h4>
+                <p>Le concepteur du site utilise une base de données simplifiée décrite par la représentation textuelle suivante :</p>
+                
+                <div class="schema-legend">
+                    <strong>Légende :</strong> 
+                    <span class="primary-key">Clé primaire</span> | 
+                    <span class="foreign-key">Clé étrangère</span>
+                </div>
+                
+                <div class="code-block">
+                    <pre>Citoyens (<span class="primary-key">cin</span>, nom, prenom, email, telephone, dateNaissance, pin)
+centres (<span class="primary-key">id</span>, nom, adresse, capaciteMax)
+vaccins (<span class="primary-key">id</span>, nom, fabricant, stock)
+reservations (<span class="primary-key">cin #, iDcentre #, iDvaccin</span>#, dateReservation, statut)</pre>
+                </div>
+                
+                
+                
+                <p>La description des différents champs est présentée dans le tableau suivant :</p>
+                
+                <div class="table-container">
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Champ</th>
+                                <th>Type (Taille)</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="primary-key">cin</span></td>
+                                <td>CHAR(8)</td>
+                                <td>Numéro d'identité du citoyen</td>
+                            </tr>
+                            <tr>
+                                <td>nom</td>
+                                <td>VARCHAR(50)</td>
+                                <td>Nom du citoyen</td>
+                            </tr>
+                            <tr>
+                                <td>prenom</td>
+                                <td>VARCHAR(50)</td>
+                                <td>Prénom du citoyen</td>
+                            </tr>
+                            <tr>
+                                <td>email</td>
+                                <td>VARCHAR(100)</td>
+                                <td>Adresse e-mail du citoyen</td>
+                            </tr>
+                            <tr>
+                                <td>telephone</td>
+                                <td>VARCHAR(20)</td>
+                                <td>Numéro de téléphone du citoyen</td>
+                            </tr>
+                            <tr>
+                                <td>dateNaissance</td>
+                                <td>DATE</td>
+                                <td>Date de naissance du citoyen</td>
+                            </tr>
+                            <tr>
+                                <td>pin</td>
+                                <td>CHAR(6)</td>
+                                <td>Code PIN à 6 chiffres pour la connexion</td>
+                            </tr>
+                            <tr>
+                                <td><span class="primary-key">id</span></td>
+                                <td>INT auto-incrémenté</td>
+                                <td>Identifiant unique du centre</td>
+                            </tr>
+                            <tr>
+                                <td>nom</td>
+                                <td>VARCHAR(100)</td>
+                                <td>Nom du centre de vaccination</td>
+                            </tr>
+                            <tr>
+                                <td>adresse</td>
+                                <td>VARCHAR(255)</td>
+                                <td>Adresse complète du centre</td>
+                            </tr>
+                            <tr>
+                                <td>capaciteMax</td>
+                                <td>INT</td>
+                                <td>Nombre maximal de vaccinations par jour</td>
+                            </tr>
+                            <tr>
+                                <td><span class="primary-key">id</span></td>
+                                <td>INT auto-incrémenté</td>
+                                <td>Identifiant unique du vaccin</td>
+                            </tr>
+                            <tr>
+                                <td>nom</td>
+                                <td>VARCHAR(50)</td>
+                                <td>Nom du vaccin</td>
+                            </tr>
+                            <tr>
+                                <td>fabricant</td>
+                                <td>VARCHAR(50)</td>
+                                <td>Laboratoire fabricant</td>
+                            </tr>
+                            <tr>
+                                <td>stock</td>
+                                <td>INT</td>
+                                <td>Nombre de doses disponibles</td>
+                            </tr>
+                            <tr>
+                                <td>dateReservation</td>
+                                <td>DATE</td>
+                                <td>Date prévue pour la vaccination</td>
+                            </tr>
+                            <tr>
+                                <td>statut</td>
+                                <td>VARCHAR(20)</td>
+                                <td>État de la réservation ('confirmée', 'annulée', 'en attente')<br>Valeur par défaut : "en attente"</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h4>Tâches à réaliser :</h4>
+                <ol>
+                    <li>Créer une base de données nommée "DCP2 [votre nom et prénom]".</li>
+                    <li>Importer dans la base crée prcédement le fichier "bd.sql"</li>
+                    <li>Ajouter la clé primaire ainsi que les trois références manquantes dans la table réservation.</li>
+                    <li>Exporter la base de données sous le même nom que celui mentionné dans la question n°1.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Étape 2: Création de index.html -->
+        <div class="step-container" id="step-2">
+            <div class="step-header">
+                <div class="step-title">Étape 2: Création de la page index.html</div>
+            </div>
+            <div class="step-content">
+                <h4>Partie B : Création des documents Web</h4>
+                
+                <div class="important">
+                    <div class="important-title">Consignes :</div>
+                    <ul>
+                        <li>Toutes les fonctions JavaScript doivent être enregistrées dans un fichier nommé "mesControles.js".</li>
+                        <li>Toutes les règles CSS doivent être enregistrées dans le fichier "mesStyles.css".</li>
+                        <li>Toutes les pages HTML doivent être reliées au fichier "mesStyles.css".</li>
+                        <li>Les pages " reservation.html " et " suivie.html " doivent être reliées au fichier "mesControles.js".</li>
+                        <li>Le clic sur le bouton "Annuler" de chaque formulaire à créer, permet d'initialiser les champs.</li>
+                    </ul>
+                </div>
+                
+                <h4>1) Création de la page index du site :</h4>
+                
+                <h5>a. Créer la page "index.html" tout en la reliant au fichier "mesStyles.css" afin de respecter la disposition ci-après.</h5>
+                <img src="dispo.PNG" alt="" style="width: 600px; margin: auto;">
+                <div class="schema">
+                    <p><strong>Structure de la page index.html :</strong></p>
+                    <div class="border p-3 mt-3 mb-3">
+                        <div class="zone-content mb-3">
+                            <div class="zone-title">Zone h1 (Titre principal)</div>
+                            <p>Contenu : "Vaccination contre la grippe saisonnière"</p>
+                        </div>
+                        
+                        <div class="zone-content mb-3">
+                            <div class="zone-title">Zone nav (Navigation)</div>
+                            <p>Contenu : Liens hypertextes</p>
+                            <ul>
+                                <li>Réservation d'un vaccin (vers reservation.html)</li>
+                                <li>Suivi d'une réservation (vers suivie.html)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="zone-content mb-3">
+                            <div class="zone-title">Zone section (Contenu principal)</div>
+                            <p>Contenu : Affichage des différentes pages web (par défaut reservation.html)</p>
+                        </div>
+                        
+                        <div class="zone-content mb-3">
+                            <div class="zone-title">Zone aside</div>
+                            <p>Contenu : Image "banner.png" </p>
+                           
+                        </div>
+                        
+                        <div class="zone-content">
+                            <div class="zone-title">Zone footer (Pied de page - Contact)</div>
+                            <p>Contenu : Liste à puces</p>
+                            <ul>
+                                <li>Email : info@sante.tn</li>
+                                <li>N° vert : 80 100 400</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <h5>b. Ajouter au fichier "mesStyles.css", les règles permettant d'appliquer aux éléments de cette page, les mises en forme spécifiées dans le tableau suivant :</h5>
+                
+                <div class="table-container">
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Élément</th>
+                                <th>Mise en forme</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>h1 et nav</td>
+                                <td>Alignement du texte : centré</td>
+                            </tr>
+                            <tr>
+                                <td>Liste à puce</td>
+                                <td>Puce : aucun puce</td>
+                            </tr>
+                            <tr>
+                                <td>lien hypertexte</td>
+                                <td>Affichage : inline block<br>Arrière plan : #FFFFD8<br>Couleur de texte : #009933<br>Marge : 5 px de 4 côtés</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Étape 3: Création de reservation.html -->
+        <div class="step-container" id="step-3">
+            <div class="step-header">
+                <div class="step-title">Étape 3: Création de la page reservation.html</div>
+            </div>
+            <div class="step-content">
+                <h4>2) Réservation d'un vaccin :</h4>
+                
+                <h5>a) Créer la page "reservation.html" qui permet à un citoyen la réservation d'un vaccin via le formulaire suivant :</h5>
+                
+                <div class="plain-form">
+                    <form>
+                        <fieldset>
+                            <legend>Informations personnelles</legend>
+                            <div class="form-row">
+                                <div>
+                                    <label for="cin">CIN:</label>
+                                    <input type="text" id="cin" name="cin" placeholder="8 chiffres">
+                                </div>
+                                <div>
+                                    <label for="nom">Nom:</label>
+                                    <input type="text" id="nom" name="nom">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="prenom">Prénom:</label>
+                                    <input type="text" id="prenom" name="prenom">
+                                </div>
+                                <div>
+                                    <label for="email">Email:</label>
+                                    <input type="email" id="email" name="email">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="telephone">Téléphone:</label>
+                                    <input type="text" id="telephone" name="telephone" placeholder="8 chiffres">
+                                </div>
+                                <div>
+                                    <label for="dateNaissance">Date de naissance:</label>
+                                    <input type="date" id="dateNaissance" name="dateNaissance">
+                                </div>
+                            </div>
+                        </fieldset>
+                        
+                        <fieldset>
+                            <legend>Informations de réservation</legend>
+                            <div class="form-row">
+                                <div>
+                                    <label for="pin">PIN:</label>
+                                    <input type="text" id="pin" name="pin" disabled placeholder="Généré automatiquement">
+                                </div>
+                                <div>
+                                    <label for="dateVaccination">Date de vaccination:</label>
+                                    <input type="date" id="dateVaccination" name="dateVaccination">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="centre">Centre de vaccination:</label>
+                                    <select id="centre" name="centre">
+                                        <option value="" selected disabled>Choisir un centre</option>
+                                        <option value="1">Centre de vaccination Sbiba</option>
+                                        <option value="2">Centre de vaccination Kasserine</option>
+                                        <option value="3">Centre de vaccination Sbeitla</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="vaccin">Type de vaccin:</label>
+                                    <select id="vaccin" name="vaccin">
+                                        <option value="" selected disabled>Choisir un vaccin</option>
+                                        <option value="1">Vaxigrip</option>
+                                        <option value="2">Influvac</option>
+                                        <option value="3">Fluarix</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </fieldset>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button type="button">Annuler</button>
+                            <button type="submit">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <h5>Centres de vaccination disponibles :</h5>
+                <div class="table-container">
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>valuer</th>
+                                <th>contenu</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Centre de vaccination Sbiba</td>
+                    
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Centre de vaccination Kasserine</td>
+                                
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Centre de vaccination Sbeitla</td>
+                               
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h5>Types de vaccins disponibles :</h5>
+                <div class="table-container">
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>valuer</th>
+                                <th>contenu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Vaxigrip</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Influvac</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Fluarix</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <p><strong>Caractéristiques du formulaire :</strong></p>
+                <ul>
+                    <li>Les zones de saisies de date de naissance et date de vaccination sont de type date.</li>
+                    <li>La zone de saisie de l'email est de type mail.</li>
+                    <li>La zone Pin est en lecture seul. Le pin est un code de 6 chiffres au hasard, ce code est généré dès le chargement de la page via une fonction JavaScript nommée "generatePin()".</li>
+                    <li>Le clic sur le bouton "Enregistrer" fait appel à :
+                        <ul>
+                            <li>une fonction JavaScript nommée "verif1",</li>
+                            <li>un fichier intitulé "reservation.php".</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <h5>b) Développer dans le fichier "mesControles.js" la fonction JavaScript generatePin() permettant de générer et charger un code aléatoire de 6 chiffres dans la zone dédiée.</h5>
+                
+                <h5>c) Développer, dans le fichier "mesControles.js", la fonction "Verif1" afin de s'assurer de la validité des champs du formulaire tout en respectant les contrôles suivants :</h5>
+                
+                <div class="table-container">
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Champ</th>
+                                <th>Contrôle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CIN</td>
+                                <td>Chaîne de 8 chiffres</td>
+                            </tr>
+                            <tr>
+                                <td>Nom</td>
+                                <td>Chaîne non vide de 30 caractères maximum commençant par une lettre.</td>
+                            </tr>
+                            <tr>
+                                <td>Prénom</td>
+                                <td>Chaîne non vide de 30 caractères maximum commençant par une lettre.</td>
+                            </tr>
+                            <tr>
+                                <td>Téléphone</td>
+                                <td>Chaîne de 8 chiffres dont le premier est supérieur strictement à 1.</td>
+                            </tr>
+                            <tr>
+                                <td>Date de naissance</td>
+                                <td>Le choix d'une date est obligatoire.</td>
+                            </tr>
+                            <tr>
+                                <td>Centre de vaccination</td>
+                                <td>Le choix d'un centre est obligatoire.</td>
+                            </tr>
+                            <tr>
+                                <td>Type de vaccin</td>
+                                <td>Le choix d'un type est obligatoire.</td>
+                            </tr>
+                            <tr>
+                                <td>Date de vaccination</td>
+                                <td>Supérieur à la date de système.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h5>d) Créer le fichier "reservation.php" permettant de :</h5>
+                <ul>
+                    <li>Afficher le message "CIN déjà utilisé !" si le CIN existe déjà dans la base de données.</li>
+                    <li>Ou bien afficher le message "Centre complet !" si le centre de vaccination est saturé à la date choisie.</li>
+                    <li>Ou bien afficher le message "Dose de vaccin épuisée !" si le stock de vaccins est insuffisant.</li>
+                    <li>Ou bien insérer les informations du citoyen et les détails de la réservation dans les tables appropriées, puis afficher le message "Vaccination réservée avec succès !".</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Étape 4: Création de suivie.html -->
+        <div class="step-container" id="step-4">
+            <div class="step-header">
+                <div class="step-title">Étape 4: Création de la page suivie.html</div>
+            </div>
+            <div class="step-content">
+                <h4>3) Suivi d'une réservation :</h4>
+                
+                <h5>a) Créer la page "suivie.html" qui permet à un citoyen le suivi de réservation effectué via le formulaire suivant :</h5>
+                
+                <div class="plain-form">
+                    <form>
+                        <fieldset>
+                            <legend>Suivi de réservation</legend>
+                            <div class="form-row">
+                                <div>
+                                    <label for="cinSuivi">CIN:</label>
+                                    <input type="text" id="cinSuivi" name="cinSuivi" placeholder="8 chiffres">
+                                </div>
+                                <div>
+                                    <label for="pinSuivi">PIN:</label>
+                                    <input type="text" id="pinSuivi" name="pinSuivi" placeholder="6 chiffres">
+                                </div>
+                            </div>
+                        </fieldset>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button type="button">Annuler</button>
+                            <button type="submit">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <p><strong>Caractéristiques du formulaire :</strong></p>
+                <p>Sachant que le clic sur le bouton "Enregistrer" fait appel à :</p>
+                <ul>
+                    <li>une fonction JavaScript nommée "verif2"</li>
+                    <li>un fichier intitulé "suivie.php".</li>
+                </ul>
+                
+                <h5>b) Développer, dans le fichier "mesControles.js", la fonction "verif2" permettant de s'assurer de la validité des champs du formulaire tout en respectant les contrôles suivants :</h5>
+                
+                <div class="table-container">
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Champ</th>
+                                <th>Contrôle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CIN</td>
+                                <td>Chaîne de 8 chiffres.</td>
+                            </tr>
+                            <tr>
+                                <td>PIN</td>
+                                <td>Chaîne de 6 chiffres.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h5>c) Créer le fichier "suivie.php" permettant de :</h5>
+                <ul>
+                    <li>Afficher le message "CIN inexistant !" si le CIN saisi n'est pas présent dans la base de données.</li>
+                    <li>Ou bien afficher le message "PIN invalide !" si le PIN saisi ne correspond pas au CIN enregistré.</li>
+                    <li>Ou bien afficher la fiche de vaccination suivante :
+                        <div class="border p-3 mt-3 mb-3 bg-light">
+                            <p><strong>Bienvenue [nom et prénom]</strong></p>
+                            <p><strong>Votre vaccin le plus proche sera :</strong></p>
+                            <ul>
+                                <li><strong>Centre :</strong> [nom de centre]</li>
+                                <li><strong>Vaccin :</strong> [nom de vaccin]</li>
+                                <li><strong>Date :</strong> [date de vaccination]</li>
+                                <li><strong>Statut :</strong> [statut de réservation]</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="important">
+                    <div class="important-title">Rappel des consignes générales :</div>
+                    <ul>
+                        <li>Vérifier à la fin de l'épreuve que tous les fichiers créés sont stockés dans le dossier de travail.</li>
+                        <li>Assurez-vous que toutes les pages HTML sont reliées au fichier "mesStyles.css".</li>
+                        <li>Les pages "reservation.html" et "suivie.html" doivent être reliées au fichier "mesControles.js".</li>
+                    </ul>
+                </div>
+                
+                <h4>Barème de notation :</h4>
+                <div class="table-container">
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Question</th>
+                                <th>Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Partie A - Base de données</td>
+                                <td>5 points</td>
+                            </tr>
+                            <tr>
+                                <td>Partie B - Création des documents Web</td>
+                                <td>15 points</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>20 points</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <button id="prev-btn" class="btn btn-outline-primary" onclick="changeStep(-1)">
+                    <i class="fas fa-arrow-left"></i> Précédent
+                </button>
+                <div class="d-flex align-items-center">
+                    <span id="step-indicator">Étape 1 sur 5</span>
+                </div>
+                <button id="next-btn" class="btn btn-primary" onclick="changeStep(1)">
+                    Suivant <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        const totalSteps = 5;
+
+        function showStep(step) {
+            // Cache toutes les étapes
+            const steps = document.querySelectorAll('.step-container');
+            steps.forEach(s => s.classList.remove('active'));
+            
+            // Affiche l'étape actuelle
+            document.getElementById(`step-${step}`).classList.add('active');
+            
+            // Met à jour les indicateurs
+            document.getElementById('step-indicator').textContent = `Étape ${step + 1} sur ${totalSteps}`;
+            document.getElementById('progress-text').textContent = `Étape ${step + 1} sur ${totalSteps}`;
+            
+            // Met à jour la barre de progression
+            const progress = ((step + 1) / totalSteps) * 100;
+            document.querySelector('.progress-bar').style.width = `${progress}%`;
+            document.querySelector('.progress-bar').setAttribute('aria-valuenow', progress);
+            
+            // Gère l'état des boutons
+            document.getElementById('prev-btn').disabled = step === 0;
+            document.getElementById('next-btn').disabled = step === totalSteps - 1;
+            
+            // Change le texte du dernier bouton
+            if (step === totalSteps - 1) {
+                document.getElementById('next-btn').innerHTML = '<i class="fas fa-check"></i> Terminer';
+            } else {
+                document.getElementById('next-btn').innerHTML = 'Suivant <i class="fas fa-arrow-right"></i>';
+            }
+        }
+
+        function changeStep(direction) {
+            const newStep = currentStep + direction;
+            
+            if (newStep >= 0 && newStep < totalSteps) {
+                currentStep = newStep;
+                showStep(currentStep);
+                
+                // Fait défiler vers le haut de la page
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            showStep(currentStep);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TD 4 : Bases de Données</title>
+    
+    <!-- Bootstrap et Font Awesome pour le style -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Styles spécifiques -->
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; padding-top: 20px; padding-bottom: 80px; }
+        .td-container { max-width: 1000px; margin: auto; background-color: #ffffff; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); overflow: hidden; }
+        .td-header { background-color: #198754; color: white; padding: 25px; text-align: center; }
+        .td-header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .td-header p { margin: 0; opacity: 0.9; }
+        .content-section { padding: 30px; }
+        .content-section h2 { color: #198754; border-bottom: 2px solid #e9ecef; padding-bottom: 10px; margin-bottom: 20px; }
+        .question-container { border: 1px solid #e9ecef; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+        .question-header { background-color: #f8f9fa; padding: 15px 20px; border-bottom: 1px solid #e9ecef; }
+        .question-title { font-weight: bold; font-size: 1.1rem; margin: 0; }
+        .question-content { padding: 20px; }
+        .solution-block { background-color: #f0f8f0; border-top: 1px solid #e9ecef; padding: 20px; display: none; }
+        .btn-solution-toggle { background-color: #198754; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s; }
+        .btn-solution-toggle:hover { background-color: #157347; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; border-radius: 5px; padding: 15px; margin: 15px 0; font-family: 'Courier New', Courier, monospace; font-size: 0.9rem; white-space: pre-wrap; word-wrap: break-word; overflow-x: auto; }
+        .table-responsive { margin: 20px 0; }
+        .table th { background-color: #198754; color: white; }
+        .primary-key { text-decoration: underline; font-weight: bold; }
+        .foreign-key { font-style: italic; color: #6c757d; }
+    </style>
+</head>
+<body>
+    <a href="../tds.html" style="margin: 10px 20px; display: inline-block;"><i class="fas fa-arrow-left"></i> Retour à la liste des TDs</a>
+    
+    <div class="td-container">
+        <div class="td-header">
+            <h1><i class="fas fa-database"></i> Devoir de Contrôle N°2</h1>
+            <p>Crédité à M. BEN JLIJEL Chakib - LYCEE SECONDAIRE ELHAOUARIA</p>
+            <p>Classe : 4ème Sciences de l’informatique 2 - Date : 29-11-2024 - Durée : 1h</p>
+        </div>
+
+        <!-- Partie 1: Exercice 1 -->
+        <section class="content-section">
+            <h2>Exercice N° 1 (7 pts)</h2>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">1) Pour chacune des propositions suivantes, encadrer l'un des termes proposés entre parenthèses afin d'avoir le bon sens des phrases.</strong></h3></div>
+                <div class="question-content">
+                    <p>a. Une (information, base de données, fiche) peut être définie comme une collection de données structurées et enregistrées ensemble sans redondances.</p>
+                    <p>b. Le langage de (définition, contrôle, manipulation) de données permet la création, la modification, et la suppression du schéma de la base de données.</p>
+                    <p>c. (L'intégrité, La centralisation, La confidentialité) des données est un concept qui garantissent l'exactitude, la cohérence et la validité des données.</p>
+                    <p>d. La suppression d’une table est réalisée avec la commande (ERASE, DELETE, DROP TABLE).</p>
+                    <p>e. La clause (CHECK, ON UPDATE CASCADE, ON DELETE CASCADE,) est utilisée pour maintenir la contrainte d’intégrité référentielle en cas de mise à jour.</p>
+                    <p>f. La commande SQL (UPDATE, MODIFY, ALTER TABLE) permet de modifier la structure d'une table existante.</p>
+                    <p>g. (Un domaine, Une donnée, Une propriété) correspond à un ensemble de valeurs admissibles.</p>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q1')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q1">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>a. Une <strong>base de données</strong> peut être définie comme...</p>
+                        <p>b. Le langage de <strong>définition</strong> de données permet...</p>
+                        <p>c. <strong>L'intégrité</strong> des données est un concept qui...</p>
+                        <p>d. La suppression d’une table est réalisée avec la commande <strong>DROP TABLE</strong>.</p>
+                        <p>e. La clause <strong>ON UPDATE CASCADE</strong> est utilisée pour...</p>
+                        <p>f. La commande SQL <strong>ALTER TABLE</strong> permet de modifier...</p>
+                        <p>g. <strong>Un domaine</strong> correspond à un ensemble de valeurs admissibles.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">2) Pour chacun des traitements suivants, mettre une croix (X) dans la colonne du langage de base de données qui lui correspond.</strong></h3></div>
+                <div class="question-content">
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center">
+                            <thead><tr><th>Traitement</th><th>L.D.D.</th><th>L.M.D.</th></tr></thead>
+                            <tbody>
+                                <tr><td style="text-align:left">a) Limiter la plage de valeurs qui peuvent être placées dans une colonne.</td><td><input type="checkbox" disabled></td><td><input type="checkbox" disabled></td></tr>
+                                <tr><td style="text-align:left">b) Insérer de nouveaux enregistrements dans une table.</td><td><input type="checkbox" disabled></td><td><input type="checkbox" disabled></td></tr>
+                                <tr><td style="text-align:left">c) Supprimer une table existante dans une base de données.</td><td><input type="checkbox" disabled></td><td><input type="checkbox" disabled></td></tr>
+                                <tr><td style="text-align:left">d) Modifier un enregistrement existant dans une table.</td><td><input type="checkbox" disabled></td><td><input type="checkbox" disabled></td></tr>
+                                <tr><td style="text-align:left">e) Sélectionner des données dans une base de données.</td><td><input type="checkbox" disabled></td><td><input type="checkbox" disabled></td></tr>
+                                <tr><td style="text-align:left">f) Imposer à un champ de ne pas accepter les valeurs NULL.</td><td><input type="checkbox" disabled></td><td><input type="checkbox" disabled></td></tr>
+                                <tr><td style="text-align:left">g) Définir une valeur par défaut pour une colonne.</td><td><input type="checkbox" disabled></td><td><input type="checkbox" disabled></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q2')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q2">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered text-center">
+                                <thead><tr><th>Traitement</th><th>L.D.D.</th><th>L.M.D.</th></tr></thead>
+                                <tbody>
+                                    <tr><td style="text-align:left">a) Limiter la plage de valeurs qui peuvent être placées dans une colonne.</td><td><input type="checkbox" disabled checked></td><td><input type="checkbox" disabled></td></tr>
+                                    <tr><td style="text-align:left">b) Insérer de nouveaux enregistrements dans une table.</td><td><input type="checkbox" disabled></td><td><input type="checkbox" disabled checked></td></tr>
+                                    <tr><td style="text-align:left">c) Supprimer une table existante dans une base de données.</td><td><input type="checkbox" disabled checked></td><td><input type="checkbox" disabled></td></tr>
+                                    <tr><td style="text-align:left">d) Modifier un enregistrement existant dans une table.</td><td><input type="checkbox" disabled></td><td><input type="checkbox" disabled checked></td></tr>
+                                    <tr><td style="text-align:left">e) Sélectionner des données dans une base de données.</td><td><input type="checkbox" disabled></td><td><input type="checkbox" disabled checked></td></tr>
+                                    <tr><td style="text-align:left">f) Imposer à un champ de ne pas accepter les valeurs NULL.</td><td><input type="checkbox" disabled checked></td><td><input type="checkbox" disabled></td></tr>
+                                    <tr><td style="text-align:left">g) Définir une valeur par défaut pour une colonne.</td><td><input type="checkbox" disabled checked></td><td><input type="checkbox" disabled></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partie 2: Exercice 2 -->
+        <section class="content-section">
+            <h2>Exercice N° 2 (13 pts)</h2>
+            
+            <p><strong>Énoncé :</strong> Dans le cadre de la modernisation de l’agriculture, une entreprise utilise des drones pour surveiller les champs, effectuer des pulvérisations de produits phytosanitaires, et analyser la santé des cultures. Vous êtes chargé de concevoir et d'implémenter une base de données pour gérer les drones agricoles, les missions qu'ils effectuent, et les parcelles agricoles. Ci-dessous, les requêtes SQL de création des tables appropriées.</p>
+            
+            <div class="file-name">SQL</div>
+            <div class="code-block">CREATE TABLE Drone (
+    numero_serie VARCHAR(10) PRIMARY KEY,
+    modele VARCHAR(50) NOT NULL,
+    capacite_charge DECIMAL(5,3) CONSTRAINT ck CHECK (capacite_charge > 0),
+    date_mise_service DATE NOT NULL
+);
+
+CREATE TABLE Mission (
+    mission_id INT PRIMARY KEY,
+    date_mission DATE NOT NULL,
+    duree_minutes INT NOT NULL,
+    produit_utilise VARCHAR(10),
+    drone_numero_serie VARCHAR(10) NOT NULL,
+    FOREIGN KEY (drone_numero_serie) REFERENCES Drone(numero_serie)
+);
+
+CREATE TABLE Parcelle (
+    parcelle_id INT PRIMARY KEY,
+    superficie DECIMAL(5,2) CHECK (superficie > 0),
+    type_culture VARCHAR(50),
+    localisation VARCHAR(100)
+);
+
+CREATE TABLE Mission_Parcelle (
+    mission_id INT,
+    parcelle_id INT,
+    CONSTRAINT c2 FOREIGN KEY (mission_id) REFERENCES Mission(mission_id) ON DELETE CASCADE
+);
+
+ALTER TABLE Mission_Parcelle ADD CONSTRAINT c1 PRIMARY KEY (mission_id, parcelle_id);
+
+ALTER TABLE Mission_Parcelle ADD CONSTRAINT c3 FOREIGN KEY (parcelle_id) REFERENCES Parcelle(parcelle_id) ON DELETE CASCADE;</div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">1) A partir des requêtes précédentes,</h3></div>
+                <div class="question-content">
+                    <p>a. Compléter le tableau suivant afin de déterminer la liste des liens entre les tables.</p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead><tr><th>Table mère</th><th>Table fille</th><th>Clé primaire</th><th>Clé étrangère</th></tr></thead>
+                            <tbody>
+                                <tr><td></td><td></td><td></td><td></td></tr>
+                                <tr><td></td><td></td><td></td><td></td></tr>
+                                <tr><td></td><td></td><td></td><td></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q2a')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q2a">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead><tr><th>Table mère</th><th>Table fille</th><th>Clé primaire</th><th>Clé étrangère</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Drone</td><td>Mission</td><td>numero_serie</td><td>drone_numero_serie</td></tr>
+                                    <tr><td>Mission</td><td>Mission_Parcelle</td><td>mission_id</td><td>mission_id</td></tr>
+                                    <tr><td>Parcelle</td><td>Mission_Parcelle</td><td>parcelle_id</td><td>parcelle_id</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">b. Déduire la représentation textuelle de cette base de données...</h3></div>
+                <div class="question-content">
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q2b')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q2b">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <div class="file-name">Représentation Textuelle</div>
+                        <div class="code-block">Drone (<u>numero_serie</u>, modele, capacite_charge, date_mise_service)
+Mission (<u>mission_id</u>, date_mission, duree_minutes, produit_utilise, drone_numero_serie#)
+Parcelle (<u>parcelle_id</u>, superficie, type_culture, localisation)
+Mission_Parcelle (<u>mission_id#</u>, <u>parcelle_id#</u>)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">c. Dresser la représentation graphique de cette base de données.</h3></div>
+                <div class="question-content">
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q2c')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q2c">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <img src="td3.png" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">3) En se référant à la représentation graphique présentée ci-dessus, cocher la bonne réponse pour chacune des questions suivantes :</h3></div>
+                <div class="question-content">
+                    <p>a. Un drone peut-il avoir plusieurs missions ? <input type="checkbox" disabled> Non <input type="checkbox" disabled> Oui</p>
+                    <p>b. Plusieurs drones peuvent-ils accomplir une même mission ? <input type="checkbox" disabled> Non <input type="checkbox" disabled> Oui</p>
+                    <p>c. La relation entre les tables « mission » et « parcelle » est-elle de type plusieurs-à-plusieurs ? <input type="checkbox" disabled> Non <input type="checkbox" disabled> Oui</p>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q3')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q3">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>a. <strong>Oui</strong>. Un drone peut avoir plusieurs missions.</p>
+                        <p>b. <strong>Non</strong>. Une mission n'est assignée qu'à un seul drone.</p>
+                        <p>c. <strong>Oui</strong>. La relation est plusieurs-à-plusieurs, gérée par la table `Mission_Parcelle`.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">4) Afin d’enrichir les informations concernant le drone, on se propose d’ajouter un champ obligatoire nommé « Portée » de type entier à 3 chiffres avec une valeur par défaut 10 km. Ecrire la requête SQL permettant de réaliser cette tâche.</h3></div>
+                <div class="question-content">
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q4')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q4">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <div class="file-name">SQL</div>
+                        <div class="code-block">ALTER TABLE Drone
+ADD COLUMN Portee INT DEFAULT 10 NOT NULL;</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">5) Il s’est avéré que la taille définie du champ « produit_utilise » de la table « Mission » ne suffit pas pour contenir les données nécessaires. Ecrire la requête SQL permettant d’augmenter cette taille à 50 caractères.</h3></div>
+                <div class="question-content">
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q5')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q5">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <div class="file-name">SQL</div>
+                        <div class="code-block">ALTER TABLE Mission
+ALTER COLUMN produit_utilise VARCHAR(50);</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">6) Après avoir terminé la création de cette base de données, l'administrateur de la base de données s'est rendu compte qu'il a oublié de définir la contrainte relative à la colonne "type_culture" qui ne peut prendre que les valeurs 'Céréales', 'Légumes', 'Fruits' ou 'Autre'.</h3></div>
+                <div class="question-content">
+                    <p>a. Donner le nom de la contrainte d’intégrité non respectée.</p>
+                    <p>b. Ecrivez la requête SQL permettant de prendre en compte cette contrainte.</p>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q6')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q6">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>a. La contrainte non respectée est une <strong>contrainte de domaine</strong>.</p>
+                        <p>b. La requête SQL pour ajouter cette contrainte est :</p>
+                        <div class="file-name">SQL</div>
+                        <div class="code-block">ALTER TABLE Parcelle
+ADD CONSTRAINT chk_type_culture CHECK (type_culture IN ('Céréales', 'Légumes', 'Fruits', 'Autre'));</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">7) Un nouveau drone est mis en service le 05 juillet 2024 ayant les informations suivantes : numero_serie = TN-0000501, modele = DJI Agras T30, capacite_charge = 150.000</h3></div>
+                <div class="question-content">
+                    <p>a. Ecrire la requête SQL permettant d’ajouter ces données à la table appropriée.</p>
+                    <p>b. Après l’exécution de cette requête, un message d’erreur s’affiche. Identifier l’origine de cette erreur.</p>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q7')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q7">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <p>a. La requête SQL est :</p>
+                        <div class="file-name">SQL</div>
+                        <div class="code-block">INSERT INTO Drone (numero_serie, modele, capacite_charge, date_mise_service)
+VALUES ('TN-0000501', 'DJI Agras T30', 150.000, '2024-07-05');</div>
+                        <p>b. L'origine de l'erreur est une violation de la contrainte de domaine sur la colonne `capacite_charge`. Elle est définie en `DECIMAL(5,3)`, ce qui signifie 2 chiffres avant la virgule et 3 après. La valeur `150.000` a 3 chiffres avant la virgule, ce qui dépasse la capacité définie.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">8) L'administrateur se propose de corriger une erreur de saisie signalée. Il s'agit de la valeur de la durée de la mission identifié par 214. La valeur correcte est 45 minutes au lieu de 30 minutes.</h3></div>
+                <div class="question-content">
+                    <p>Ecrire la requête SQL permettant de répondre à cette situation.</p>
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q8')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q8">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <div class="file-name">SQL</div>
+                        <div class="code-block">UPDATE Mission
+SET duree_minutes = 45
+WHERE mission_id = 214;</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header"><h3 class="question-title">9) Ecrivez une requête SQL permettant de désactiver la contrainte ck de la table « Drone ».</h3></div>
+                <div class="question-content">
+                    <button class="btn-solution-toggle" onclick="toggleSolution('q9')">Afficher la correction</button>
+                    <div class="solution-block" id="solution-q9">
+                        <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+                        <div class="file-name">SQL</div>
+                        <div class="code-block">ALTER TABLE Drone
+DISABLE CONSTRAINT ck;</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function toggleSolution(questionId) {
+            const solutionBlock = document.getElementById(`solution-${questionId}`);
+            const button = document.querySelector(`#${questionId} .btn-solution-toggle`);
+            if (solutionBlock.style.display === 'block') {
+                solutionBlock.style.display = 'none';
+                button.textContent = 'Afficher la correction';
+            } else {
+                solutionBlock.style.display = 'block';
+                button.textContent = 'Masquer la correction';
+            }
+        }
+    </script>
+</body>
+</html>

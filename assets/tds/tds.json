@@ -1,0 +1,32 @@
+[
+  {
+    "title": "TD 1 : Langage de Définition de Données (LDD)",
+    "description": "Exercices pratiques sur la création et la modification de structures de tables SQL, incluant la gestion des clés, des contraintes (CHECK, UNIQUE, NOT NULL) et la normalisation.",
+    "file": "td1.html"
+  },
+  {
+    "title": "TD 2 : Gestion du Club de Robotique(LDD)",
+    "description": "Exercices sur la modélisation d'une base de données, la création de tables, l'ajout de contraintes et la normalisation pour un club de robotique.",
+    "file": "td2.html"
+  },
+  {
+    "title": "TD 3 : Gestion d'une Boutique de Vente d'Habillement",
+    "description": "Série de 43 questions de requêtes SQL (SELECT, INSERT, UPDATE, DELETE) sur une base de données de e-commerce.",
+    "file": "td3.html"
+  },
+  {
+    "title": "TD 4 : Bases de Données",
+    "description": "Devoir de contrôle complet avec des questions de cours sur le LDD/LMD et des exercices  de création et modification de tables (ALTER TABLE, contraintes).",
+    "file": "td4.html"
+},
+{
+  "title": "TD 5 : Gestion des Transports",
+  "description": "Devoir de contrôle sur une base de données de transport, incluant des requêtes de manipulation (SELECT, UPDATE, DELETE) et d'interprétation d'une requête SELECT .",
+  "file": "td5.html"
+},
+{
+  "title": "TD 6 : Bac Blanc STI Ben Arous 2025- Sciences de l'Informatique",
+  "description": "Examen complet couvrant HTML/CSS, JavaScript, PHP et bases de données SQL. Inclut des exercices sur les propriétés CSS, les événements JavaScript, la manipulation du DOM, les requêtes SQL et la gestion de contraintes de base de données.",
+  "file": "td6.html"
+}
+]

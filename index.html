@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systèmes et Technologies de l'Information</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo-link">
+                <img src="assets/images/logo.png" alt="Logo du cours STI" class="logo">
+                <strong>classe STI pour les éléves de 4ème année SI</strong>
+                
+            </a>
+            <nav>
+                <div class="nav-toggle" id="nav-toggle">&#9776;</div>
+                <ul class="nav-list">
+                    <li><a href="cours.html">Cours</a></li>
+                    <li><a href="annexes.html">Annexes</a></li>
+                    <li><a href="https://fodel.github.io/quiz-sti" target="_blank" rel="noopener noreferrer">Quiz</a></li>
+                    <li><a href="tps.html">TPs</a></li>
+                    <li><a href="tds.html">TDs</a></li>
+                    <li><a href="a-propos.html">À propos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Bienvenue sur le site du cours</h1>
+            <p>Systèmes et Technologies de l'Information</p>
+            <p class="subtitle">Ressources pour les étudiants de 4ème année Sciences de l'Informatique</p>
+        </section>
+
+        <section class="cards-grid">
+            <article class="card">
+                <div class="card-icon">📚</div>
+                <h2>Cours</h2>
+                <p>Accédez à l'ensemble des supports de cours au format PDF pour réviser les concepts clés.</p>
+                <a href="cours.html" class="card-button">Voir les cours</a>
+            </article>
+            <!-- AJOUT : NOUVELLE CARTE POUR LE QUIZ -->
+            <article class="card">
+                <div class="card-icon">❓</div>
+                <h2>Quiz</h2>
+                <p>Testez vos connaissances et évaluez votre compréhension du cours avec nos quiz interactifs.</p>
+                <a href="https://fodel.github.io/quiz-sti" target="_blank" rel="noopener noreferrer" class="card-button">Accéder au quiz</a>
+            </article>
+            <article class="card">
+                <div class="card-icon">📄</div>
+                <h2>Annexes</h2>
+                <p>Consultez les documents complémentaires, schémas et articles pour approfondir vos connaissances.</p>
+                <a href="annexes.html" class="card-button">Voir les annexes</a>
+            </article>
+            <article class="card">
+                <div class="card-icon">💻</div>
+                <h2>Travaux Pratiques</h2>
+                <p>Mettez en pratique vos compétences à travers les différents TPs proposés.</p>
+                <a href="tps.html" class="card-button">Voir les TPs</a>
+            </article>
+            <article class="card">
+                <div class="card-icon">✍️</div>
+                <h2>Travaux Dirigés</h2>
+                <p>Entraînez-vous avec des exercices et des études de cas pour maîtriser la matière.</p>
+                <a href="tds.html" class="card-button">Voir les TDs</a>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Contenu mis à disposition selon les termes de la licence Creative Commons CC BY-NC-SA - Ne pas utiliser pour des objectifs commerciaux.</p>
+            <p>&copy; <span id="current-year"></span> - ABIDI Mohamed Fadhel</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

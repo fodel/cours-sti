@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solution - Devoir de contrôle pratique N°2 en STI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism-coy.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-php.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            padding-bottom: 70px;
+        }
+        .header {
+            background-color: #0056b3;
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .step-container {
+            display: none;
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .step-container.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .step-header {
+            background-color: #e9f7fe;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0056b3;
+        }
+        .step-title {
+            color: #0056b3;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+        /* Adjusted code-block for Prism */
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 0; /* Prism handles padding */
+            margin: 15px 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        /* Ensure the Prism <pre> block fills the .code-block and has scrollbars */
+        .code-block pre {
+            margin: 0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .file-name {
+            background-color: #007bff;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px 5px 0 0;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: -1px;
+        }
+        .navigation {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .progress-container {
+            margin-bottom: 30px;
+        }
+        .progress {
+            height: 10px;
+            border-radius: 5px;
+        }
+        .important {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .important-title {
+            font-weight: bold;
+            color: #856404;
+        }
+        .concept-annexe {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header text-center">
+        <h1><i class="fas fa-lightbulb"></i> Solution du Devoir de Contrôle Pratique N°2</h1>
+        <p>Lycée Monji Slim Sbiba - 4éme Sciences informatique</p>
+    </div>
+
+    <div class="container">
+        <div class="progress-container">
+            <div class="d-flex justify-content-between mb-2">
+                <span>Progression de la solution</span>
+                <span id="progress-text">Étape 1 sur 5</span>
+            </div>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+
+        <div class="step-container active" id="step-0">
+            <div class="step-header">
+                <div class="step-title">Étape 0: Consignes et Préparation de l'environnement</div>
+            </div>
+            <div class="step-content">
+                <h4>Rappel des consignes générales</h4>
+                <div class="important">
+                    <div class="important-title">Actions à réaliser avant de commencer :</div>
+                    <ol>
+                        <li>Créer le dossier de travail <code>DCP2 [votre nom et prénom]</code> dans <code>www</code> ou <code>htdocs</code>.</li>
+                        <li>Télécharger et extraire <code>DCP2.rar</code> (mot de passe: a12345) dans ce dossier. Vous obtenez : <code>bd.sql</code>, <code>mesStyles.css</code>, <code>banner.jpg</code>.</li>
+                        <li>Ce dossier contiendra tous les fichiers que nous allons créer.</li>
+                    </ol>
+                </div>
+                <p>La solution suivante vous guidera dans la création de chaque fichier requis, étape par étape, en n'utilisant que les fonctions autorisées.</p>
+            </div>
+        </div>
+
+        <div class="step-container" id="step-1">
+            <div class="step-header">
+                <div class="step-title">Étape 1: Création de la base de données (Partie A)</div>
+            </div>
+            <div class="step-content">
+                <h4>Tâches à réaliser</h4>
+                <p>Nous allons créer la base de données, définir les tables, leurs relations et insérer les données initiales.</p>
+               
+
+                <h5>1. Création de la base de données</h5>
+                <p>Exécutez cette commande SQL dans votre SGBDR (phpMyAdmin, etc.) pour créer la base de données.</p>
+                <div class="file-name">SQL</div>
+                <div class="code-block"><pre class="language-sql"><code>CREATE DATABASE `DCP2_votre_nom_prenom`;</code></pre></div>
+
+                <h5>2. Création des tables et ajout des clés</h5>
+                <p>Voici le code SQL complet. La table <code>reservations</code> a une clé primaire composée de plusieurs champs, et les clés étrangères sont définies.</p>
+                <div class="file-name">SQL</div>
+                <div class="code-block"><pre class="language-sql"><code>USE `DCP2_votre_nom_prenom`;
+
+-- Table Citoyens
+CREATE TABLE `Citoyens` (
+  `cin` CHAR(8) NOT NULL,
+  `nom` VARCHAR(50) NOT NULL,
+  `prenom` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `telephone` VARCHAR(20) NOT NULL,
+  `dateNaissance` DATE NOT NULL,
+  `pin` CHAR(6) NOT NULL,
+  PRIMARY KEY (`cin`)
+);
+
+-- Table centres
+CREATE TABLE `centres` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nom` VARCHAR(100) NOT NULL,
+  `adresse` VARCHAR(255) NOT NULL,
+  `capaciteMax` INT NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- Table vaccins
+CREATE TABLE `vaccins` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nom` VARCHAR(50) NOT NULL,
+  `fabricant` VARCHAR(50) NOT NULL,
+  `stock` INT NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- Table reservations avec une clé primaire composée et les clés étrangères
+CREATE TABLE `reservations` (
+  `cin` CHAR(8) NOT NULL,
+  `iDcentre` INT NOT NULL,
+  `iDvaccin` INT NOT NULL,
+  `dateReservation` DATE NOT NULL,
+  `statut` VARCHAR(20) NOT NULL DEFAULT 'en attente',
+  PRIMARY KEY (`cin`, `iDcentre`, `iDvaccin`, `dateReservation`),
+  FOREIGN KEY (`cin`) REFERENCES `Citoyens`(`cin`),
+  FOREIGN KEY (`iDcentre`) REFERENCES `centres`(`id`),
+  FOREIGN KEY (`iDvaccin`) REFERENCES `vaccins`(`id`)
+);</code></pre></div>
+
+                <h5>3. Insertion des données initiales</h5>
+                <p>Ajout des centres et des vaccins disponibles dans la base de données.</p>
+                <div class="file-name">SQL</div>
+                <div class="code-block"><pre class="language-sql"><code>-- Insertion des données dans la table centres
+INSERT INTO `centres` (`id`, `nom`, `adresse`, `capaciteMax`) VALUES
+(1, 'Centre de vaccination Sbiba', 'Avenue Habib Bourguiba, Sbiba', 100),
+(2, 'Centre de vaccination Kasserine', 'Rue de la République, Kasserine', 150),
+(3, 'Centre de vaccination Sbeitla', 'Boulevard 7 Novembre, Sbeitla', 80);
+
+-- Insertion des données dans la table vaccins
+INSERT INTO `vaccins` (`id`, `nom`, `fabricant`, `stock`) VALUES
+(1, 'Vaxigrip', 'Sanofi Pasteur', 200),
+(2, 'Influvac', 'Abbott Biologicals', 150),
+(3, 'Fluarix', 'GlaxoSmithKline', 120);</code></pre></div>
+
+                <h5>4. Exportation de la base de données</h5>
+                <p>Utilisez la fonction "Exporter" de votre SGBDR pour sauvegarder la structure et les données dans un fichier nommé <code>DCP2_votre_nom_prenom.sql</code>.</p>
+            </div>
+        </div>
+
+        <div class="step-container" id="step-2">
+            <div class="step-header">
+                <div class="step-title">Étape 2: Création de la page d'accueil (Partie B.1)</div>
+            </div>
+            <div class="step-content">
+                <h4>Création des fichiers <code>index.html</code> et <code>mesStyles.css</code></h4>
+               
+
+                <h5>1. Fichier <code>mesStyles.css</code></h5>
+                <p>Créez ce fichier et ajoutez les règles CSS demandées dans le sujet.</p>
+                <div class="file-name">mesStyles.css</div>
+                <div class="code-block"><pre class="language-css"><code>/* Mise en forme pour h1 et nav */
+h1, nav {
+    text-align: center;
+}
+
+/* Mise en forme pour les listes à puces */
+ul {
+    list-style-type: none;
+}
+
+/* Mise en forme pour les liens hypertextes */
+a {
+    display: inline-block;
+    background-color: #FFFFD8;
+    color: #009933;
+    margin: 5px;
+}</code></pre></div>
+
+                <h5>2. Fichier <code>index.html</code></h5>
+                <p>Créez ce fichier en respectant la structure demandée. La zone <code>&lt;main&gt;</code> affiche <code>reservation.html</code> par défaut en utilisant une iframe.</p>
+                <div class="file-name">index.html</div>
+                <div class="code-block"><pre class="language-html"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Vaccination Grippe Saisonnière&lt;/title&gt;
+    &lt;link rel="stylesheet" href="mesStyles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+    &lt;h1&gt;Vaccination contre la grippe saisonnière&lt;/h1&gt;
+
+    &lt;nav&gt;
+        &lt;a href="reservation.html" target="contenu"&gt;Réservation d'un vaccin&lt;/a&gt;
+        &lt;a href="suivie.html" target="contenu"&gt;Suivi d'une réservation&lt;/a&gt;
+    &lt;/nav&gt;
+
+    &lt;/header&gt;
+    &lt;main&gt;
+    &lt;secttion&gt;
+        &lt;iframe src="reservation.html" name="contenu" &gt;&lt;/iframe&gt;
+    &lt;/secttion&gt;
+    &lt;aside&gt;
+        &lt;img src="banner.png" alt="Bannière" &gt;
+    &lt;/aside&gt;
+    &lt;/main&gt;
+    &lt;footer&gt;
+       
+        &lt;ul&gt;
+            &lt;li&gt;Email : info@sante.tn&lt;/li&gt;
+            &lt;li&gt;N° vert : 80 100 400&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/footer&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+            </div>
+        </div>
+
+        <div class="step-container" id="step-3">
+            <div class="step-header">
+                <div class="step-title">Étape 3: Création de la page de réservation (Partie B.2)</div>
+            </div>
+            <div class="step-content">
+                <h4>Création des fichiers pour la réservation</h4>
+                <div class="concept-annexe">
+                    <strong>Concepts de l'annexe utilisés :</strong> Fonctions JavaScript de base, fonctions PHP de connexion et de requêtes sur la base de données.
+                </div>
+
+                <h5>1. Fichier <code>reservation.html</code></h5>
+                <p>Créez le formulaire en liant le CSS et le JS. Le bouton "Enregistrer" appelle d'abord la fonction JS <code>verif1()</code>.</p>
+                <div class="file-name">reservation.html</div>
+                <div class="code-block"><pre class="language-html"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Réservation&lt;/title&gt;
+    &lt;link rel="stylesheet" href="mesStyles.css"&gt;
+    &lt;script src="mesControles.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body onload="generatePin();"&gt;
+
+   &lt;form action="reservation.php" method="post" onsubmit="return verif1();"&gt;
+    &lt;fieldset&gt;
+        &lt;legend&gt;Informations personnelles&lt;/legend&gt;
+
+        &lt;label for="cin"&gt;CIN&lt;/label&gt;
+        &lt;input type="text" name="cin" id="cin"&gt;&lt;br&gt;
+
+        &lt;label for="nom"&gt;Nom&lt;/label&gt;
+        &lt;input type="text" name="nom" id="nom"&gt;&lt;br&gt;
+
+        &lt;label for="prenom"&gt;Prénom&lt;/label&gt;
+        &lt;input type="text" name="prenom" id="prenom"&gt;&lt;br&gt;
+
+        &lt;label for="email"&gt;Email&lt;/label&gt;
+        &lt;input type="email" name="email" id="email"&gt;&lt;br&gt;
+
+        &lt;label for="telephone"&gt;Téléphone&lt;/label&gt;
+        &lt;input type="tel" name="telephone" id="telephone"&gt;&lt;br&gt;
+
+        &lt;label for="dateNaissance"&gt;Date de naissance&lt;/label&gt;
+        &lt;input type="date" name="dateNaissance" id="dateNaissance"&gt;&lt;br&gt;
+    &lt;/fieldset&gt;
+
+    &lt;fieldset&gt;
+        &lt;legend&gt;Informations de réservation&lt;/legend&gt;
+
+        &lt;label for="pin"&gt;PIN&lt;/label&gt;
+        &lt;input type="text" name="pin" id="pin" readonly&gt;&lt;br&gt;
+
+        &lt;label for="dateVaccination"&gt;Date de vaccination&lt;/label&gt;
+        &lt;input type="date" name="dateVaccination" id="dateVaccination"&gt;&lt;br&gt;
+
+        &lt;label for="centre"&gt;Centre de vaccination&lt;/label&gt;
+        &lt;select name="centre" id="centre"&gt;
+            &lt;option value=""&gt;Choisir un centre&lt;/option&gt;
+            &lt;option value="1"&gt;Centre de vaccination Sbiba&lt;/option&gt;
+            &lt;option value="2"&gt;Centre de vaccination Kasserine&lt;/option&gt;
+            &lt;option value="3"&gt;Centre de vaccination Sbeitla&lt;/option&gt;
+        &lt;/select&gt;&lt;br&gt;
+
+        &lt;label for="vaccin"&gt;Type de vaccin&lt;/label&gt;
+        &lt;select name="vaccin" id="vaccin"&gt;
+            &lt;option value=""&gt;Choisir un vaccin&lt;/option&gt;
+            &lt;option value="1"&gt;Vaxigrip&lt;/option&gt;
+            &lt;option value="2"&gt;Influvac&lt;/option&gt;
+            &lt;option value="3"&gt;Fluarix&lt;/option&gt;
+        &lt;/select&gt;&lt;br&gt;
+    &lt;/fieldset&gt;
+
+    &lt;input type="reset" value="Annuler"&gt;
+    &lt;input type="submit" value="Enregistrer"&gt;
+&lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+
+                <h5>2. Fichier <code>mesControles.js</code> (partie 1)</h5>
+                <p>Ajoutez les fonctions <code>generatePin</code> et <code>verif1</code>. </p>
+                <div class="file-name">mesControles.js</div>
+                <div class="code-block"><pre class="language-javascript"><code>
+// Vérifie si une chaîne ne contient que des chiffres
+function verifNum(chaine) {
+    if (chaine.length === 0) return false;
+    for (let i = 0; i < chaine.length; i++) {
+        if (chaine.charAt(i) < '0' || chaine.charAt(i) > '9') {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Vérifie si une chaîne ne contient que des lettres (non accentuées)
+function verifAlpha(chaine) {
+    if (chaine.length === 0) return false;
+    for (let i = 0; i < chaine.length; i++) {
+        let char = chaine.charAt(i).toUpperCase();
+        if (char < 'A' || char > 'Z') {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+// --- Fonctions principales de la page ---
+
+// Génère un PIN à 6 chiffres et l'affiche dans le champ correspondant
+
+function generatePin() {
+    var pin = Math.trunc(100000 + Math.random() * 900000);
+    document.getElementById('pin').value = pin;
+}
+
+// Vérifie la validité des champs du formulaire de réservation
+function verif1() {
+    var cin = document.getElementById('cin').value;
+    var nom = document.getElementById('nom').value;
+    var prenom = document.getElementById('prenom').value;
+    var telephone = document.getElementById('telephone').value;
+    var dateNaissance = document.getElementById('dateNaissance').value;
+    var centre = document.getElementById('centre').value;
+    var vaccin = document.getElementById('vaccin').value;
+    var dateVaccination = document.getElementById('dateVaccination').value;
+
+    // Contrôle CIN : 8 chiffres
+    if (cin.length != 8 || !verifNum(cin)) {
+        alert("Le CIN doit être une chaîne de 8 chiffres.");
+        return false;
+    }
+
+    // Contrôle Nom : non vide, max 30, commence par une lettre
+    if (nom.length === 0 || nom.length > 30 || !verifAlpha(nom.charAt(0))) {
+        alert("Le nom est invalide.");
+        return false;
+    }
+
+    // Contrôle Prénom : non vide, max 30, commence par une lettre
+    if (prenom.length === 0 || prenom.length > 30 || !verifAlpha(prenom.charAt(0))) {
+        alert("Le prénom est invalide.");
+        return false;
+    }
+
+    // Contrôle Téléphone : 8 chiffres, premier > 1
+    if (telephone.length != 8 || !verifNum(telephone) || telephone.charAt(0) <= '1') {
+        alert("Le téléphone doit être une chaîne de 8 chiffres commençant par un chiffre > 1.");
+        return false;
+    }
+
+    // Contrôle Date de naissance : obligatoire
+    if (dateNaissance === "") {
+        alert("La date de naissance est obligatoire.");
+        return false;
+    }
+
+    // Contrôle Centre : obligatoire
+    if (centre === "") {
+        alert("Veuillez choisir un centre de vaccination.");
+        return false;
+    }
+
+    // Contrôle Vaccin : obligatoire
+    if (vaccin === "") {
+        alert("Veuillez choisir un type de vaccin.");
+        return false;
+    }
+
+    // Contrôle Date de vaccination : > date système
+    var today = new Date();
+    var vaccDate = new Date(dateVaccination);
+    if (vaccDate <= today) {
+        alert("La date de vaccination doit être supérieure à la date du jour.");
+        return false;
+    }
+
+    return true; // Tout est bon, le formulaire peut être soumis
+}</code></pre></div>
+
+                <h5>3. Fichier <code>reservation.php</code></h5>
+                <p>Ce script traite les données du formulaire. </p>
+                <div class="file-name">reservation.php</div>
+                <div class="code-block"><pre class="language-php"><code>&lt;?php
+// Connexion à la base de données (à adapter avec vos identifiants)
+ $connexion = mysqli_connect("localhost", "root", "", "DCP2_votre_nom_prenom");
+
+// Récupération des données du formulaire
+ $cin = $_POST['cin'];
+ $nom = $_POST['nom'];
+ $prenom = $_POST['prenom'];
+ $email = $_POST['email'];
+ $telephone = $_POST['telephone'];
+ $dateNaissance = $_POST['dateNaissance'];
+ $pin = $_POST['pin'];
+ $dateReservation = $_POST['dateVaccination'];
+ $centre = $_POST['centre'];
+ $vaccin = $_POST['vaccin'];
+
+// 1. Vérifier si le CIN existe déjà
+ $checkCin = "SELECT cin FROM Citoyens WHERE cin = '$cin'";
+ $resultat = mysqli_query($connexion, $checkCin);
+if (mysqli_num_rows($resultat) > 0) {
+    die("CIN déjà utilisé !");
+}
+
+// 2. Vérifier si le centre est complet 
+
+// 3. Vérifier le stock du vaccin
+ $checkStock = "SELECT stock FROM vaccins WHERE id = '$vaccin'";
+ $resStock = mysqli_query($connexion, $checkStock);
+
+ $stock = mysqli_fetch_array($resStock)['stock'];
+if ($stock <= 0) {
+    die("Dose de vaccin épuisée !");
+}
+
+// 4. Si tout est bon, insérer les données
+// Insertion dans la table Citoyens
+ $insertCitoyen = "INSERT INTO Citoyens (cin, nom, prenom, email, telephone, dateNaissance, pin) 
+                  VALUES ('$cin', '$nom', '$prenom', '$email', '$telephone', '$dateNaissance', '$pin')";
+mysqli_query($connexion, $insertCitoyen);
+
+// Insertion dans la table reservations (la clé primaire est composée, pas besoin d'id)
+ $insertReservation = "INSERT INTO reservations (cin, iDcentre, iDvaccin, dateReservation) 
+                      VALUES ('$cin', '$centre', '$vaccin', '$dateReservation')";
+mysqli_query($connexion, $insertReservation);
+
+// Mise à jour du stock du vaccin
+ $updateStock = "UPDATE vaccins SET stock = stock - 1 WHERE id = '$vaccin'";
+mysqli_query($connexion, $updateStock);
+
+echo "Vaccination réservée avec succès !";
+
+mysqli_close($connexion);
+?&gt;</code></pre></div>
+            </div>
+        </div>
+
+        <div class="step-container" id="step-4">
+            <div class="step-header">
+                <div class="step-title">Étape 4: Création de la page de suivi (Partie B.3)</div>
+            </div>
+            <div class="step-content">
+                <h4>Création des fichiers pour le suivi de réservation</h4>
+                
+
+                <h5>1. Fichier <code>suivie.html</code></h5>
+                <p>Créez le formulaire de suivi.</p>
+                <div class="file-name">suivie.html</div>
+                <div class="code-block"><pre class="language-html"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Suivi de Réservation&lt;/title&gt;
+    &lt;link rel="stylesheet" href="mesStyles.css"&gt;
+    &lt;script src="mesControles.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;form action="suivie.php" method="post" onsubmit="return verif2();"&gt;
+        &lt;label&gt;CIN: &lt;input type="text" name="cin" id="cinSuivi"&gt;&lt;/label&gt;&lt;br&gt;
+        &lt;label&gt;PIN: &lt;input type="text" name="pin" id="pinSuivi"&gt;&lt;/label&gt;&lt;br&gt;
+        
+        &lt;button type="button" onclick="document.forms[0].reset();"&gt;Annuler&lt;/button&gt;
+        &lt;button type="submit"&gt;Enregistrer&lt;/button&gt;
+    &lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+
+                <h5>2. Fichier <code>mesControles.js</code> (partie 2)</h5>
+                <p>Ajoutez la fonction <code>verif2</code> à la fin du fichier existant. <strong>Notez l'utilisation des fonctions `verifNum`.</strong></p>
+                <div class="file-name">mesControles.js (ajout)</div>
+                <div class="code-block"><pre class="language-javascript"><code>// Vérifie la validité des champs du formulaire de suivi
+function verif2() {
+    var cin = document.getElementById('cinSuivi').value;
+    var pin = document.getElementById('pinSuivi').value;
+
+    // Contrôle CIN : 8 chiffres
+    if (cin.length != 8 || !verifNum(cin)) {
+        alert("Le CIN doit être une chaîne de 8 chiffres.");
+        return false;
+    }
+
+    // Contrôle PIN : 6 chiffres
+    if (pin.length != 6 || !verifNum(pin)) {
+        alert("Le PIN doit être une chaîne de 6 chiffres.");
+        return false;
+    }
+
+    return true; // Tout est bon
+}</code></pre></div>
+
+                <h5>3. Fichier <code>suivie.php</code></h5>
+                <p>Ce script affiche les détails de la réservation si CIN et PIN sont valides. </p>
+                <div class="file-name">suivie.php</div>
+                <div class="code-block"><pre class="language-php"><code>&lt;?php
+// Connexion à la base de données
+ $connexion = mysqli_connect("localhost", "root", "", "DCP2_votre_nom_prenom");
+
+// Récupération des données
+ $cin = $_POST['cin'];
+ $pin = $_POST['pin'];
+
+// 1. Vérifier si le CIN existe
+ $checkCin = "SELECT * FROM Citoyens WHERE cin = '$cin'";
+ $resultat = mysqli_query($connexion, $checkCin);
+if (mysqli_num_rows($resultat) == 0) {
+    die("CIN inexistant !");
+}
+
+// 2. Vérifier si le PIN est valide
+
+ $citoyen = mysqli_fetch_array($resultat);
+if ($citoyen['pin'] != $pin) {
+    die("PIN invalide !");
+}
+
+// 3. Si tout est bon, afficher la fiche de vaccination
+// Requête pour récupérer les informations de la réservation la plus proche
+ $ficheQuery = "SELECT 
+                c.nom, c.prenom, 
+                ce.nom AS nom_centre, 
+                v.nom AS nom_vaccin, 
+                r.dateReservation, 
+                r.statut
+              FROM reservations r, Citoyens c, centres ce, vaccins v
+              WHERE r.cin = c.cin
+              AND r.iDcentre = ce.id
+              AND r.iDvaccin = v.id
+              AND r.cin = '$cin'
+              AND r.dateReservation = (SELECT MAX(dateReservation) FROM reservations WHERE cin = '$cin')";
+
+ $resFiche = mysqli_query($connexion, $ficheQuery);
+
+ $fiche = mysqli_fetch_array($resFiche);
+
+// Affichage des résultats
+echo "Bienvenue " . $fiche['nom'] . " " . $fiche['prenom'] . "&lt;br&gt;";
+echo "Votre vaccin le plus proche sera :&lt;br&gt;";
+echo "&lt;ul&gt;";
+echo "&lt;li&gt;Centre : " . $fiche['nom_centre'] . "&lt;/li&gt;";
+echo "&lt;li&gt;Vaccin : " . $fiche['nom_vaccin'] . "&lt;/li&gt;";
+echo "&lt;li&gt;Date : " . $fiche['dateReservation'] . "&lt;/li&gt;";
+echo "&lt;li&gt;Statut : " . $fiche['statut'] . "&lt;/li&gt;";
+echo "&lt;/ul&gt;";
+
+mysqli_close($connexion);
+?&gt;</code></pre></div>
+                
+                <div class="important mt-4">
+                    <div class="important-title">Fin de la solution</div>
+                    <p>Vous avez maintenant créé tous les fichiers nécessaires pour le TP, en respectant les contraintes du programme. Assurez-vous que tous les fichiers sont bien dans votre dossier de travail et testez le fonctionnement complet de l'application.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <button id="prev-btn" class="btn btn-outline-secondary" onclick="changeStep(-1)">
+                    <i class="fas fa-arrow-left"></i> Précédent
+                </button>
+                <div class="d-flex align-items-center">
+                    <span id="step-indicator">Étape 1 sur 5</span>
+                </div>
+                <button id="next-btn" class="btn btn-success" onclick="changeStep(1)">
+                    Suivant <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        const totalSteps = 5;
+
+        function showStep(step) {
+            const steps = document.querySelectorAll('.step-container');
+            steps.forEach(s => s.classList.remove('active'));
+            
+            document.getElementById(`step-${step}`).classList.add('active');
+            
+            document.getElementById('step-indicator').textContent = `Étape ${step + 1} sur ${totalSteps}`;
+            document.getElementById('progress-text').textContent = `Étape ${step + 1} sur ${totalSteps}`;
+            
+            const progress = ((step + 1) / totalSteps) * 100;
+            document.querySelector('.progress-bar').style.width = `${progress}%`;
+            document.querySelector('.progress-bar').setAttribute('aria-valuenow', progress);
+            
+            document.getElementById('prev-btn').disabled = step === 0;
+            document.getElementById('next-btn').disabled = step === totalSteps - 1;
+            
+            if (step === totalSteps - 1) {
+                document.getElementById('next-btn').innerHTML = '<i class="fas fa-check"></i> Terminé';
+            } else {
+                document.getElementById('next-btn').innerHTML = 'Suivant <i class="fas fa-arrow-right"></i>';
+            }
+            
+            // Re-highlighting code blocks when a new step is shown (important for dynamic content)
+            // Note: Prism.highlightAll() might be called outside this, but a targeted highlight is safer for single-page application style
+            Prism.highlightAll(); 
+        }
+
+        function changeStep(direction) {
+            const newStep = currentStep + direction;
+            if (newStep >= 0 && newStep < totalSteps) {
+                currentStep = newStep;
+                showStep(currentStep);
+                window.scrollTo(0, 0);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            showStep(currentStep);
+        });
+    </script>
+</body>
+</html>

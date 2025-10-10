@@ -1,0 +1,305 @@
+/* --- Variables et Styles Globaux --- */
+:root {
+    --primary-color: #005a9c; /* Bleu professionnel */
+    --secondary-color: #f4f4f4; /* Gris clair pour les fonds */
+    --text-color: #333;
+    --light-text-color: #fff;
+    --border-color: #ddd;
+    --accent-color: #007bff;
+    --font-family: 'Roboto', sans-serif;
+    --container-width: 1200px;
+    --header-height: 70px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: #fff;
+}
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-color);
+}
+
+/* --- Header et Navigation --- */
+header {
+    background: var(--light-text-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--header-height);
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 70px;
+    width: auto;
+}
+
+.nav-toggle {
+    display: none; /* Caché par défaut sur desktop */
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--primary-color);
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+.nav-list a {
+    font-weight: 700;
+    color: var(--text-color);
+    padding: 10px 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.nav-list a:hover, .nav-list a.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+/* --- Main Content --- */
+main {
+    padding: 40px 0;
+    min-height: calc(100vh - var(--header-height) - 150px); /* Footer height approx */
+}
+
+/* --- Page d'Accueil : Hero et Cards --- */
+.hero {
+    text-align: center;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    color: #666;
+}
+
+.hero .subtitle {
+    font-size: 1em;
+    font-style: italic;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.card-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+}
+
+.card h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.card p {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.card-button {
+    display: inline-block;
+    background: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 700;
+    transition: background 0.3s ease;
+}
+
+.card-button:hover {
+    background: var(--accent-color);
+    color: var(--light-text-color);
+}
+
+/* --- Pages de Ressources (Cours, Annexes, TPs, TDs) --- */
+.resource-list {
+    list-style: none;
+}
+
+.resource-list li {
+    background: var(--light-text-color);
+    border: 1px solid var(--border-color);
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.resource-title {
+    font-weight: 700;
+    flex-grow: 1;
+}
+
+.resource-links a {
+    margin-left: 15px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.resource-links a:first-child {
+    margin-left: 0;
+}
+
+.resource-links a:first-of-type {
+    background: var(--accent-color);
+    color: var(--light-text-color);
+}
+
+.resource-links a:last-of-type {
+    background: #6c757d;
+    color: var(--light-text-color);
+}
+
+.loading-message {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
+
+/* --- Page À Propos --- */
+.about-section, .contact-section {
+    margin-bottom: 40px;
+}
+
+.contact-list {
+    list-style: none;
+    margin-top: 15px;
+}
+
+.contact-list li {
+    margin-bottom: 10px;
+}
+
+.contact-list a {
+    font-weight: 700;
+}
+
+/* --- Footer --- */
+footer {
+    background: var(--primary-color);
+    color: var(--light-text-color);
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+footer p {
+    margin-bottom: 5px;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: block; /* Affiche le menu hamburger */
+    }
+
+    .nav-list {
+        display: none; /* Cache le menu par défaut */
+        position: absolute;
+        top: var(--header-height);
+        left: 0;
+        width: 100%;
+        background: var(--light-text-color);
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        border-top: 1px solid var(--border-color);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-list.nav-open {
+        display: flex; /* Affiche le menu quand la classe est ajoutée */
+    }
+
+    .hero h1 {
+        font-size: 2em;
+    }
+
+    .resource-list li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .resource-links {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+}

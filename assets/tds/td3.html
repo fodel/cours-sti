@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TD 3 : Gestion d'une Boutique de Vente d'Habillement</title>
+    
+    <!-- Bootstrap et Font Awesome pour le style -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Styles spécifiques -->
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; padding-top: 20px; padding-bottom: 80px; }
+        .td-container { max-width: 1000px; margin: auto; background-color: #ffffff; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); overflow: hidden; }
+        .td-header { background-color: #fd7e14; color: white; padding: 25px; text-align: center; }
+        .td-header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .td-header p { margin: 0; opacity: 0.9; }
+        .content-section { padding: 30px; }
+        .content-section h2 { color: #fd7e14; border-bottom: 2px solid #e9ecef; padding-bottom: 10px; margin-bottom: 20px; }
+        .question-container { border: 1px solid #e9ecef; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+        .question-header { background-color: #f8f9fa; padding: 15px 20px; border-bottom: 1px solid #e9ecef; }
+        .question-title { font-weight: bold; font-size: 1.1rem; margin: 0; }
+        .question-content { padding: 20px; }
+        .solution-block { background-color: #f0f8f0; border-top: 1px solid #e9ecef; padding: 20px; display: none; }
+        .btn-solution-toggle { background-color: #198754; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s; }
+        .btn-solution-toggle:hover { background-color: #157347; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; border-radius: 5px; padding: 15px; margin: 15px 0; font-family: 'Courier New', Courier, monospace; font-size: 0.9rem; white-space: pre-wrap; word-wrap: break-word; overflow-x: auto; }
+        .table-responsive { margin: 20px 0; }
+        .table th { background-color: #fd7e14; color: white; }
+        .primary-key { text-decoration: underline; font-weight: bold; }
+        .foreign-key { font-style: italic; color: #6c757d; }
+    </style>
+</head>
+<body>
+    <a href="../tds.html" style="margin: 10px 20px; display: inline-block;"><i class="fas fa-arrow-left"></i> Retour à la liste des TDs</a>
+    
+    <div class="td-container">
+        <div class="td-header">
+            <h1><i class="fas fa-shopping-bag"></i> TD 3 : Gestion d'une Boutique de Vente d'Habillement</h1>
+            <p>Exercices de requêtes SQL sur une base de données de vente</p>
+        </div>
+
+        <!-- Partie 1: Énoncé Complet -->
+        <section class="content-section">
+            <h2>Énoncé</h2>
+            <p>La base de données contient des informations sur les produits, les clients, les commandes et les catégories de produits.</p>
+            <p><strong>Représentation de la base de données :</strong></p>
+            <div class="code-block">Produits (<u>IdProduit</u>, nom, description, prix, quantite, idCategorie#)
+Clients (<u>idClient</u>, nom, email, adresse, telephone)
+Commandes (<u>idCommande</u>, idClient#, dateCommande, montantTotal)
+DetailsCommande (<u>idCommande#</u>, <u>idProduit#</u>, quantite)
+Categories (<u>idCategorie</u>, nom)</div>
+            <p><em>Légende : <span class="primary-key">Clé primaire</span> | <span class="foreign-key">Clé étrangère</span></em></p>
+            
+            <p><strong>Description des champs :</strong></p>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead><tr><th>Champ</th><th>Type de Donnée</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>IdProduit</td><td>INT</td><td>Identifiant unique du produit</td></tr>
+                        <tr><td>nom</td><td>VARCHAR(50)</td><td>Nom du produit</td></tr>
+                        <tr><td>description</td><td>TEXT</td><td>Description du produit</td></tr>
+                        <tr><td>prix</td><td>DECIMAL(10, 2)</td><td>Prix unitaire du produit</td></tr>
+                        <tr><td>quantite</td><td>INT</td><td>Quantité en stock</td></tr>
+                        <tr><td>idClient</td><td>INT</td><td>Identifiant unique du client</td></tr>
+                        <tr><td>nom</td><td>VARCHAR(50)</td><td>Nom complet du client</td></tr>
+                        <tr><td>email</td><td>VARCHAR(50)</td><td>Adresse e-mail du client</td></tr>
+                        <tr><td>adresse</td><td>TEXT</td><td>Adresse physique du client</td></tr>
+                        <tr><td>telephone</td><td>VARCHAR(15)</td><td>Numéro de téléphone du client</td></tr>
+                        <tr><td>idCommande</td><td>INT</td><td>Identifiant unique de la commande</td></tr>
+                        <tr><td>dateCommande</td><td>DATE</td><td>Date de la commande</td></tr>
+                        <tr><td>montantTotal</td><td>DECIMAL(10, 2)</td><td>Montant total de la commande</td></tr>
+                        <tr><td>quantite</td><td>INT</td><td>Quantité commandée de ce produit</td></tr>
+                        <tr><td>idCategorie</td><td>INT</td><td>Identifiant unique de la catégorie</td></tr>
+                        <tr><td>nom</td><td>VARCHAR(255)</td><td>Nom de la catégorie de produit</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Partie 2: Liste des Questions -->
+        <section class="content-section">
+            <h2>Liste des Questions</h2>
+            
+            <!-- Q1-Q8 : INSERT, UPDATE, DELETE -->
+            <div class="question-container">
+    <div class="question-header"><h3 class="question-title">Question 1</h3></div>
+    <div class="question-content">
+        <p>Dans le tableau ci-dessous les données de produit à insérer. Ecrivez la requête SQL correspondante.</p>
+        <table class="table table-bordered">
+            <thead><tr><th>nom</th><th>description</th><th>prix</th><th>quantite</th><th>idCategorie</th></tr></thead>
+            <tbody>
+                <tr><td>Clavier Gamer</td><td>Clavier rétroéclairé RGB</td><td>49.99</td><td>150</td><td>2</td></tr>
+            </tbody>
+        </table>
+        <button class="btn-solution-toggle" onclick="toggleSolution('q1')">Afficher la correction</button>
+        <div class="solution-block" id="solution-q1">
+            <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+            <div class="file-name">SQL</div>
+            <div class="code-block">INSERT INTO Produits (nom, description, prix, quantite, idCategorie)
+VALUES ('Clavier Gamer', 'Clavier rétroéclairé RGB', 49.99, 150, 2);</div>
+        </div>
+    </div>
+</div>
+            <div class="question-container">
+    <div class="question-header"><h3 class="question-title">Question 2</h3></div>
+    <div class="question-content">
+        <p>Ajoutez les données de client suivant dans la table Clients .</p>
+        <table class="table table-bordered">
+            <thead><tr><th>nom</th><th>adresse</th><th>telephone</th></tr></thead>
+            <tbody>
+                <tr><td>Sami Ben Ali</td><td>123 rue de la République, Tunis</td><td>20100200</td></tr>
+            </tbody>
+
+        </table>
+        <button class="btn-solution-toggle" onclick="toggleSolution('q2')">Afficher la correction</button>
+        <div class="solution-block" id="solution-q2">
+            <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+            <div class="file-name">SQL</div>
+            <div class="code-block">INSERT INTO Clients (nom, adresse, telephone)
+VALUES ('Sami Ben Ali', '123 rue de la République, Tunis', '20100200');</div>
+        </div>
+    </div>
+</div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 3</h3></div><div class="question-content"><p>Modifiez le prix du produit ayant l'IdProduit 4 à 59.99.</p><button class="btn-solution-toggle" onclick="toggleSolution('q3')">Afficher la correction</button><div class="solution-block" id="solution-q3"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">UPDATE Produits
+SET prix = 59.99
+WHERE IdProduit = 4;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 4</h3></div><div class="question-content"><p>Augmentez la quantité de tous les produits de la catégorie "Accessoires" dont l'identifiant est 7 de 10 unités.</p><button class="btn-solution-toggle" onclick="toggleSolution('q4')">Afficher la correction</button><div class="solution-block" id="solution-q4"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">UPDATE Produits
+SET quantite = quantite + 10
+WHERE idCategorie = 7;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 5</h3></div><div class="question-content"><p>Modifiez l'adresse e-mail de tous les clients ayant un nom de domaine de type "@doo.com" vers des email vides.</p><button class="btn-solution-toggle" onclick="toggleSolution('q5')">Afficher la correction</button><div class="solution-block" id="solution-q5"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">UPDATE Clients
+SET email = ''
+WHERE email LIKE '%@doo.com';</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 6</h3></div><div class="question-content"><p>Modifiez la quantité du produit ayant l'idProduit 3 dans la commande ayant l'idCommande 2 à 5.</p><button class="btn-solution-toggle" onclick="toggleSolution('q6')">Afficher la correction</button><div class="solution-block" id="solution-q6"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">UPDATE DetailsCommande
+SET quantite = 5
+WHERE idProduit = 3 AND idCommande = 2;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 7</h3></div><div class="question-content"><p>Supprimez tous les produits dont la quantité est inférieure à 5.</p><button class="btn-solution-toggle" onclick="toggleSolution('q7')">Afficher la correction</button><div class="solution-block" id="solution-q7"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">DELETE FROM Produits
+WHERE quantite < 5;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 8</h3></div><div class="question-content"><p>Supprimez toutes les commandes ayant une date de commande antérieure au 1er janvier 2023.</p><button class="btn-solution-toggle" onclick="toggleSolution('q8')">Afficher la correction</button><div class="solution-block" id="solution-q8"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">DELETE FROM Commandes
+WHERE dateCommande < '2023-01-01';</div></div></div></div>
+
+            <!-- Q9-Q22 : SELECT simples -->
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 9</h3></div><div class="question-content"><p>Afficher tous les produits avec leurs noms et prix.</p><button class="btn-solution-toggle" onclick="toggleSolution('q9')">Afficher la correction</button><div class="solution-block" id="solution-q9"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT nom, prix
+FROM Produits;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 10</h3></div><div class="question-content"><p>Afficher le montant total des commandes pour chaque client.</p><button class="btn-solution-toggle" onclick="toggleSolution('q10')">Afficher la correction</button><div class="solution-block" id="solution-q10"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT idClient, SUM(montantTotal)
+FROM Commandes
+GROUP BY idClient;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 11</h3></div><div class="question-content"><p>Rechercher les produits dont le prix est supérieur a 50.</p><button class="btn-solution-toggle" onclick="toggleSolution('q11')">Afficher la correction</button><div class="solution-block" id="solution-q11"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT *
+FROM Produits
+WHERE prix > 50;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 12</h3></div><div class="question-content"><p>Afficher tous les détails de la commande d’identifiant 4.</p><button class="btn-solution-toggle" onclick="toggleSolution('q12')">Afficher la correction</button><div class="solution-block" id="solution-q12"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT *
+FROM DetailsCommande
+WHERE idCommande = 4;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 13</h3></div><div class="question-content"><p>Lister les commandes effectuées apres 20/01/2024.</p><button class="btn-solution-toggle" onclick="toggleSolution('q13')">Afficher la correction</button><div class="solution-block" id="solution-q13"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT *
+FROM Commandes
+WHERE dateCommande > '2024-01-20';</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 14</h3></div><div class="question-content"><p>Afficher les noms des clients avec leurs adresses et telephones.</p><button class="btn-solution-toggle" onclick="toggleSolution('q14')">Afficher la correction</button><div class="solution-block" id="solution-q14"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT nom, adresse, telephone
+FROM Clients;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 15</h3></div><div class="question-content"><p>Compter le nombre total de produits disponibles en stock.</p><button class="btn-solution-toggle" onclick="toggleSolution('q15')">Afficher la correction</button><div class="solution-block" id="solution-q15"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT SUM(quantite)
+FROM Produits;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 16</h3></div><div class="question-content"><p>Afficher les informations des produits dont la quantite en stock est inferieure a 10.</p><button class="btn-solution-toggle" onclick="toggleSolution('q16')">Afficher la correction</button><div class="solution-block" id="solution-q16"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT *
+FROM Produits
+WHERE quantite < 10;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 17</h3></div><div class="question-content"><p>Afficher tous les clients ayant un email se terminant par '@gmail.com'.</p><button class="btn-solution-toggle" onclick="toggleSolution('q17')">Afficher la correction</button><div class="solution-block" id="solution-q17"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT *
+FROM Clients
+WHERE email LIKE '%@gmail.com';</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 18</h3></div><div class="question-content"><p>Rechercher les produits dont le nom commence par 'T'.</p><button class="btn-solution-toggle" onclick="toggleSolution('q18')">Afficher la correction</button><div class="solution-block" id="solution-q18"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT *
+FROM Produits
+WHERE nom LIKE 'T%';</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 19</h3></div><div class="question-content"><p>Afficher les informations des clients habitant dans la ville "Tunis".</p><button class="btn-solution-toggle" onclick="toggleSolution('q19')">Afficher la correction</button><div class="solution-block" id="solution-q19"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT *
+FROM Clients
+WHERE adresse LIKE '%Tunis%';</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 20</h3></div><div class="question-content"><p>Lister les commandes ayant un montant total superieur a 100.</p><button class="btn-solution-toggle" onclick="toggleSolution('q20')">Afficher la correction</button><div class="solution-block" id="solution-q20"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT *
+FROM Commandes
+WHERE montantTotal > 100;</div></div></div></div>
+            <div class="question-container">
+    <div class="question-header"><h3 class="question-title">Question 21</h3></div>
+    <div class="question-content">
+        <p>Afficher les détails des commandes pour la date d'aujourd'hui.</p>
+        <button class="btn-solution-toggle" onclick="toggleSolution('q21')">Afficher la correction</button>
+        <div class="solution-block" id="solution-q21">
+            <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+            <div class="file-name">SQL</div>
+            <div class="code-block">SELECT dc.*
+FROM DetailsCommande dc, Commandes c
+WHERE dc.idCommande = c.idCommande AND c.dateCommande = DATE(NOW());</div>
+        </div>
+    </div>
+</div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 22</h3></div><div class="question-content"><p>Afficher les produits et leur description tries par nom.</p><button class="btn-solution-toggle" onclick="toggleSolution('q22')">Afficher la correction</button><div class="solution-block" id="solution-q22"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT nom, description
+FROM Produits
+ORDER BY nom;</div></div></div></div>
+
+            <!-- Q23-Q29 : Jointures implicites -->
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 23</h3></div><div class="question-content"><p>Écrivez une requête pour afficher le nom de chaque produit ainsi que le nom de la catégorie à laquelle il appartient.</p><button class="btn-solution-toggle" onclick="toggleSolution('q23')">Afficher la correction</button><div class="solution-block" id="solution-q23"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT p.nom, c.nom
+FROM Produits p, Categories c
+WHERE p.idCategorie = c.idCategorie;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 24</h3></div><div class="question-content"><p>Écrivez une requête pour lister toutes les commandes, avec le nom et l'email du client ayant passé chaque commande, ainsi que la date de commande et le montant total.</p><button class="btn-solution-toggle" onclick="toggleSolution('q24')">Afficher la correction</button><div class="solution-block" id="solution-q24"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT co.*, cl.nom, cl.email
+FROM Commandes co, Clients cl
+WHERE co.idClient = cl.idClient;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 25</h3></div><div class="question-content"><p>Écrivez une requête pour afficher le numéro de commande, le nom du produit commandé, et la quantité commandée pour chaque produit dans chaque commande.</p><button class="btn-solution-toggle" onclick="toggleSolution('q25')">Afficher la correction</button><div class="solution-block" id="solution-q25"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT dc.idCommande, p.nom, dc.quantite
+FROM DetailsCommande dc, Produits p
+WHERE dc.idProduit = p.IdProduit;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 26</h3></div><div class="question-content"><p>Écrivez une requête pour afficher toutes les commandes ayant un montant total supérieur à 100 TND, avec le nom du client et la date de la commande.</p><button class="btn-solution-toggle" onclick="toggleSolution('q26')">Afficher la correction</button><div class="solution-block" id="solution-q26"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT co.montantTotal, cl.nom, co.dateCommande
+FROM Commandes co, Clients cl
+WHERE co.idClient = cl.idClient AND co.montantTotal > 100;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 27</h3></div><div class="question-content"><p>Écrivez une requête pour afficher les produits des catégories "Accessoires" et "Périphériques", en affichant le nom du produit, la description, et le nom de la catégorie.</p><button class="btn-solution-toggle" onclick="toggleSolution('q27')">Afficher la correction</button><div class="solution-block" id="solution-q27"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT p.nom, p.description, c.nom
+FROM Produits p, Categories c
+WHERE p.idCategorie = c.idCategorie AND c.nom IN ('Accessoires', 'Périphériques');</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 28</h3></div><div class="question-content"><p>Écrivez une requête pour afficher le nom du client, la date de la commande, le nom du produit, la quantité commandée et le prix unitaire.</p><button class="btn-solution-toggle" onclick="toggleSolution('q28')">Afficher la correction</button><div class="solution-block" id="solution-q28"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT cl.nom, co.dateCommande, p.nom, dc.quantite, p.prix
+FROM Clients cl, Commandes co, DetailsCommande dc, Produits p
+WHERE cl.idClient = co.idClient AND co.idCommande = dc.idCommande AND dc.idProduit = p.IdProduit;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 29</h3></div><div class="question-content"><p>Écrivez une requête pour afficher le nom de la catégorie, le nom du produit, le nom du client, et la date de la commande pour chaque commande.</p><button class="btn-solution-toggle" onclick="toggleSolution('q29')">Afficher la correction</button><div class="solution-block" id="solution-q29"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT ca.nom, p.nom, cl.nom, co.dateCommande
+FROM Categories ca, Produits p, Clients cl, Commandes co, DetailsCommande dc
+WHERE ca.idCategorie = p.idCategorie AND p.IdProduit = dc.idProduit AND dc.idCommande = co.idCommande AND co.idClient = cl.idClient;</div></div></div></div>
+
+            <!-- Q30-Q38 : Agrégats et fonctions -->
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 30</h3></div><div class="question-content"><p>Compter le nombre de clients ayant passe au moins une commande.</p><button class="btn-solution-toggle" onclick="toggleSolution('q30')">Afficher la correction</button><div class="solution-block" id="solution-q30"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT COUNT(DISTINCT idClient)
+FROM Commandes;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 31</h3></div><div class="question-content"><p>Afficher la quantite totale vendue pour chaque produit.</p><button class="btn-solution-toggle" onclick="toggleSolution('q31')">Afficher la correction</button><div class="solution-block" id="solution-q31"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT idProduit, SUM(quantite)
+FROM DetailsCommande
+GROUP BY idProduit;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 32</h3></div><div class="question-content"><p>Lister les categories avec leurs identifiants.</p><button class="btn-solution-toggle" onclick="toggleSolution('q32')">Afficher la correction</button><div class="solution-block" id="solution-q32"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT *
+FROM Categories;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 33</h3></div><div class="question-content"><p>Afficher le prix moyen de produits de la catégories "Accessoires".</p><button class="btn-solution-toggle" onclick="toggleSolution('q33')">Afficher la correction</button><div class="solution-block" id="solution-q33"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT AVG(p.prix)
+FROM Produits p, Categories c
+WHERE p.idCategorie = c.idCategorie AND c.nom = 'Accessoires';</div></div></div></div>
+<div class="question-container">
+    <div class="question-header"><h3 class="question-title">Question 34</h3></div>
+    <div class="question-content">
+        <p>Écrivez une requête pour afficher le nom de chaque catégorie et le nombre de produits dans cette catégorie.</p>
+        <button class="btn-solution-toggle" onclick="toggleSolution('q34')">Afficher la correction</button>
+        <div class="solution-block" id="solution-q34">
+            <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+            <div class="file-name">SQL</div>
+            <div class="code-block">SELECT c.nom, COUNT(p.IdProduit)
+FROM Categories c, Produits p
+WHERE c.idCategorie = p.idCategorie
+GROUP BY c.nom;</div>
+        </div>
+    </div>
+</div>
+            <div class="question-container">
+    <div class="question-header"><h3 class="question-title">Question 35</h3></div>
+    <div class="question-content">
+        <p>Écrivez une requête pour afficher le nom de chaque client et le montant total de toutes ses commandes.</p>
+        <button class="btn-solution-toggle" onclick="toggleSolution('q35')">Afficher la correction</button>
+        <div class="solution-block" id="solution-q35">
+            <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+            <div class="file-name">SQL</div>
+            <div class="code-block">SELECT cl.nom, SUM(co.montantTotal)
+FROM Clients cl, Commandes co
+WHERE cl.idClient = co.idClient
+GROUP BY cl.nom;</div>
+        </div>
+    </div>
+</div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 36</h3></div><div class="question-content"><p>Écrivez une requête pour afficher le nom de chaque produit et la quantité totale commandée pour ce produit dans toutes les commandes.</p><button class="btn-solution-toggle" onclick="toggleSolution('q36')">Afficher la correction</button><div class="solution-block" id="solution-q36"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT p.nom, SUM(dc.quantite)
+FROM Produits p, DetailsCommande dc
+WHERE p.IdProduit = dc.idProduit
+GROUP BY p.IdProduit, p.nom;</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 37</h3></div><div class="question-content"><p>Écrivez une requête pour afficher le nombre de commandes passées par mois. Affichez le mois et l'année, et le nombre de commandes pour chaque mois.</p><button class="btn-solution-toggle" onclick="toggleSolution('q37')">Afficher la correction</button><div class="solution-block" id="solution-q37"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT MONTH(dateCommande), YEAR(dateCommande), COUNT(idCommande)
+FROM Commandes
+GROUP BY MONTH(dateCommande), YEAR(dateCommande);</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 38</h3></div><div class="question-content"><p>Écrivez une requête pour afficher le nom de chaque catégorie de produit et le montant total des ventes pour cette catégorie.</p><button class="btn-solution-toggle" onclick="toggleSolution('q38')">Afficher la correction</button><div class="solution-block" id="solution-q38"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT c.nom, SUM(dc.quantite * p.prix)
+FROM Categories c, Produits p, DetailsCommande dc
+WHERE c.idCategorie = p.idCategorie AND p.IdProduit = dc.idProduit
+GROUP BY c.idCategorie, c.nom;</div></div></div></div>
+            
+            <!-- Q39-Q43 : Sous-requêtes -->
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 39</h3></div><div class="question-content"><p>Écrivez une requête pour afficher le nom et l’email des clients ayant passé au moins une commande avec un montant total supérieur à 100.</p><button class="btn-solution-toggle" onclick="toggleSolution('q39')">Afficher la correction</button><div class="solution-block" id="solution-q39"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT nom, email
+FROM Clients
+WHERE idClient IN (SELECT idClient FROM Commandes WHERE montantTotal > 100);</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 40</h3></div><div class="question-content"><p>Écrivez une requête pour afficher le nom et le prix des produits dont le prix est supérieur au prix moyen de tous les produits.</p><button class="btn-solution-toggle" onclick="toggleSolution('q40')">Afficher la correction</button><div class="solution-block" id="solution-q40"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT nom, prix
+FROM Produits
+WHERE prix > (SELECT AVG(prix) FROM Produits);</div></div></div></div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 41</h3></div><div class="question-content"><p>Écrivez une requête pour lister les noms des produits qui n'ont jamais été commandés.</p><button class="btn-solution-toggle" onclick="toggleSolution('q41')">Afficher la correction</button><div class="solution-block" id="solution-q41"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT nom
+FROM Produits
+WHERE IdProduit NOT IN (SELECT DISTINCT idProduit FROM DetailsCommande);</div></div></div></div>
+            <div class="question-container">
+    <div class="question-header"><h3 class="question-title">Question 42</h3></div>
+    <div class="question-content">
+        <p>Écrivez une requête pour afficher le nom des catégories qui contiennent un nombre de produits inférieur à 10.</p>
+        <button class="btn-solution-toggle" onclick="toggleSolution('q42')">Afficher la correction</button>
+        <div class="solution-block" id="solution-q42">
+            <h4><i class="fas fa-lightbulb"></i> Correction</h4>
+            <div class="file-name">SQL</div>
+            <div class="code-block">SELECT c.nom
+FROM Categories c, Produits p
+WHERE c.idCategorie = p.idCategorie
+GROUP BY c.nom
+HAVING COUNT(p.IdProduit) &lt; 10;</div>
+        </div>
+    </div>
+</div>
+            <div class="question-container"><div class="question-header"><h3 class="question-title">Question 43</h3></div><div class="question-content"><p>Lister les clients qui n’ont pas passé une commande.</p><button class="btn-solution-toggle" onclick="toggleSolution('q43')">Afficher la correction</button><div class="solution-block" id="solution-q43"><h4><i class="fas fa-lightbulb"></i> Correction</h4><div class="file-name">SQL</div><div class="code-block">SELECT *
+FROM Clients
+WHERE idClient NOT IN (SELECT DISTINCT idClient FROM Commandes);</div></div></div></div>
+
+        </section>
+    </div>
+
+    <script>
+        function toggleSolution(questionId) {
+            const solutionBlock = document.getElementById(`solution-${questionId}`);
+            const button = document.querySelector(`#${questionId} .btn-solution-toggle`);
+            if (solutionBlock.style.display === 'block') {
+                solutionBlock.style.display = 'none';
+                button.textContent = 'Afficher la correction';
+            } else {
+                solutionBlock.style.display = 'block';
+                button.textContent = 'Masquer la correction';
+            }
+        }
+    </script>
+</body>
+</html>
