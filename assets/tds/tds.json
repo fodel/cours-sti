@@ -25,15 +25,16 @@
   "file": "td5.html"
 },
 {
-  "title": "TD 6 : Bac Blanc STI Ben Arous 2025- Sciences de l'Informatique",
+  "title": "TD 6 : Bac Blanc STI Ben Arous 2K25- Sciences de l'Informatique",
   "description": "Examen complet couvrant HTML/CSS, JavaScript, PHP et bases de données SQL. Inclut des exercices sur les propriétés CSS, les événements JavaScript, la manipulation du DOM, les requêtes SQL et la gestion de contraintes de base de données.",
   "file": "td6.html"
 },
   {
-  "title": "TD 7 : Devoir Bac Blanc STI - TechNova Club",
-  "description": "Devoir de contrôle complet intégrant HTML, CSS, JavaScript et bases de données SQL. Exercices interactifs organisés en QCM, rédaction, schémas et requêtes, avec corrections automatiques.",
+  "title": "TD 7 : Devoir de contrôle 1 BAC 2K26- TechNova Club",
+  "description": "Devoir de contrôle complet intégrant HTML, CSS, JavaScript et bases de données. Exercices interactifs organisés en QCM, rédaction, schémas et requêtes.",
   "keywords": ["html", "css", "javascript", "sql", "bd", "LDD", "anomalies"],
   "file": "td7.html"
 }
 
 ]
+
