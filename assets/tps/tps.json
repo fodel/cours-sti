@@ -1,8 +1,12 @@
 [
-
   {
     "title": "TP 1 : Centre de vaccination",
     "description": "Le TP couvrant la création d'une base de données, le développement d'un site web de réservation de vaccins (HTML/CSS/JS/PHP) et la mise en place des fonctionnalités de suivi.",
     "file": "TP1/index.html"
+  },
+  {
+    "title": "TP 2 : CherikTaxi (Bac STI 2024 - 14 juin)",
+    "description": "Le TP couvrant la création d'une base de données pour la gestion de taxis et de trajets, le développement d'une application web de réservation (HTML/CSS/JS/PHP) et la mise en place des fonctionnalités de mise à jour des informations des taxis.",
+    "file": "TP2/index.html"
   }
 ]
