@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP CherikTaxi - SESSION 2024</title>
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --light-text: #f5f5f5;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --spacing-xs: 5px;
+            --spacing-sm: 10px;
+            --spacing-md: 15px;
+            --spacing-lg: 20px;
+            --spacing-xl: 30px;
+            --nav-width: 280px;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+            margin-left: var(--nav-width);
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+            opacity: 0.3;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-md);
+            position: relative;
+            z-index: 1;
+            animation: fadeInDown 1s ease;
+        }
+
+        header p {
+            font-size: 1rem;
+            margin: var(--spacing-xs) 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Fixed Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--nav-width);
+            height: 100vh;
+            background-color: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding: var(--spacing-lg);
+            overflow-y: auto;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        nav::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        nav h3 {
+            color: var(--secondary-color);
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.2rem;
+            text-align: center;
+            padding-bottom: var(--spacing-md);
+            border-bottom: 2px solid var(--light-color);
+        }
+
+        nav ul {
+            list-style-type: none;
+        }
+
+        nav ul li {
+            margin-bottom: var(--spacing-sm);
+            border-bottom: 1px solid #eee;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        nav ul li:last-child {
+            border-bottom: none;
+        }
+
+        nav ul li a {
+            display: block;
+            padding: var(--spacing-sm) var(--spacing-md);
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav ul li a::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background-color: var(--primary-color);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        nav ul li a:hover::before, nav ul li a.active::before {
+            transform: translateX(0);
+        }
+
+        nav ul li ul {
+            margin-left: var(--spacing-md);
+            margin-top: var(--spacing-sm);
+        }
+
+        nav ul li ul li {
+            margin-bottom: var(--spacing-xs);
+            border-bottom: none;
+        }
+
+        nav ul li ul li a {
+            font-size: 0.9rem;
+            padding: var(--spacing-xs) var(--spacing-md);
+            background-color: transparent;
+        }
+
+        nav ul li ul li a:hover, nav ul li ul li a.active {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        /* Main Container */
+        .container {
+            width: calc(100% - var(--nav-width));
+            margin-left: var(--nav-width);
+            padding: 0 var(--spacing-md);
+            min-height: calc(100vh - 200px);
+        }
+
+        /* Content Section */
+        section.content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-lg) 0;
+            min-height: 600px;
+            transition: var(--transition);
+        }
+
+        section.content:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Solution blocks */
+        .solution {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .solution.active {
+            display: block;
+        }
+
+        .solution h3 {
+            color: var(--secondary-color);
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .solution h4 {
+            color: var(--secondary-color);
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.4rem;
+        }
+
+        .solution p {
+            margin-bottom: var(--spacing-md);
+            line-height: 1.7;
+        }
+
+        /* Fieldset */
+        fieldset {
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        legend {
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 0 var(--spacing-md);
+            color: var(--primary-color);
+        }
+
+        /* PDF Viewer */
+        .pdf-container {
+            width: 100%;
+            height: 500px;
+            margin: var(--spacing-lg) 0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        .pdf-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Download Button */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            margin: var(--spacing-md) 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .download-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-btn i {
+            margin-right: var(--spacing-sm);
+        }
+
+        /* Code blocks */
+        pre {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: var(--spacing-lg) 0;
+            box-shadow: var(--box-shadow);
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            color: inherit;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--spacing-lg) 0;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: var(--spacing-md);
+            text-align: left;
+        }
+
+        table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:hover {
+            background-color: #e9f7fe;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            text-align: center;
+            padding: var(--spacing-xl) 0;
+            margin-top: var(--spacing-xl);
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            margin-left: var(--nav-width);
+            width: calc(100% - var(--nav-width));
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: var(--spacing-lg);
+            left: var(--spacing-md);
+            z-index: 1001;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-sm);
+            cursor: pointer;
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            :root {
+                --nav-width: 250px;
+            }
+            
+            header {
+                padding: var(--spacing-lg) 0;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            nav {
+                padding: var(--spacing-md);
+            }
+            
+            section.content {
+                padding: var(--spacing-lg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --nav-width: 0px;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            nav {
+                transform: translateX(-100%);
+            }
+            
+            nav.active {
+                transform: translateX(0);
+            }
+            
+            header, footer, .container {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            nav ul li a {
+                padding: var(--spacing-xs) var(--spacing-sm);
+            }
+            
+            section.content {
+                padding: var(--spacing-md);
+            }
+            
+            .pdf-container {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            header p {
+                font-size: 0.9rem;
+            }
+            
+            nav {
+                padding: var(--spacing-sm);
+            }
+            
+            section.content {
+                padding: var(--spacing-sm);
+            }
+            
+            .pdf-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Fixed Navigation -->
+    <nav id="sidebar">
+        <h3>Navigation</h3>
+        <ul>
+            <li><a href="#" onclick="showSection('enonce'); return false;" id="link-enonce" class="active">Accueil</a></li>
+            <li>
+                <a href="#" onclick="toggleSubmenu('partie-a-sub'); return false;">Partie A: Base de données</a>
+                <ul id="partie-a-sub">
+                    <li><a href="#" onclick="showSection('a1'); return false;" id="link-a1">Q1 - Créer la base de données</a></li>
+                    <li><a href="#" onclick="showSection('a2a'); return false;" id="link-a2a">Q2a - Créer les tables</a></li>
+                    <li><a href="#" onclick="showSection('a2b'); return false;" id="link-a2b">Q2b - Établir les relations</a></li>
+                    <li><a href="#" onclick="showSection('a3'); return false;" id="link-a3">Q3 - Insérer les données</a></li>
+                    <li><a href="#" onclick="showSection('a4'); return false;" id="link-a4">Q4 - Exporter la base</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" onclick="toggleSubmenu('partie-b-sub'); return false;">Partie B: Documents Web</a>
+                <ul id="partie-b-sub">
+                    <li><a href="#" onclick="showSection('b1a'); return false;" id="link-b1a">Q1a - Page index.html</a></li>
+                    <li><a href="#" onclick="showSection('b1b'); return false;" id="link-b1b">Q1b - CSS index</a></li>
+                    <li><a href="#" onclick="showSection('b2a'); return false;" id="link-b2a">Q2a - Formulaire ajout.html</a></li>
+                    <li><a href="#" onclick="showSection('b2b'); return false;" id="link-b2b">Q2b - CSS libellés</a></li>
+                    <li><a href="#" onclick="showSection('b2c'); return false;" id="link-b2c">Q2c - Fonction trajet()</a></li>
+                    <li><a href="#" onclick="showSection('b2d'); return false;" id="link-b2d">Q2d - Fichier ajout.php</a></li>
+                    <li><a href="#" onclick="showSection('b3a'); return false;" id="link-b3a">Q3a - Formulaire majTaxi.html</a></li>
+                    <li><a href="#" onclick="showSection('b3b'); return false;" id="link-b3b">Q3b - CSS #nb</a></li>
+                    <li><a href="#" onclick="showSection('b3c'); return false;" id="link-b3c">Q3c - Fonctions JS</a></li>
+                    <li><a href="#" onclick="showSection('b3d'); return false;" id="link-b3d">Q3d - Fichier majTaxi.php</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>ÉPREUVE PRATIQUE STI 2024 - CherikTaxi</h1>
+        <p>République Tunisienne - Ministère de l'Éducation</p>
+        <p>Section: Sciences de l'informatique | Durée: 2h | Coefficient: 1.2</p>
+        <p>Date: 14 juin 2024 | Heure: 8h30 - 10h30</p>
+    </header>
+
+    <div class="container clearfix">
+        <section class="content">
+            <!-- Accueil Section -->
+            <div id="enonce" class="solution active">
+                <h3>Bienvenue sur la correction du TP CherikTaxi</h3>
+                <p>Cette application présente les solutions complètes et corrigées du devoir pratique CherikTaxi - Session 2024.</p>
+                
+                <div class="pdf-container">
+                    <iframe src="J6(STI) 14-juin-2024 (8h30-10h30).pdf" allow="autoplay"></iframe>
+                </div>
+                
+                <a href="Sti2 (Ressources).rar" download="Sti2 (Ressources).rar" class="download-btn" >
+                    <i class="fas fa-download"></i> Télécharger les ressources
+                </a>
+                
+                <p><strong>Structure du devoir:</strong></p>
+                <ul>
+                    <li><strong>Partie A:</strong> Création et gestion de la base de données</li>
+                    <li><strong>Partie B:</strong> Développement des documents web (HTML, CSS, JavaScript, PHP)</li>
+                </ul>
+                <p>Utilisez la navigation à gauche pour accéder aux différentes questions et leurs solutions.</p>
+              
+            </div>
+
+            <!-- Partie A: Base de données -->
+            <div id="a1" class="solution">
+                <fieldset>
+                    <legend>Q1 - Créer la base de données</legend>
+                    <h3>Solution Q1</h3>
+                    <p>Créer une base de données nommée BD123456 (où 123456 représente le numéro d'inscription du candidat) avec le mode création ou avec la commande SQL:</p>
+                    <pre><code class="language-sql">CREATE DATABASE BD123456;</code></pre>
+                    <p><strong>Explication:</strong> Cette commande SQL crée une nouvelle base de données. Le nom doit être personnalisé avec le numéro d'inscription du candidat.</p>
+                </fieldset>
+            </div>
+
+            <div id="a2a" class="solution">
+                <fieldset>
+                    <legend>Q2a - Créer les tables</legend>
+                    <h3>Solution Q2a</h3>
+                    <p>Créer les trois tables: Chauffeur, Taxi et Trajet avec leurs attributs et contraintes.</p>
+                    <pre><code class="language-sql">CREATE TABLE Chauffeur (
+    idChauf INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(30) NOT NULL,
+    mdp VARCHAR(6) NOT NULL,
+    tel VARCHAR(8) NOT NULL
+);
+
+CREATE TABLE Taxi (
+    immat VARCHAR(9) PRIMARY KEY,
+    numTaxi INT NOT NULL,
+    nbPlace INT NOT NULL,
+    mobRed CHAR(1) NOT NULL,
+    siegBb CHAR(1) NOT NULL,
+    wifi CHAR(1) NOT NULL,
+    idChauf INT NOT NULL
+);
+
+CREATE TABLE Trajet (
+    idTraj INT PRIMARY KEY AUTO_INCREMENT,
+    depart VARCHAR(30) NOT NULL,
+    arrivee VARCHAR(30) NOT NULL,
+    dateDep DATE NOT NULL,
+    heureDep TIME NOT NULL,
+    prix INT NOT NULL,
+    immat VARCHAR(9) NOT NULL
+);</code></pre>
+                </fieldset>
+            </div>
+
+            <div id="a2b" class="solution">
+                <fieldset>
+                    <legend>Q2b - Établir les relations</legend>
+                    <h3>Solution Q2b</h3>
+                    <p>Établir les relations entre les tables en utilisant les clés étrangères avec les options CASCADE.</p>
+                    <pre><code class="language-sql">ALTER TABLE Taxi
+ADD CONSTRAINT fk_taxi_chauffeur FOREIGN KEY (idChauf) 
+REFERENCES Chauffeur(idChauf)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE Trajet
+ADD CONSTRAINT fk_trajet_taxi FOREIGN KEY (immat)
+REFERENCES Taxi(immat)
+ON UPDATE CASCADE
+ON DELETE CASCADE;</code></pre>
+                </fieldset>
+            </div>
+
+            <div id="a3" class="solution">
+                <fieldset>
+                    <legend>Q3 - Insérer les données</legend>
+                    <h3>Solution Q3</h3>
+                    <p>Insérer les données fournies dans les tables Chauffeur et Taxi.</p>
+                    <pre><code class="language-sql">INSERT INTO Chauffeur VALUES (1, 'Ben Salah Ali', 'Xab123', '66333444');
+INSERT INTO Chauffeur VALUES (2, 'Bouzid Samia', 'Y12345', '88222888');
+INSERT INTO Chauffeur VALUES (3, 'Gharbi Lamine', 'Azerty', '33449977');
+
+INSERT INTO Taxi VALUES ('245TU5679', 102, 4, 'N', 'N', 'O', 1);
+INSERT INTO Taxi VALUES ('248TU34', 278, 5, 'O', 'N', 'N', 2);
+INSERT INTO Taxi VALUES ('246TU460', 33, 4, 'N', 'O', 'O', 3);</code></pre>
+                </fieldset>
+            </div>
+
+            <div id="a4" class="solution">
+                <fieldset>
+                    <legend>Q4 - Exporter la base</legend>
+                    <h3>Solution Q4</h3>
+                    <p>Exporter la base de données BD&lt;numéro inscription&gt; au format CSV via phpMyAdmin.</p>
+                    <p><strong>Procédure:</strong></p>
+                    <ol>
+                        <li>Ouvrir phpMyAdmin</li>
+                        <li>Sélectionner la base de données BD123456</li>
+                        <li>Cliquer sur l'onglet "Exporter"</li>
+                        <li>Choisir le format "CSV"</li>
+                        <li>Cliquer sur "Exécuter" pour télécharger le fichier</li>
+                    </ol>
+                    
+                    <a href="bd123456.csv" class="download-btn" download="bd123456.csv">
+                        <i class="fas fa-file-csv"></i> Télécharger le fichier CSV
+                    </a>
+                </fieldset>
+            </div>
+
+            <!-- Partie B: Documents Web -->
+            <div id="b1a" class="solution">
+                <h3>Solution Q1a - Page index.html</h3>
+                <p>Créer la page d'accueil index.html avec structure HTML5 complète.</p>
+                <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;CherikTaxi&lt;/title&gt;
+    &lt;link rel="stylesheet" type="text/css" href="mesStyles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;h2&gt;CherikTaxi : votre solution de transport intelligente&lt;/h2&gt;
+    &lt;/header&gt;
+     &lt;aside&gt;
+        &lt;nav&gt;
+            &lt;a href="ajout.html" target="zone"&gt;Ajout d'un trajet&lt;/a&gt;
+            &lt;a href="majTaxi.html" target="zone"&gt;Mise à jour d'un taxi&lt;/a&gt;
+        &lt;/nav&gt;
+     &lt;/aside&gt;
+     &lt;main &gt;  
+        &lt;section&gt;
+            &lt;iframe src="ajout.html" name="zone"&gt;&lt;/iframe&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+    &lt;footer&gt;
+        &lt;address&gt;admin@CherikTaxi.tn&lt;/address&gt;
+    &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </div>
+
+            <div id="b1b" class="solution">
+                <h3>Solution Q1b - CSS pour index</h3>
+                <p>Règles CSS à ajouter dans mesStyles.css pour la page index.html.</p>
+                <pre><code class="language-css">h2:hover {
+    font-size: 36px;
+    transition:font-size 2s;
+}
+
+nav a:active {
+    background-color: #A9A9A9;
+}
+
+nav a {
+    text-shadow: 2px 2px 4px green;
+}</code></pre>
+            </div>
+
+            <div id="b2a" class="solution">
+                <h3>Solution Q2a - Formulaire ajout.html</h3>
+                <p>Créer le formulaire pour ajouter un nouveau trajet.</p>
+                <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Ajout d'un trajet&lt;/title&gt;
+    &lt;link rel="stylesheet" type="text/css" href="mesStyles.css"&gt;
+    &lt;script src="mesControles.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form action="ajout.php" method="POST" onsubmit="return trajet()"&gt;
+        &lt;fieldset&gt;
+            &lt;legend&gt;Ajout d'un nouveau trajet&lt;/legend&gt;
+            &lt;label&gt;Adresse de départ&lt;/label&gt;
+            &lt;input type="text" name="depart" id="depart"&gt;
+            &lt;br&gt;
+            &lt;label&gt;Adresse d'arrivée&lt;/label&gt;
+            &lt;input type="text" name="arrivee" id="arrivee"&gt;
+            &lt;br&gt;
+            &lt;label&gt;Date de départ&lt;/label&gt;
+            &lt;input type="date" name="dateDep" id="dateDep"&gt;
+            &lt;br&gt;
+            &lt;label&gt;Heure de départ&lt;/label&gt;
+            &lt;input type="time" name="heureDep" id="heureDep"&gt;
+            &lt;br&gt;
+            &lt;label&gt;Prix&lt;/label&gt;
+            &lt;input type="number" name="prix" id="prix"&gt;
+            &lt;br&gt;
+            &lt;label&gt;N° d'immatriculation&lt;/label&gt;
+            &lt;input type="text" name="immat" id="immat"&gt;
+            &lt;br&gt;
+            &lt;label&gt;Mot de passe&lt;/label&gt;
+            &lt;input type="password" name="mdp" id="mdp"&gt;
+            &lt;br&gt;
+            &lt;input type="reset" value="Annuler"&gt;
+            &lt;input type="submit" value="Enregistrer"&gt;
+        &lt;/fieldset&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </div>
+
+            <div id="b2b" class="solution">
+                <fieldset>
+                    <legend>Q2b - CSS libellés</legend>
+                    <h3>Solution Q2b</h3>
+                    <p>Règles CSS pour les libellés (labels) du formulaire.</p>
+                    
+                    <div class="code-block">
+                        <pre><code class="language-css">label {
+    font-weight: bold;
+    font-size: 16px;
+    font-style: italic;
+    /* styles extra pour une meilleure présentation */ 
+    display: inline-block;
+    width: 150px;
+    margin-bottom: 10px;
+}</code></pre>
+                    </div>
+
+                </fieldset>
+            </div>
+
+            <div id="b2c" class="solution">
+                <h3>Solution Q2c - Fonction trajet() </h3>
+                <p>Fonction JavaScript pour valider le formulaire d'ajout de trajet .</p>
+                <pre><code class="language-javascript">function trajet() {
+    let depart = document.getElementById("depart").value;
+    let arrivee = document.getElementById("arrivee").value;
+    let dateDep = document.getElementById("dateDep").value;
+    let heureDep = document.getElementById("heureDep").value;
+    let prix = document.getElementById("prix").value;
+    let immat = document.getElementById("immat").value;
+    let mdp = document.getElementById("mdp").value;
+    
+    if (depart.length &lt; 3 || depart.length &gt; 30) {
+        alert("L'adresse de départ doit contenir entre 3 et 30 caractères");
+        return false;
+    }
+    
+    if (arrivee.length &lt; 3 || arrivee.length &gt; 30) {
+        alert("L'adresse d'arrivée doit contenir entre 3 et 30 caractères");
+        return false;
+    }
+    
+    if (arrivee == depart) {
+        alert("L'adresse d'arrivée doit être différente de l'adresse de départ");
+        return false;
+    }
+    
+    let dateActuelle = new Date();
+    let dateDepObjet = new Date(dateDep);
+    
+    let jourDep = dateDepObjet.getDate();
+    let moisDep = dateDepObjet.getMonth() + 1;
+    let annDep = dateDepObjet.getFullYear();
+    
+    let jourAct = dateActuelle.getDate();
+    let moisAct = dateActuelle.getMonth() + 1;
+    let annAct = dateActuelle.getFullYear();
+    
+    if (annDep != annAct || moisDep != moisAct) {
+        alert("Le mois et l'année doivent correspondre à la date actuelle");
+        return false;
+    }
+    
+    if (jourDep &lt; jourAct) {
+        alert("Le jour doit être supérieur ou égal au jour actuel");
+        return false;
+    }
+    
+    if (heureDep == "") {
+        alert("Vous devez sélectionner une heure de départ");
+        return false;
+    }
+    
+    if (parseInt(prix) != prix || parseInt(prix) &lt;= 0) {
+        alert("Le prix doit être un entier strictement positif");
+        return false;
+    }
+    
+    let posTU = immat.indexOf("TU");
+    if (posTU == -1) {
+        alert("Le format de l'immatriculation doit contenir TU");
+        return false;
+    }
+    
+    let a = immat.substring(0, posTU);
+    let b = immat.substring(posTU + 2, immat.length);
+    
+    let aNum = parseInt(a);
+    let bNum = parseInt(b);
+    
+    if (parseInt(aNum) != aNum || a.length != 3 ) {
+        alert("La partie avant TU doit être un nombre de 3 chiffres");
+        return false;
+    }
+    
+    if (parseInt(bNum) != bNum || bNum &lt; 1 || bNum &gt; 9999) {
+        alert("La partie après TU doit être un nombre entre 1 et 9999");
+        return false;
+    }
+    
+    if (mdp.length != 6) {
+        alert("Le mot de passe doit contenir exactement 6 caractères");
+        return false;
+    }
+    
+    if (mdp[0] &lt; "A" || mdp[0] &gt; "Z") {
+        alert("Le mot de passe doit commencer par une lettre majuscule");
+        return false;
+    }
+    
+    if (distinct(mdp) == false) {
+        alert("Les caractères du mot de passe doivent être distincts");
+        return false;
+    }
+    
+    return true;
+}
+
+function distinct(mdp) {
+    let i = 0;
+    let valide = true;
+    while (i &lt; mdp.length && valide == true) {
+        let pos1 = mdp.indexOf(mdp[i]);
+        let pos2 = mdp.lastIndexOf(mdp[i]);
+        if (pos1 != pos2) {
+            valide = false;
+        }
+        i = i + 1;
+    }
+    return valide;
+}</code></pre>
+            </div>
+
+            <div id="b2d" class="solution">
+                <h3>Solution Q2d - Fichier ajout.php </h3>
+                <p>Script PHP pour insérer le trajet dans la base de données.</p>
+                <pre><code class="language-php">&lt;?php
+ $depart = $_POST["depart"];
+ $arrivee = $_POST["arrivee"];
+ $dateDep = $_POST["dateDep"];
+ $heureDep = $_POST["heureDep"];
+ $prix = $_POST["prix"];
+ $immat = $_POST["immat"];
+ $mdp = $_POST["mdp"];
+
+ $connexion = mysqli_connect("localhost", "root", "", "BD123456") or die("Connexion échouée  " );
+
+ $requete1 = "SELECT * FROM Taxi, Chauffeur WHERE Taxi.idChauf = Chauffeur.idChauf AND Taxi.immat = '$immat' AND Chauffeur.mdp = '$mdp'";
+
+ $resultat1 = mysqli_query($connexion, $requete1);
+ $nbLignes = mysqli_num_rows($resultat1);
+
+if ($nbLignes == 0) {
+    echo "Authentification erronée !";
+} else {
+    $requete2 = "INSERT INTO Trajet (depart, arrivee, dateDep, heureDep, prix, immat) VALUES ('$depart', '$arrivee', '$dateDep', '$heureDep', $prix, '$immat')";
+    mysqli_query($connexion, $requete2);
+    echo "Trajet ajouté avec succès";
+}
+
+mysqli_close($connexion);
+?&gt;</code></pre>
+               
+            </div>
+
+            <div id="b3a" class="solution">
+    <h3>Solution Q3a - Formulaire majTaxi.html</h3>
+    <p>Formulaire pour mettre à jour les données d'un taxi.</p>
+    <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Mise à jour d'un taxi&lt;/title&gt;
+    &lt;link rel="stylesheet" type="text/css" href="mesStyles.css"&gt;
+    &lt;script src="mesControles.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form action="majTaxi.php" method="POST" onsubmit="return maj()"&gt;
+        &lt;fieldset&gt;
+            &lt;legend&gt;Mise à jour des données relatives à un taxi&lt;/legend&gt;
+            &lt;label&gt;Nombre de places&lt;/label&gt;
+            &lt;input type="range" name="nbPlace" id="nbPlace" min="2" max="8" oninput="nombrePlace()"&gt;
+            &lt;label id="nb"&gt;&lt;/label&gt;
+            &lt;br&gt;
+            &lt;label&gt;Mobilité réduite&lt;/label&gt;
+            &lt;input type="checkbox" name="mobRed" value="O"&gt; 
+            &lt;br&gt;
+            &lt;label&gt;Siège bébé&lt;/label&gt;
+            &lt;input type="checkbox" name="siegBb" value="O"&gt; 
+            &lt;br&gt;
+            &lt;label&gt;Wifi&lt;/label&gt;
+            &lt;input type="checkbox" name="wifi" value="O"&gt; 
+            &lt;br&gt;
+            &lt;label&gt;N° d'immatriculation&lt;/label&gt;
+            &lt;input type="text" name="immat" id="immat"&gt;
+            &lt;br&gt;
+            &lt;label&gt;Mot de passe&lt;/label&gt;
+            &lt;input type="password" name="mdp" id="mdp"&gt;
+            &lt;br&gt;
+            &lt;input type="reset" value="Annuler"&gt;
+            &lt;input type="submit" value="Enregistrer"&gt;
+            
+        &lt;/fieldset&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+
+            <div id="b3b" class="solution">
+                <fieldset>
+                    <legend>Q3b - CSS #nb</legend>
+                    <h3>Solution Q3b</h3>
+                    <p>Règles CSS pour l'élément #nb qui affiche le nombre de places.</p>
+                    
+                    <div class="code-block">
+                        <pre><code class="language-css">#nb {
+    border-style: solid;
+    padding: 6px;
+    text-align: center;
+    border-width: 2px;
+    border-color: #1FB8CD;
+    /* styles extra pour une meilleure présentation */                        
+    background-color: #e9f1f5;
+    color: #134252;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 5px;
+}</code></pre>
+                    </div>
+
+                    
+                </fieldset>
+            </div>
+
+            <div id="b3c" class="solution">
+                <h3>Solution Q3c - Fonctions nombrePlace() et maj() </h3>
+                <p>Fonctions JavaScript pour gérer la mise à jour du taxi.</p>
+                <pre><code class="language-javascript">function nombrePlace() {
+    let nbPlace = document.getElementById("nbPlace").value;
+    document.getElementById("nb").innerHTML = nbPlace;
+}
+
+function maj() {
+    let nbPlace = document.getElementById("nbPlace").value;
+    let nb = document.getElementById("nb").innerHTML;
+    let immat = document.getElementById("immat").value;
+    let mdp = document.getElementById("mdp").value;
+    
+    if (nb == "") {
+        alert("Le nombre de places doit être affiché");
+        return false;
+    }
+    
+    let posTU = immat.indexOf("TU");
+    if (posTU == -1) {
+        alert("Le format de l'immatriculation doit contenir TU");
+        return false;
+    }
+    
+    let a = immat.substring(0, posTU);
+    let b = immat.substring(posTU + 2, immat.length);
+    
+    if (parseInt(a) != a || a.length != 3) {
+        alert("La partie avant TU doit être un nombre de 3 chiffres");
+        return false;
+    }
+    
+    if (parseInt(b) != b || b &lt; 1 || b &gt; 9999) {
+        alert("La partie après TU doit être un nombre entre 1 et 9999");
+        return false;
+    }
+    
+    if (mdp.length != 6) {
+        alert("Le mot de passe doit contenir exactement 6 caractères");
+        return false;
+    }
+    
+    if ( mdp[0] &lt; "A" ||  mdp[0] &gt; ) {
+        alert("Le mot de passe doit commencer par une lettre majuscule");
+        return false;
+    }
+    
+    if (distinct(mdp) == false) {
+        alert("Les caractères du mot de passe doivent être distincts");
+        return false;
+    }
+    
+    return true;
+}</code></pre>
+                <p><strong>Note:</strong> La fonction distinct() est la même que celle définie en Q2c.</p>
+            </div>
+
+  <div id="b3d" class="solution">
+    <h3>Solution Q3d - Fichier majTaxi.php </h3>
+    <p>Script PHP pour mettre à jour les informations du taxi.</p>
+    <pre><code class="language-php">&lt;?php
+ $nbPlace = (int)$_POST["nbPlace"];
+ 
+if (isset($_POST["mobRed"])) {
+    $mobRed = "O";
+} else {
+    $mobRed = "N";
+}
+
+if (isset($_POST["siegBb"])) {
+    $siegBb = "O";
+} else {
+    $siegBb = "N";
+}
+
+if (isset($_POST["wifi"])) {
+    $wifi = "O";
+} else {
+    $wifi = "N";
+}
+
+ $immat = $_POST["immat"];
+ $mdp = $_POST["mdp"];
+
+ $connexion = mysqli_connect("localhost", "root", "", "BD123456");
+
+ $requete1 = "SELECT * FROM Taxi, Chauffeur WHERE Taxi.idChauf = Chauffeur.idChauf AND Taxi.immat = '$immat' AND Chauffeur.mdp = '$mdp'";
+
+ $resultat1 = mysqli_query($connexion, $requete1);
+ $nbLignes = mysqli_num_rows($resultat1);
+
+if ($nbLignes == 0) {
+    echo "Authentification erronée!";
+} else {
+    $requete2 = "UPDATE Taxi SET nbPlace = $nbPlace, mobRed = '$mobRed', siegBb = '$siegBb', wifi = '$wifi' WHERE immat = '$immat'";
+    mysqli_query($connexion, $requete2);
+    echo "Mise à jour effectuée avec succès";
+}
+
+mysqli_close($connexion);
+?&gt;</code></pre>
+    </div>
+    <a href="SW123456.rar" download="SW123456.rar" class="download-btn" >
+                    <i class="fas fa-download"></i> Télécharger la solution complète
+                </a>
+</div>
+    <footer>
+        <p>Épreuve Pratique STI 2024</p>
+    </footer>
+
+    <script>
+        // Fonction pour afficher/masquer les sections
+        function showSection(sectionId) {
+            // Masquer toutes les solutions
+            var solutions = document.querySelectorAll('.solution');
+            solutions.forEach(function(solution) {
+                solution.classList.remove('active');
+            });
+            
+            // Afficher la section sélectionnée
+            var selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+            }
+            
+            // Mettre à jour les liens actifs
+            var links = document.querySelectorAll('nav a');
+            links.forEach(function(link) {
+                link.classList.remove('active');
+            });
+            
+            var activeLink = document.getElementById('link-' + sectionId);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            // Fermer le menu sur mobile après sélection
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        }
+        
+        // Fonction pour basculer l'affichage des sous-menus
+        function toggleSubmenu(submenuId) {
+            var submenu = document.getElementById(submenuId);
+            if (submenu) {
+                if (submenu.style.display === 'none' || submenu.style.display === '') {
+                    submenu.style.display = 'block';
+                } else {
+                    submenu.style.display = 'none';
+                }
+            }
+        }
+        
+        // Fonction pour basculer le menu mobile
+        function toggleMenu() {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+        
+        // Initialiser l'affichage au chargement de la page
+        window.onload = function() {
+            // Afficher l'accueil par défaut
+            showSection('enonce');
+            
+            // Afficher les sous-menus par défaut
+            document.getElementById('partie-a-sub').style.display = 'block';
+            document.getElementById('partie-b-sub').style.display = 'block';
+        };
+        
+        // Gérer le redimensionnement de la fenêtre
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        });
+    </script>
+    
+    <!-- Highlight.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Initialize Highlight.js after DOM is loaded -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            hljs.highlightAll();
+        });
+    </script>
+</body>
+</html>
