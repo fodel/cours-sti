@@ -830,15 +830,13 @@ nav a {
     let a = immat.substring(0, posTU);
     let b = immat.substring(posTU + 2, immat.length);
     
-    let aNum = parseInt(a);
-    let bNum = parseInt(b);
-    
-    if (parseInt(aNum) != aNum || a.length != 3 ) {
+ 
+    if (parseInt(a) != a || a.length != 3 ) {
         alert("La partie avant TU doit être un nombre de 3 chiffres");
         return false;
     }
     
-    if (parseInt(bNum) != bNum || bNum &lt; 1 || bNum &gt; 9999) {
+    if (parseInt(b) != b || b &lt; 1 || b &gt; 9999) {
         alert("La partie après TU doit être un nombre entre 1 et 9999");
         return false;
     }
