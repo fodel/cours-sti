@@ -8,5 +8,11 @@
     "title": "TP 2 : CherikTaxi (Bac STI 2024 - 14 juin)",
     "description": "Le TP couvrant la création d'une base de données pour la gestion de taxis et de trajets, le développement d'une application web de réservation (HTML/CSS/JS/PHP) et la mise en place des fonctionnalités de mise à jour des informations des taxis.",
     "file": "TP2/index.html"
-  }
+  },
+  {
+    "title": "TP 3 : Epreuve Pratique 2022 Adaptée (WALLYS CAR)",
+    "description": "Le TP couvrant la création d'une base de données pour la gestion des testeurs et des évaluations de voitures, le développement d'un site web de test et d'évaluation (HTML/CSS/JS/PHP), la mise en forme avancée avec CSS, la gestion des ressources (images) et la manipulation d'attributs HTML avec JavaScript.",
+    "file": "TP3/index.html"
+}
 ]
+
