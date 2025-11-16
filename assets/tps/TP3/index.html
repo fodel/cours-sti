@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Correction TP3 - Baccalauréat Pratique 2022</title>
+    <style>
+        /* --- Variables de Thème --- */
+        :root {
+            --bg-color: #f0f2f5;
+            --sidebar-bg: #1c1e21;
+            --sidebar-text: #b0b3b8;
+            --sidebar-hover-bg: #3a3b3c;
+            --content-bg: #ffffff;
+            --primary-color: #0d6efd;
+            --primary-hover: #0b5ed7;
+            --text-color: #212529;
+            --heading-color: #343a40;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --border-color: #dee2e6;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        /* --- Polices et Styles Généraux --- */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- Header --- */
+        header {
+            background-color: var(--content-bg);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--heading-color);
+            margin: 0;
+        }
+
+        header a {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        header a:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* --- Layout Principal --- */
+        main {
+            display: flex;
+            flex: 1;
+        }
+
+        /* --- Sidebar --- */
+        nav {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            padding: 1.5rem 0;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        nav h2 {
+            color: #e4e6eb;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 0 1.5rem 1rem 1.5rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav li a {
+            display: block;
+            padding: 0.8rem 1.5rem;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        nav li a:hover, nav li a.active {
+            background-color: var(--sidebar-hover-bg);
+            color: #e4e6eb;
+            border-left-color: var(--primary-color);
+        }
+
+        /* --- Zone de Contenu --- */
+        #content-area {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .reponse-block {
+            background-color: var(--content-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            display: none; /* Masqué par défaut */
+        }
+
+        .reponse-block:target {
+            display: block; /* Affiché si l'ancre dans l'URL correspond */
+        }
+
+        .reponse-block h2 {
+            color: var(--heading-color);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .reponse-block h3 {
+            color: var(--primary-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .reponse-block p {
+            line-height: 1.7;
+        }
+
+        .reponse-block ul {
+            padding-left: 20px;
+        }
+        
+        .reponse-block li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Style des Blocs de Code --- */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 1.5rem 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            position: relative;
+        }
+        
+        pre::before {
+            content: attr(data-lang);
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(255,255,255,0.1);
+            color: #abb2bf;
+            padding: 0.2rem 0.8rem;
+            font-size: 0.75rem;
+            border-radius: 0 8px 0 8px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: inherit;
+        }
+
+        /* Syntax Highlighting simplifié */
+        .language-sql .keyword { color: #c678dd; }
+        .language-sql .function { color: #61afef; }
+        .language-sql .string { color: #98c379; }
+        .language-sql .number { color: #d19a66; }
+        .language-sql .comment { color: #5c6370; font-style: italic; }
+
+        .language-html .tag { color: #e06c75; }
+        .language-html .attr-name { color: #d19a66; }
+        .language-html .attr-value { color: #98c379; }
+        .language-html .comment { color: #5c6370; font-style: italic; }
+
+        .language-php .keyword { color: #c678dd; }
+        .language-php .variable { color: #e06c75; }
+        .language-php .string { color: #98c379; }
+        .language-php .comment { color: #5c6370; font-style: italic; }
+        .language-php .function { color: #61afef; }
+
+        .language-js .keyword { color: #c678dd; }
+        .language-js .function { color: #61afef; }
+        .language-js .string { color: #98c379; }
+        .language-js .number { color: #d19a66; }
+        .language-js .comment { color: #5c6370; font-style: italic; }
+
+        .language-css .selector { color: #e06c75; }
+        .language-css .property { color: #d19a66; }
+        .language-css .value { color: #98c379; }
+        .language-css .comment { color: #5c6370; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Correction TP3: Baccalauréat Pratique 2022</h1>
+        <a href="Ressources2022.rar" download>Télécharger les ressources</a>
+    </header>
+
+    <main>
+        <nav>
+            <h2>Sommaire</h2>
+            <ul>
+                <li><a href="#enonce" class="nav-link">Énoncé</a></li>
+                <li><a href="#partie-a" class="nav-link">Partie A: Base de données</a></li>
+                <li><a href="#partie-b1" class="nav-link">Partie B.1.a: index.html</a></li>
+                <li><a href="#partie-b2" class="nav-link">Partie B.1.b: mesStyles.css</a></li>
+                <li><a href="#partie-b3" class="nav-link">Partie B.2.a: enregistrement.html</a></li>
+                <li><a href="#partie-b2b" class="nav-link">Partie B.2.b: mesStyles.css</a></li>
+                <li><a href="#partie-b4" class="nav-link">Partie B.2.c: controle.js (verif1)</a></li>
+                <li><a href="#partie-b5" class="nav-link">Partie B.2.d: enregistrement.php</a></li>
+                <li><a href="#partie-b6" class="nav-link">Partie B.3: evaluation.html</a></li>
+                <li><a href="#partie-b7" class="nav-link">Partie B.3: controle.js (charger & verif2)</a></li>
+                <li><a href="#partie-b8" class="nav-link">Partie B.3: evaluation.php</a></li>
+                <li><a href="#partie-b9" class="nav-link">Partie B.4: bilan.php</a></li>
+            </ul>
+        </nav>
+
+        <section id="content-area">
+            <!-- Énoncé -->
+            <div id="enonce" class="reponse-block">
+                <h2>Énoncé du Sujet</h2>
+                <iframe src="atelier3.pdf" frameborder="0" style="width: 97%; height: 97vh;"></iframe>
+            </div>
+
+            <!-- Partie A -->
+            <div id="partie-a" class="reponse-block">
+                <h2>Partie A : Base de données</h2>
+                <h3>1. Création de la base de données et des tables (SQL)</h3>
+                <pre data-lang="SQL"><code class="language-sql"><span class="comment">-- Création de la base de données</span>
+<span class="keyword">CREATE DATABASE</span> BDEvaluation;
+<span class="keyword">USE</span> BDEvaluation;
+
+<span class="comment">-- Création de la table 'testeur'</span>
+<span class="keyword">CREATE TABLE</span> testeur (
+    numPermis <span class="keyword">VARCHAR</span>(<span class="number">8</span>) <span class="keyword">PRIMARY KEY</span>,
+    nom <span class="keyword">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">NOT NULL</span>,
+    prenom <span class="keyword">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">NOT NULL</span>,
+    genre <span class="keyword">CHAR</span>(<span class="number">1</span>) <span class="keyword">NOT NULL</span>
+);
+
+<span class="comment">-- Création de la table 'modeleVoiture'</span>
+<span class="keyword">CREATE TABLE</span> modeleVoiture (
+    idModele <span class="keyword">INT</span> <span class="keyword">PRIMARY KEY</span>,
+    libelle <span class="keyword">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">NOT NULL</span>
+);
+
+<span class="comment">-- Création de la table 'evaluation'</span>
+<span class="keyword">CREATE TABLE</span> evaluation (
+    numPermis <span class="keyword">VARCHAR</span>(<span class="number">8</span>),
+    idModele <span class="keyword">INT</span>,
+    dateTest <span class="keyword">DATETIME</span> <span class="keyword">NOT NULL</span>,
+    securite <span class="keyword">INT</span> <span class="keyword">NOT NULL</span>,
+    conduite <span class="keyword">INT</span> <span class="keyword">NOT NULL</span>,
+    confort <span class="keyword">INT</span> <span class="keyword">NOT NULL</span>,
+    <span class="keyword">PRIMARY KEY</span> (numPermis, idModele),
+    <span class="keyword">FOREIGN KEY</span> (numPermis) <span class="keyword">REFERENCES</span> testeur(numPermis) <span class="keyword">ON DELETE CASCADE</span>,
+    <span class="keyword">FOREIGN KEY</span> (idModele) <span class="keyword">REFERENCES</span> modeleVoiture(idModele) <span class="keyword">ON DELETE CASCADE</span>
+);</code></pre>
+
+                <h3>2. Insertion des données (SQL)</h3>
+                <pre data-lang="SQL"><code class="language-sql"><span class="comment">-- Insertion dans modeleVoiture</span>
+<span class="keyword">INSERT INTO</span> modeleVoiture (idModele, libelle) <span class="keyword">VALUES</span>
+(<span class="number">15</span>, <span class="string">'WALLYS IRIS'</span>),
+(<span class="number">26</span>, <span class="string">'WALLYS 619'</span>),
+(<span class="number">38</span>, <span class="string">'WALLYS 216'</span>);
+
+<span class="comment">-- Insertion dans testeur</span>
+<span class="keyword">INSERT INTO</span> testeur (numPermis, nom, prenom, genre) <span class="keyword">VALUES</span>
+(<span class="string">'33/44444'</span>, <span class="string">'Zaghdane'</span>, <span class="string">'Olfa'</span>, <span class="string">'F'</span>),
+(<span class="string">'21/12345'</span>, <span class="string">'Brini'</span>, <span class="string">'Samir'</span>, <span class="string">'M'</span>),
+(<span class="string">'58/98765'</span>, <span class="string">'Krimi'</span>, <span class="string">'Fethi'</span>, <span class="string">'M'</span>);</code></pre>
+                <p><em>La commande d'exportation se fait généralement via l'interface du SGBD (ex: phpMyAdmin) en générant un fichier .sql.</em></p>
+            </div>
+
+            <!-- Partie B.1 -->
+            <div id="partie-b1" class="reponse-block">
+                <h2>Partie B.1 : index.html</h2>
+                <pre data-lang="HTML"><code class="language-html"><span class="comment">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;<span class="tag">html</span> <span class="attr-name">lang</span>=<span class="attr-value">"fr"</span>&gt;</span>
+<span class="tag">&lt;<span class="tag">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">meta</span> <span class="attr-name">charset</span>=<span class="attr-value">"UTF-8"</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">title</span>&gt;</span>Plateforme de test WALLYS CAR<span class="tag">&lt;/<span class="tag">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">link</span> <span class="attr-name">rel</span>=<span class="attr-value">"stylesheet"</span> <span class="attr-name">href</span>=<span class="attr-value">"mesStyles.css"</span>&gt;</span>
+<span class="tag">&lt;/<span class="tag">head</span>&gt;</span>
+<span class="tag">&lt;<span class="tag">body</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">header</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">h1</span>&gt;</span>Bienvenue dans la plateforme de test de WALLYS CAR<span class="tag">&lt;/<span class="tag">h1</span>&gt;</span>
+    <span class="tag">&lt;/<span class="tag">header</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">main</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">nav</span>&gt;</span>
+            <span class="tag">&lt;<span class="tag">a</span> <span class="attr-name">href</span>=<span class="attr-value">"enregistrement.html"</span> <span class="attr-name">target</span>=<span class="attr-value">"mainFrame"</span>&gt;</span>Enregistrement d’un testeur<span class="tag">&lt;/<span class="tag">a</span>&gt;</span>
+            <span class="tag">&lt;<span class="tag">a</span> <span class="attr-name">href</span>=<span class="attr-value">"evaluation.html"</span> <span class="attr-name">target</span>=<span class="attr-value">"mainFrame"</span>&gt;</span>Evaluation d’un modèle<span class="tag">&lt;/<span class="tag">a</span>&gt;</span>
+            <span class="tag">&lt;<span class="tag">a</span> <span class="attr-name">href</span>=<span class="attr-value">"bilan.php"</span> <span class="attr-name">target</span>=<span class="attr-value">"mainFrame"</span>&gt;</span>Bilan des évaluations<span class="tag">&lt;/<span class="tag">a</span>&gt;</span>
+        <span class="tag">&lt;/<span class="tag">nav</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">section</span>&gt;</span>
+            <span class="tag">&lt;<span class="tag">iframe</span> <span class="attr-name">src</span>=<span class="attr-value">"enregistrement.html"</span> <span class="attr-name">name</span>=<span class="attr-value">"mainFrame"</span> <span class="attr-name">title</span>=<span class="attr-value">"Zone de contenu principal"</span>&gt;</span><span class="tag">&lt;/<span class="tag">iframe</span>&gt;</span>
+        <span class="tag">&lt;/<span class="tag">section</span>&gt;</span>
+    <span class="tag">&lt;/<span class="tag">main</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">footer</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">address</span>&gt;</span>190 Avenue du 15 Octobre 1963، Kabaria، Tunis Sud 2054<span class="tag">&lt;/<span class="tag">address</span>&gt;</span>
+    <span class="tag">&lt;/<span class="tag">footer</span>&gt;</span>
+<span class="tag">&lt;/<span class="tag">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="tag">html</span>&gt;</span></code></pre>
+            </div>
+
+            <div id="partie-b2" class="reponse-block">
+                <h2>Partie B.1 : mesStyles.css</h2>
+                <pre data-lang="CSS"><code class="language-css">
+<span class="comment">/* Mise en forme du titre h1 */</span>
+<span class="selector">h1</span> {
+    <span class="property">font-family</span>: <span class="value">cursive</span>;
+    <span class="property">text-shadow</span>: <span class="value">0 0 5px green</span>;
+}
+
+<span class="comment">/* Mise en forme de la navigation */</span>
+<span class="selector">nav a</span> {
+    <span class="property">display</span>: <span class="value">block</span>;
+    <span class="property">background-color</span>: <span class="value">#393e46</span>;
+    <span class="property">color</span>: <span class="value">#ffffff</span>;
+    <span class="property">text-decoration</span>: <span class="value">none</span>;
+    <span class="property">opacity</span>: <span class="value">0.7</span>;
+    <span class="property">margin-bottom</span>: <span class="value">5px</span>;
+}
+
+<span class="selector">nav a:hover</span> {
+    <span class="property">opacity</span>: <span class="value">1</span>; 
+    <span class="property">transition</span>: <span class="value">opacity 1s</span>;
+    <span class="property">text-decoration</span>: <span class="value">underline</span>;
+}
+
+</code></pre>
+            </div>
+
+            <!-- Partie B.2 -->
+            <div id="partie-b3" class="reponse-block">
+                <h2>Partie B.2 : enregistrement.html</h2>
+                <pre data-lang="HTML"><code class="language-html"><span class="comment">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;<span class="tag">html</span> <span class="attr-name">lang</span>=<span class="attr-value">"fr"</span>&gt;</span>
+<span class="tag">&lt;<span class="tag">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">meta</span> <span class="attr-name">charset</span>=<span class="attr-value">"UTF-8"</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">title</span>&gt;</span>Enregistrement d'un testeur<span class="tag">&lt;/<span class="tag">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">link</span> <span class="attr-name">rel</span>=<span class="attr-value">"stylesheet"</span> <span class="attr-name">href</span>=<span class="attr-value">"mesStyles.css"</span>&gt;</span>
+<span class="tag">&lt;/<span class="tag">head</span>&gt;</span>
+<span class="tag">&lt;<span class="tag">body</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">form</span> <span class="attr-name">action</span>=<span class="attr-value">"enregistrement.php"</span> <span class="attr-name">method</span>=<span class="attr-value">"post"</span> <span class="attr-name">onsubmit</span>=<span class="attr-value">"return verif1()"</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">label</span> <span class="attr-name">for</span>=<span class="attr-value">"numPermis"</span>&gt;</span>N° Permis :<span class="tag">&lt;/<span class="tag">label</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">input</span> <span class="attr-name">type</span>=<span class="attr-value">"text"</span> <span class="attr-name">id</span>=<span class="attr-value">"numPermis"</span> <span class="attr-name">name</span>=<span class="attr-value">"numPermis"</span> &gt;</span><span class="tag">&lt;<span class="tag">br</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="tag">label</span> <span class="attr-name">for</span>=<span class="attr-value">"nom"</span>&gt;</span>Nom :<span class="tag">&lt;/<span class="tag">label</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">input</span> <span class="attr-name">type</span>=<span class="attr-value">"text"</span> <span class="attr-name">id</span>=<span class="attr-value">"nom"</span> <span class="attr-name">name</span>=<span class="attr-value">"nom"</span> &gt;</span><span class="tag">&lt;<span class="tag">br</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="tag">label</span> <span class="attr-name">for</span>=<span class="attr-value">"prenom"</span>&gt;</span>Prénom :<span class="tag">&lt;/<span class="tag">label</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">input</span> <span class="attr-name">type</span>=<span class="attr-value">"text"</span> <span class="attr-name">id</span>=<span class="attr-value">"prenom"</span> <span class="attr-name">name</span>=<span class="attr-value">"prenom"</span> &gt;</span><span class="tag">&lt;<span class="tag">br</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="tag">label</span>&gt;</span>Genre :<span class="tag">&lt;/<span class="tag">label</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">input</span> <span class="attr-name">type</span>=<span class="attr-value">"radio"</span> <span class="attr-name">id</span>=<span class="attr-value">"genreM"</span> <span class="attr-name">name</span>=<span class="attr-value">"genre"</span> <span class="attr-name">value</span>=<span class="attr-value">"M"</span>&gt;</span> <span class="tag">&lt;<span class="tag">label</span> <span class="attr-name">for</span>=<span class="attr-value">"genreM"</span>&gt;</span>Masculin<span class="tag">&lt;/<span class="tag">label</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">input</span> <span class="attr-name">type</span>=<span class="attr-value">"radio"</span> <span class="attr-name">id</span>=<span class="attr-value">"genreF"</span> <span class="attr-name">name</span>=<span class="attr-value">"genre"</span> <span class="attr-name">value</span>=<span class="attr-value">"F"</span>&gt;</span> <span class="tag">&lt;<span class="tag">label</span> <span class="attr-name">for</span>=<span class="attr-value">"genreF"</span>&gt;</span>Féminin<span class="tag">&lt;/<span class="tag">label</span>&gt;</span><span class="tag">&lt;<span class="tag">br</span>&gt;</span><span class="tag">&lt;<span class="tag">br</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="tag">input</span> <span class="attr-name">type</span>=<span class="attr-value">"submit"</span> <span class="attr-name">value</span>=<span class="attr-value">"Ajouter"</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">input</span> <span class="attr-name">type</span>=<span class="attr-value">"reset"</span> <span class="attr-name">value</span>=<span class="attr-value">"Annuler"</span>&gt;</span>
+    <span class="tag">&lt;/<span class="tag">form</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">script</span> <span class="attr-name">src</span>=<span class="attr-value">"controle.js"</span>&gt;</span><span class="tag">&lt;/<span class="tag">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="tag">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="tag">html</span>&gt;</span></code></pre>
+            </div>
+ <div id="partie-b2b" class="reponse-block">
+                <h2>Partie B.2.c : mesStyles.css</h2>
+                <pre data-lang="CSS"><code class="language-css">
+
+<span class="comment">/* Styles pour les formulaires */</span>
+<span class="selector">label</span> {
+    <span class="property">display</span>: <span class="value">block</span>;
+    <span class="property">font-size</span>: <span class="value">24px</span>;
+    <span class="property">font-weight</span>: <span class="value">bold</span>;
+}
+
+<span class="selector">input[type="text"]:focus</span> {
+    <span class="property">transform:scale</span>(<span class="value">1.07</span>);
+}
+
+<span class="selector">input[type="submit"], input[type="reset"]</span> {
+    <span class="property">background-color</span>: <span class="value">#393e46</span>;
+    <span class="property">color</span>: <span class="value">#ffffff</span>;
+    <span class="property">opacity</span>: <span class="value">0.7</span>;
+    <span class="property">transition</span>: <span class="value">opacity 1s</span>;
+}
+
+<span class="selector">input[type="submit"]:hover, input[type="reset"]:hover</span> {
+    <span class="property">opacity</span>: <span class="value">1</span>;
+    <span class="property">text-decoration</span>: <span class="value">underline</span>;
+}</code></pre>
+            </div>
+            <div id="partie-b4" class="reponse-block">
+                <h2>Partie B.2.b : controle.js (verif1)</h2>
+                <pre data-lang="JavaScript"><code class="language-js"><span class="keyword">function</span> <span class="function">verif1</span>() {
+    <span class="keyword">let</span> numPermis = document.<span class="function">getElementById</span>(<span class="string">'numPermis'</span>).value;
+    <span class="keyword">let</span> nom = document.<span class="function">getElementById</span>(<span class="string">'nom'</span>).value;
+    <span class="keyword">let</span> prenom = document.<span class="function">getElementById</span>(<span class="string">'prenom'</span>).value;
+    <span class="keyword">let</span> genreM = document.<span class="function">getElementById</span>(<span class="string">'genreM'</span>).checked;
+    <span class="keyword">let</span> genreF = document.<span class="function">getElementById</span>(<span class="string">'genreF'</span>).checked;
+
+    <span class="comment">// Contrôle N° Permis: xx/xxxxx</span>
+    <span class="keyword">if</span> (numPermis.length !== <span class="number">8</span> || numPermis[<span class="number">2</span>] != <span class="string">'/'</span>) {
+        <span class="function">alert</span>(<span class="string">"Le numéro de permis doit avoir 8 caractères au format xx/xxxxx."</span>);
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+    <span class="keyword">let</span> part1 = numPermis.<span class="function">substring</span>(<span class="number">0</span>, <span class="number">2</span>);
+    <span class="keyword">let</span> part2 = numPermis.<span class="function">substring</span>(<span class="number">3</span>, <span class="number">8</span>);
+    <span class="keyword">if</span> (<span class="function">parseInt</span>(part1) != part1 || <span class="function">parseInt</span>(part2) != part2) {
+        <span class="function">alert</span>(<span class="string">"Le numéro de permis doit contenir des chiffres."</span>);
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="comment">// Contrôle Nom: alphabétique, 3 à 20 caractères</span>
+    <span class="keyword">if</span> (nom.length < <span class="number">3</span> || nom.length > <span class="number">20</span> || <span class="function">alpha</span>(nom) == <span class="keyword">false</span>) {
+        <span class="function">alert</span>(<span class="string">"Le nom doit être une chaîne alphabétique de 3 à 20 caractères."</span>);
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="comment">// Contrôle Prénom: alphabétique, 3 à 20 caractères</span>
+    <span class="keyword">if</span> (prenom.length < <span class="number">3</span> || prenom.length > <span class="number">20</span> || <span class="function">alpha</span>(prenom) == <span class="keyword">false</span>) {
+        <span class="function">alert</span>(<span class="string">"Le prénom doit être une chaîne alphabétique de 3 à 20 caractères."</span>);
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="comment">// Contrôle Genre: sélection obligatoire</span>
+    <span class="keyword">if</span> (!genreM && !genreF) {
+        <span class="function">alert</span>(<span class="string">"Veuillez sélectionner un genre."</span>);
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="keyword">return</span> <span class="keyword">true</span>; <span class="comment">// Le formulaire sera soumis</span>
+}
+<span class="keyword">function</span> <span class="function">alpha</span>(ch){
+    ch = ch.<span class="function">toUpperCase</span>();
+    <span class="keyword">let</span> i = <span class="number">0</span>;
+    <span class="keyword">while</span>(ch[i] &gt;= <span class="string">'A'</span> && ch[i] &lt;= <span class="string">'Z'</span>) 
+        i++; 
+    <span class="keyword">return</span> i == ch.<span class="keyword">length</span>; 
+}
+</code></pre>
+            </div>
+
+            <div id="partie-b5" class="reponse-block">
+                <h2>Partie B.2 : enregistrement.php</h2>
+                <pre data-lang="PHP"><code class="language-php"><span class="comment">&lt;?php</span>
+<span class="comment">// Connexion à la base de données</span>
+<span class="variable">$con</span> = <span class="function">mysqli_connect</span>(<span class="string">"localhost"</span>, <span class="string">"root"</span>, <span class="string">""</span>, <span class="string">"BDEvaluation"</span>);
+<span class="keyword">if</span> (!<span class="variable">$con</span>) {
+    <span class="function">die</span>(<span class="string">"Erreur de connexion: "</span> . <span class="function">mysqli_error</span>(<span class="variable">$con</span>));
+}
+
+<span class="comment">// Récupération des données</span>
+<span class="variable">$numPermis</span> = <span class="variable">$_POST</span>[<span class="string">'numPermis'</span>];
+<span class="variable">$nom</span> = <span class="variable">$_POST</span>[<span class="string">'nom'</span>];
+<span class="variable">$prenom</span> = <span class="variable">$_POST</span>[<span class="string">'prenom'</span>];
+<span class="variable">$genre</span> = <span class="variable">$_POST</span>[<span class="string">'genre'</span>];
+
+<span class="comment">// Vérification si le numéro de permis existe déjà</span>
+<span class="variable">$checkQuery</span> = <span class="string">"SELECT numPermis FROM testeur WHERE numPermis = '</span><span class="variable">$numPermis</span><span class="string">'"</span>;
+<span class="variable">$result</span> = <span class="function">mysqli_query</span>(<span class="variable">$con</span>, <span class="variable">$checkQuery</span>);
+
+<span class="keyword">if</span> (<span class="function">mysqli_num_rows</span>(<span class="variable">$result</span>) > <span class="number">0</span>) {
+    <span class="keyword">echo</span> <span class="string">"Numéro de permis déjà existant"</span>;
+} <span class="keyword">else</span> {
+    <span class="comment">// Insertion du nouveau testeur</span>
+    <span class="variable">$insertQuery</span> = <span class="string">"INSERT INTO testeur (numPermis, nom, prenom, genre) 
+                   VALUES ('</span><span class="variable">$numPermis</span><span class="string">', '</span><span class="variable">$nom</span><span class="string">', '</span><span class="variable">$prenom</span><span class="string">', '</span><span class="variable">$genre</span><span class="string">')"</span>;
+    
+    <span class="keyword">if</span> (<span class="function">mysqli_query</span>(<span class="variable">$con</span>, <span class="variable">$insertQuery</span>)) {
+        <span class="keyword">echo</span> <span class="string">"Enregistrement fait avec succès"</span>;
+    } <span class="keyword">else</span> {
+        <span class="keyword">echo</span> <span class="string">"Erreur: "</span> . <span class="function">mysqli_error</span>(<span class="variable">$con</span>);
+    }
+}
+
+<span class="function">mysqli_close</span>(<span class="variable">$con</span>);
+<span class="comment">?&gt;</span></code></pre>
+            </div>
+
+            <!-- Partie B.3 -->
+            <div id="partie-b6" class="reponse-block">
+                <h2>Partie B.3 : evaluation.html</h2>
+                <pre data-lang="HTML"><code class="language-html"><span class="comment">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;<span class="tag">html</span> <span class="attr-name">lang</span>=<span class="attr-value">"fr"</span>&gt;</span>
+<span class="tag">&lt;<span class="tag">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">meta</span> <span class="attr-name">charset</span>=<span class="attr-value">"UTF-8"</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">title</span>&gt;</span>Evaluation d'un modèle<span class="tag">&lt;/<span class="tag">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">link</span> <span class="attr-name">rel</span>=<span class="attr-value">"stylesheet"</span> <span class="attr-name">href</span>=<span class="attr-value">"mesStyles.css"</span>&gt;</span>
+<span class="tag">&lt;/<span class="tag">head</span>&gt;</span>
+<span class="tag">&lt;<span class="tag">body</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">form</span> <span class="attr-name">action</span>=<span class="attr-value">"evaluation.php"</span> <span class="attr-name">method</span>=<span class="attr-value">"post"</span> <span class="attr-name">onsubmit</span>=<span class="attr-value">"return verif2()"</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">label</span> <span class="attr-name">for</span>=<span class="attr-value">"numPermis"</span>&gt;</span>N° Permis :<span class="tag">&lt;/<span class="tag">label</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">input</span> <span class="attr-name">type</span>=<span class="attr-value">"text"</span> <span class="attr-name">id</span>=<span class="attr-value">"numPermis"</span> <span class="attr-name">name</span>=<span class="attr-value">"numPermis"</span> &gt;</span><span class="tag">&lt;<span class="tag">br</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="tag">label</span> <span class="attr-name">for</span>=<span class="attr-value">"idModele"</span>&gt;</span>Modèle testé :<span class="tag">&lt;/<span class="tag">label</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">select</span> <span class="attr-name">id</span>=<span class="attr-value">"idModele"</span> <span class="attr-name">name</span>=<span class="attr-value">"idModele"</span>&gt;</span>
+            <span class="tag">&lt;<span class="tag">option</span> <span class="attr-name">value</span>=<span class="attr-value">""</span>&gt;</span>--choisir un modèle--<span class="tag">&lt;/<span class="tag">option</span>&gt;</span>
+            <span class="tag">&lt;<span class="tag">option</span> <span class="attr-name">value</span>=<span class="attr-value">"15"</span>&gt;</span>WALLYS IRIS<span class="tag">&lt;/<span class="tag">option</span>&gt;</span>
+            <span class="tag">&lt;<span class="tag">option</span> <span class="attr-name">value</span>=<span class="attr-value">"26"</span>&gt;</span>WALLYS 619<span class="tag">&lt;/<span class="tag">option</span>&gt;</span>
+            <span class="tag">&lt;<span class="tag">option</span> <span class="attr-name">value</span>=<span class="attr-value">"38"</span>&gt;</span>WALLYS 216<span class="tag">&lt;/<span class="tag">option</span>&gt;</span> 
+        <span class="tag">&lt;/<span class="tag">select</span>&gt;</span><span class="tag">&lt;<span class="tag">br</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">label</span> <span class="attr-name">for</span>=<span class="attr-value">"securite"</span>&gt;</span>Sécurité :<span class="tag">&lt;/<span class="tag">label</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">input</span> <span class="attr-name">type</span>=<span class="attr-value">"range"</span> <span class="attr-name">id</span>=<span class="attr-value">"securite"</span> <span class="attr-name">name</span>=<span class="attr-value">"securite"</span> <span class="attr-name">min</span>=<span class="attr-value">"0"</span> <span class="attr-name">max</span>=<span class="attr-value">"5"</span> <span class="attr-name">value</span>=<span class="attr-value">"0"</span> <span class="attr-name">oninput</span>=<span class="attr-value">"charger()"</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">img</span> <span class="attr-name">id</span>=<span class="attr-value">"imgSecurite"</span> <span class="attr-name">src</span>=<span class="attr-value">"0.png"</span> <span class="attr-name">alt</span>=<span class="attr-value">"Note sécurité"</span>&gt;</span><span class="tag">&lt;<span class="tag">br</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="tag">label</span> <span class="attr-name">for</span>=<span class="attr-value">"conduite"</span>&gt;</span>Conduite :<span class="tag">&lt;/<span class="tag">label</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">input</span> <span class="attr-name">type</span>=<span class="attr-value">"range"</span> <span class="attr-name">id</span>=<span class="attr-value">"conduite"</span> <span class="attr-name">name</span>=<span class="attr-value">"conduite"</span> <span class="attr-name">min</span>=<span class="attr-value">"0"</span> <span class="attr-name">max</span>=<span class="attr-value">"5"</span> <span class="attr-name">value</span>=<span class="attr-value">"0"</span> <span class="attr-name">oninput</span>=<span class="attr-value">"charger()"</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">img</span> <span class="attr-name">id</span>=<span class="attr-value">"imgConduite"</span> <span class="attr-name">src</span>=<span class="attr-value">"0.png"</span> <span class="attr-name">alt</span>=<span class="attr-value">"Note conduite"</span>&gt;</span><span class="tag">&lt;<span class="tag">br</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="tag">label</span> <span class="attr-name">for</span>=<span class="attr-value">"confort"</span>&gt;</span>Confort :<span class="tag">&lt;/<span class="tag">label</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">input</span> <span class="attr-name">type</span>=<span class="attr-value">"range"</span> <span class="attr-name">id</span>=<span class="attr-value">"confort"</span> <span class="attr-name">name</span>=<span class="attr-value">"confort"</span> <span class="attr-name">min</span>=<span class="attr-value">"0"</span> <span class="attr-name">max</span>=<span class="attr-value">"5"</span> <span class="attr-name">value</span>=<span class="attr-value">"0"</span> <span class="attr-name">oninput</span>=<span class="attr-value">"charger()"</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">img</span> <span class="attr-name">id</span>=<span class="attr-value">"imgConfort"</span> <span class="attr-name">src</span>=<span class="attr-value">"0.png"</span> <span class="attr-name">alt</span>=<span class="attr-value">"Note confort"</span>&gt;</span><span class="tag">&lt;<span class="tag">br</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="tag">input</span> <span class="attr-name">type</span>=<span class="attr-value">"checkbox"</span> <span class="attr-name">id</span>=<span class="attr-value">"robot"</span> <span class="attr-name">name</span>=<span class="attr-value">"robot"</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">label</span> <span class="attr-name">for</span>=<span class="attr-value">"robot"</span>&gt;</span>Je ne suis pas un robot<span class="tag">&lt;/<span class="tag">label</span>&gt;</span><span class="tag">&lt;<span class="tag">br</span>&gt;</span><span class="tag">&lt;<span class="tag">br</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="tag">input</span> <span class="attr-name">type</span>=<span class="attr-value">"submit"</span> <span class="attr-name">value</span>=<span class="attr-value">"Valider"</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">input</span> <span class="attr-name">type</span>=<span class="attr-value">"reset"</span> <span class="attr-name">value</span>=<span class="attr-value">"Annuler"</span>&gt;</span>
+    <span class="tag">&lt;/<span class="tag">form</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">script</span> <span class="attr-name">src</span>=<span class="attr-value">"controle.js"</span>&gt;</span><span class="tag">&lt;/<span class="tag">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="tag">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="tag">html</span>&gt;</span></code></pre>
+            </div>
+
+            <div id="partie-b7" class="reponse-block">
+                <h2>Partie B.3 : controle.js (charger & verif2)</h2>
+                <pre data-lang="JavaScript"><code class="language-js"><span class="comment">// Fonction pour changer l'image des notes</span>
+<span class="keyword">function</span> <span class="function">charger</span>() {
+    document.<span class="function">getElementById</span>(<span class="string">"imgSecurite"</span>).src = document.<span class="function">getElementById</span>(<span class="string">'securite'</span>).<span class="keyword">value</span> + <span class="string">'.png'</span>;
+    document.<span class="function">getElementById</span>(<span class="string">"imgConduite"</span>).src = document.<span class="function">getElementById</span>(<span class="string">'conduite'</span>).<span class="keyword">value</span> + <span class="string">'.png'</span>;
+    document.<span class="function">getElementById</span>(<span class="string">"imgConfort"</span>).src = document.<span class="function">getElementById</span>(<span class="string">'confort'</span>).<span class="keyword">value</span> + <span class="string">'.png'</span>;
+}
+
+<span class="comment">// Fonction de validation du formulaire d'évaluation</span>
+<span class="keyword">function</span> <span class="function">verif2</span>() {
+    <span class="comment">// Réutilisation du contrôle du N° Permis (voir verif1)</span>
+    <span class="keyword">let</span> numPermis = document.<span class="function">getElementById</span>(<span class="string">'numPermis'</span>).value;
+    <span class="keyword">if</span> (numPermis.length !== <span class="number">8</span> || numPermis[<span class="number">2</span>] != <span class="string">'/'</span> || <span class="function">parseInt</span>(numPermis.<span class="function">substring</span>(<span class="number">0</span>, <span class="number">2</span>)) != numPermis.<span class="function">substring</span>(<span class="number">0</span>, <span class="number">2</span>)|| <span class="function">parseInt</span>(numPermis.<span class="function">substring</span>(<span class="number">3</span>, <span class="number">8</span>))!=numPermis.<span class="function">substring</span>(<span class="number">3</span>, <span class="number">8</span>)) {
+        <span class="function">alert</span>(<span class="string">"Format du numéro de permis incorrect."</span>);
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="comment">// Contrôle Modèle testé</span>
+    <span class="keyword">let</span> idModele = document.<span class="function">getElementById</span>(<span class="string">'idModele'</span>).selectedIndex;
+    <span class="keyword">if</span> (idModele === <span class="number">0</span>) {
+        <span class="function">alert</span>(<span class="string">"Veuillez sélectionner un modèle."</span>);
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="comment">// Contrôle notes (strictement positif)</span>
+    <span class="keyword">let</span> securite = <span class="function">parseInt</span>(document.<span class="function">getElementById</span>(<span class="string">'securite'</span>).value);
+    <span class="keyword">let</span> conduite = <span class="function">parseInt</span>(document.<span class="function">getElementById</span>(<span class="string">'conduite'</span>).value);
+    <span class="keyword">let</span> confort = <span class="function">parseInt</span>(document.<span class="function">getElementById</span>(<span class="string">'confort'</span>).value);
+
+    <span class="keyword">if</span> (securite <= <span class="number">0</span> || conduite <= <span class="number">0</span> || confort <= <span class="number">0</span>) {
+        <span class="function">alert</span>(<span class="string">"Les notes de sécurité, conduite et confort doivent être strictement positives."</span>);
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="comment">// Contrôle case à cocher robot</span>
+    <span class="keyword">let</span> robot = document.<span class="function">getElementById</span>(<span class="string">'robot'</span>).checked;
+    <span class="keyword">if</span> (!robot) {
+        <span class="function">alert</span>(<span class="string">"Veuillez cocher la case 'Je ne suis pas un robot'."</span>);
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}</code></pre>
+            </div>
+
+            <div id="partie-b8" class="reponse-block">
+                <h2>Partie B.3 : evaluation.php</h2>
+                <pre data-lang="PHP"><code class="language-php"><span class="comment">&lt;?php</span>
+<span class="variable">$con</span> = <span class="function">mysqli_connect</span>(<span class="string">"localhost"</span>, <span class="string">"root"</span>, <span class="string">""</span>, <span class="string">"BDEvaluation"</span>);
+<span class="keyword">if</span> (!<span class="variable">$con</span>) { <span class="function">die</span>(<span class="string">"Erreur de connexion: "</span> . <span class="function">mysqli_error</span>(<span class="variable">$con</span>)); }
+
+<span class="variable">$numPermis</span> = <span class="variable">$_POST</span>[<span class="string">'numPermis'</span>];
+<span class="variable">$idModele</span> = <span class="variable">$_POST</span>[<span class="string">'idModele'</span>];
+<span class="variable">$securite</span> = <span class="variable">$_POST</span>[<span class="string">'securite'</span>];
+<span class="variable">$conduite</span> = <span class="variable">$_POST</span>[<span class="string">'conduite'</span>];
+<span class="variable">$confort</span> = <span class="variable">$_POST</span>[<span class="string">'confort'</span>];
+
+<span class="comment">// 1. Vérifier si le testeur existe</span>
+<span class="variable">$checkTesteur</span> = <span class="string">"SELECT numPermis FROM testeur WHERE numPermis = '</span><span class="variable">$numPermis</span><span class="string">'"</span>;
+<span class="variable">$resTesteur</span> = <span class="function">mysqli_query</span>(<span class="variable">$con</span>, <span class="variable">$checkTesteur</span>);
+<span class="keyword">if</span> (<span class="function">mysqli_num_rows</span>(<span class="variable">$resTesteur</span>) == <span class="number">0</span>) {
+    <span class="keyword">echo</span> <span class="string">"Testeur non inscrit"</span>;
+    <span class="function">mysqli_close</span>(<span class="variable">$con</span>);
+    <span class="keyword">exit</span>();
+}
+
+<span class="comment">// 2. Vérifier si le testeur a déjà évalué ce modèle</span>
+<span class="variable">$checkEval</span> = <span class="string">"SELECT * FROM evaluation WHERE numPermis = '</span><span class="variable">$numPermis</span><span class="string">' AND idModele = '</span><span class="variable">$idModele</span><span class="string">'"</span>;
+<span class="variable">$resEval</span> = <span class="function">mysqli_query</span>(<span class="variable">$con</span>, <span class="variable">$checkEval</span>);
+<span class="keyword">if</span> (<span class="function">mysqli_num_rows</span>(<span class="variable">$resEval</span>) > <span class="number">0</span>) {
+    <span class="keyword">echo</span> <span class="string">"Vous avez déjà testé ce modèle"</span>;
+    <span class="function">mysqli_close</span>(<span class="variable">$con</span>);
+    <span class="keyword">exit</span>();
+}
+
+<span class="comment">// 3. Insérer la nouvelle évaluation</span>
+<span class="variable">$insertQuery</span> = <span class="string">"INSERT INTO evaluation (numPermis, idModele, dateTest, securite, conduite, confort) 
+                VALUES ('</span><span class="variable">$numPermis</span><span class="string">', '</span><span class="variable">$idModele</span><span class="string">', </span><span class="variable">NOW()</span><span class="string">, '</span><span class="variable">$securite</span><span class="string">', '</span><span class="variable">$conduite</span><span class="string">', '</span><span class="variable">$confort</span><span class="string">')"</span>;
+
+<span class="keyword">if</span> (<span class="function">mysqli_query</span>(<span class="variable">$con</span>, <span class="variable">$insertQuery</span>)) {
+    <span class="keyword">echo</span> <span class="string">"Evaluation enregistrée avec succès"</span>;
+} <span class="keyword">else</span> {
+    <span class="keyword">echo</span> <span class="string">"Erreur: "</span> . <span class="function">mysqli_error</span>(<span class="variable">$con</span>);
+}
+
+<span class="function">mysqli_close</span>(<span class="variable">$con</span>);
+<span class="comment">?&gt;</span></code></pre>
+            </div>
+
+            <!-- Partie B.4 -->
+           <div id="partie-b9" class="reponse-block">
+    <h2>Partie B.4 : bilan.php</h2>
+    <pre data-lang="PHP"><code class="language-php"><span class="comment">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;<span class="tag">html</span> <span class="attr-name">lang</span>=<span class="attr-value">"fr"</span>&gt;</span>
+<span class="tag">&lt;<span class="tag">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">meta</span> <span class="attr-name">charset</span>=<span class="attr-value">"UTF-8"</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">title</span>&gt;</span>Bilan des évaluations<span class="tag">&lt;/<span class="tag">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">link</span> <span class="attr-name">rel</span>=<span class="attr-value">"stylesheet"</span> <span class="attr-name">href</span>=<span class="attr-value">"mesStyles.css"</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">style</span>&gt;</span>
+        <span class="selector">table</span> { <span class="property">width</span>: <span class="value">100%</span>; <span class="property">border-collapse</span>: <span class="value">collapse</span>; }
+        <span class="selector">th, td</span> { <span class="property">border</span>: <span class="value">1px solid #ddd</span>; <span class="property">padding</span>: <span class="value">8px</span>; <span class="property">text-align</span>: <span class="value">left</span>; }
+        <span class="selector">th</span> { <span class="property">background-color</span>: <span class="value">#f2f2f2</span>; }
+    <span class="tag">&lt;/<span class="tag">style</span>&gt;</span>
+<span class="tag">&lt;/<span class="tag">head</span>&gt;</span>
+<span class="tag">&lt;<span class="tag">body</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">h1</span>&gt;</span>Bilan des évaluations de l'année <span class="comment">&lt;?php echo date('Y'); ?&gt;</span><span class="tag">&lt;/<span class="tag">h1</span>&gt;</span>
+    <span class="tag">&lt;<span class="tag">table</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">thead</span>&gt;</span>
+            <span class="tag">&lt;<span class="tag">tr</span>&gt;</span>
+                <span class="tag">&lt;<span class="tag">th</span>&gt;</span>Modèle<span class="tag">&lt;/<span class="tag">th</span>&gt;</span>
+                <span class="tag">&lt;<span class="tag">th</span>&gt;</span>Sécurité<span class="tag">&lt;/<span class="tag">th</span>&gt;</span>
+                <span class="tag">&lt;<span class="tag">th</span>&gt;</span>Conduite<span class="tag">&lt;/<span class="tag">th</span>&gt;</span>
+                <span class="tag">&lt;<span class="tag">th</span>&gt;</span>Confort<span class="tag">&lt;/<span class="tag">th</span>&gt;</span>
+                <span class="tag">&lt;<span class="tag">th</span>&gt;</span>Nbr tests<span class="tag">&lt;/<span class="tag">th</span>&gt;</span>
+            <span class="tag">&lt;/<span class="tag">tr</span>&gt;</span>
+        <span class="tag">&lt;/<span class="tag">thead</span>&gt;</span>
+        <span class="tag">&lt;<span class="tag">tbody</span>&gt;</span>
+            <span class="comment">&lt;?php
+            $con = mysqli_connect("localhost", "root", "", "BDEvaluation");
+            if (!$con) { die("Erreur de connexion: " . mysqli_error($con)); }
+
+            // La variable $currentYear n'est plus nécessaire
+
+            $sql = "SELECT 
+                        m.libelle, 
+                        AVG(e.securite) AS moySecurite, 
+                        AVG(e.conduite) AS moyConduite, 
+                        AVG(e.confort) AS moyConfort, 
+                        COUNT(e.idModele) AS nbTests
+                    FROM evaluation e, modeleVoiture m
+                    WHERE e.idModele = m.idModele AND YEAR(e.dateTest) = Year(Now())
+                    GROUP BY e.idModele, m.libelle
+                    ORDER BY m.libelle";
+
+            $result = mysqli_query($con, $sql);
+
+            while($row = mysqli_fetch_array($result)) {
+                echo "&lt;tr&gt;";
+                echo "&lt;td&gt;" . $row['libelle'] . "&lt;/td&gt;";
+                echo "&lt;td&gt;" . round($row['moySecurite'], 2) . "&lt;/td&gt;";
+                echo "&lt;td&gt;" . round($row['moyConduite'], 2) . "&lt;/td&gt;";
+                echo "&lt;td&gt;" . round($row['moyConfort'], 2) . "&lt;/td&gt;";
+                echo "&lt;td&gt;" . $row['nbTests'] . "&lt;/td&gt;";
+                echo "&lt;/tr&gt;";
+            }
+
+            mysqli_close($con);
+            ?&gt;</span>
+        <span class="tag">&lt;/<span class="tag">tbody</span>&gt;</span>
+    <span class="tag">&lt;/<span class="tag">table</span>&gt;</span>
+<span class="tag">&lt;/<span class="tag">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="tag">html</span>&gt;</span></code></pre>
+</div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentBlocks = document.querySelectorAll('.reponse-block');
+
+            function showBlock(targetId) {
+                contentBlocks.forEach(block => {
+                    block.style.display = 'none';
+                });
+                const targetBlock = document.getElementById(targetId);
+                if (targetBlock) {
+                    targetBlock.style.display = 'block';
+                }
+                
+                navLinks.forEach(link => link.classList.remove('active'));
+                const activeLink = document.querySelector(`a[href="#${targetId}"]`);
+                if(activeLink) {
+                    activeLink.classList.add('active');
+                }
+            }
+
+            // Afficher le premier bloc par défaut
+            if (contentBlocks.length > 0) {
+                showBlock(contentBlocks[0].id);
+            }
+
+            // Ajouter un écouteur d'événement à chaque lien de navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    showBlock(targetId);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
